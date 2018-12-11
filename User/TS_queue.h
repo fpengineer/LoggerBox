@@ -14,31 +14,79 @@
 #define _TS_QUEUE_H_
 
 #include <stdint.h>
-#include "Config.h"
-#include "Measure.h"
-#include "Config.h"
 
 #include "TS_task.h"
 
+#include "defines.h"
+#include "HwAPI.h"
+#include "HwAPI Config.h"
+
+
 typedef struct {
-    enum stateSystemTime stateSystemTime ;
+    enum stateMeasurePlanner stateMeasurePlanner;
+} MeasurePlannerQueueData_t;
+
+typedef struct {
+    enum stateMeasureX stateMeasureX;
+} MeasureXQueueData_t;
+
+
+typedef struct {
+    enum stateHwFatFs stateHwFatFs;
+    char buffer[ 800 ];
+    uint32_t flagConfigFileExist;
+    uint32_t flagNewFileCreated;
+    uint32_t flagFileWrite;
+    char fileName[ 20 ];
+} HwFatFsQueueData_t;
+
+typedef struct {
+    enum stateHwSystemTime stateHwSystemTime ;
     TM_RTC_Time_t datatime;    
-} SystemTimeQueueData_t;
+} HwSystemTimeQueueData_t;
 
 typedef struct {
-    enum stateFatFs stateFatFs;
-    MeasureData_t measureData;    
-    cfgMeasurePlan_t cfgMeasurePlan;
-    cfgMeasureEnable_t cfgMeasureEnable;
-    uint32_t configFileExistFlag;
-    uint32_t newFileCreatedFlag;
-    uint32_t fileWriteFlag;
-    char stringName[20];
-} FatFsQueueData_t;
+    enum stateHwRelay stateHwRelay;
+    uint8_t relay;
+} HwRelayQueueData_t;
 
 typedef struct {
-    enum stateMainMeasure stateMainMeasure;
-} MainMeasureQueueData_t;
+    enum stateHwSource stateHwSource;
+    float valueVoltage_G1;
+    float valueVoltage_G2;
+    float valueVoltage_G3;
+    float valueVoltage_G4;
+} HwSourceQueueData_t;
+
+typedef struct {
+    enum stateHwMeasureADC stateHwMeasureADC;
+    uint8_t selectSource;
+    uint8_t selectChannel;
+    uint16_t valueADC;
+} HwMwasureADCQueueData_t;
+
+typedef struct {
+    enum stateHwMeasureFrequency stateHwMeasureFrequency;
+    uint8_t selectChannel;
+    FreqPWMData_t freqPWMData;
+} HwMeasurFrequencyQueueData_t;
+
+typedef struct {
+    enum stateHwStatusLED stateHwStatusLED;
+} HwStatusLED_QueueData_t;
+
+typedef struct {
+    enum stateHwSDCardLED stateHwSDCardLED;
+} HwSDCardDetectQueueData_t;
+
+typedef struct {
+    enum stateHwRunButton stateHwRunButton;
+} HwRunButtonQueueData_t;
+
+typedef struct {
+    enum stateHwSDCArdDetect stateHwSDCardDetect;
+} HwSDCardDetectQueueData_t;
+
 
 #endif /* _TS_QUEUE_H_ */
 /* End of file */

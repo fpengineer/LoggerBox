@@ -46,6 +46,9 @@
 #define FATFS_USE_DETECT_PIN_PORT          GPIOA
 #define FATFS_USE_DETECT_PIN_PIN           GPIO_Pin_0
 
+#define TERMINAL_BUFFER     800
+
+#define SYSTEM_VERSION      "V0.1"
 
 
 #endif

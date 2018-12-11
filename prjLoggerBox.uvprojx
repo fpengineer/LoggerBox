@@ -731,6 +731,16 @@
               <FilePath>.\User\stm32f4xx_conf.h</FilePath>
             </File>
             <File>
+              <FileName>TS_task.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\User\TS_task.h</FilePath>
+            </File>
+            <File>
+              <FileName>TS_queue.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\User\TS_queue.h</FilePath>
+            </File>
+            <File>
               <FileName>TS_MainMeasure.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\TS_MainMeasure.c</FilePath>
@@ -761,11 +771,6 @@
               <FilePath>.\User\TS_SystemTime.c</FilePath>
             </File>
             <File>
-              <FileName>TS_task.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\User\TS_task.h</FilePath>
-            </File>
-            <File>
               <FileName>TS_RunButton.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\TS_RunButton.c</FilePath>
@@ -774,11 +779,6 @@
               <FileName>TS_SDCardDetect.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\TS_SDCardDetect.c</FilePath>
-            </File>
-            <File>
-              <FileName>TS_queue.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\User\TS_queue.h</FilePath>
             </File>
           </Files>
         </Group>

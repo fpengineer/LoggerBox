@@ -35,27 +35,50 @@
 
 #define	ERROR_ACTION( CODE,POS )		do{}while( 0 )
 
-TaskHandle_t xTask_SDCardLed;
-TaskHandle_t xTask_StatusLed;
-TaskHandle_t xTask_MainMeasure;
-TaskHandle_t xTask_FatFs;
-TaskHandle_t xTask_Terminal;
-TaskHandle_t xTask_SystemTime;
-TaskHandle_t xTask_RunButton;
-TaskHandle_t xTask_SDCardDetect;
+    
+// Plugin task
+TaskHandle_t xTask_MeasurePlanner;
+TaskHandle_t xTask_MeasureX;
 
-QueueHandle_t xQueue_SDCardLed;
-QueueHandle_t xQueue_StatusLed;
-QueueHandle_t xQueue_MainMeasure;
-QueueHandle_t xQueue_FatFsIn;
-QueueHandle_t xQueue_FatFsOut;
-QueueHandle_t xQueue_Terminal;
-QueueHandle_t xQueue_SystemTimeIn;
-QueueHandle_t xQueue_SystemTimeOut;
+// Plugin queue
+QueueHandle_t xQueue_MeasurePlanner_Rx;
+QueueHandle_t xQueue_MeasureX_Rx;
+
+
+// Hw task
+TaskHandle_t xTask_HwFatFs;
+TaskHandle_t xTask_HwSystemTime;
+TaskHandle_t xTask_HwTerminal;
+TaskHandle_t xTask_HwRelay;
+TaskHandle_t xTask_HwSource;
+TaskHandle_t xTask_HwMeasureADC;
+TaskHandle_t xTask_HwMeasureFrequency;
+TaskHandle_t xTask_HwStatusLED;
+TaskHandle_t xTask_HwSDCardLED;
+TaskHandle_t xTask_HwRunButton;
+TaskHandle_t xTask_HwSDCardDetect;
+
+// Hw queues
+QueueHandle_t xQueue_HwFatFs_Rx;
+QueueHandle_t xQueue_HwFatFs_Tx;
+QueueHandle_t xQueue_HwSystemTime_Rx;
+QueueHandle_t xQueue_HwTerminal_Rx;
+QueueHandle_t xQueue_HwRelay_Rx;
+QueueHandle_t xQueue_HwSource_Rx;
+QueueHandle_t xQueue_HwMeasureADC_Rx;
+QueueHandle_t xQueue_HwMeasureADC_Tx;
+QueueHandle_t xQueue_HwMeasureFrequency_Rx;
+QueueHandle_t xQueue_HwMeasureFrequency_Tx;
+QueueHandle_t xQueue_HwStatusLED_Rx;
+QueueHandle_t xQueue_HwSDCardLED_Rx;
+QueueHandle_t xQueue_HwRunButton_Rx;
+QueueHandle_t xQueue_HwRunButton_Tx;
+
+
 
 /* User Global Variables */    
-cfgMeasurePlan_t cfgMeasurePlan;
-cfgMeasureEnable_t cfgMeasureEnable;
+//cfgMeasurePlan_t cfgMeasurePlan;
+//cfgMeasureEnable_t cfgMeasureEnable;
 uint32_t cardReady = 0;
 uint32_t measureEnableFlag = 0;
 volatile uint32_t runButtonFlag = 0;    //1 - button pressed, 0 - button not pressed
@@ -93,79 +116,117 @@ int main(void) {
 
 //    OutputMCO();
     
-	xQueue_SDCardLed = xQueueCreate( 5, sizeof( enum stateSDCardLed ) ); 
-	xQueue_StatusLed = xQueueCreate( 5, sizeof( enum stateStatusLed ) ); 
-	xQueue_MainMeasure = xQueueCreate( 5, sizeof( MainMeasureQueueData_t ) ); 
-	xQueue_FatFsIn = xQueueCreate( 10, sizeof( FatFsQueueData_t ) ); 
-	xQueue_FatFsOut = xQueueCreate( 10, sizeof( FatFsQueueData_t ) ); 
-	xQueue_Terminal = xQueueCreate( 15, sizeof( char[1800] ) ); 
-	xQueue_SystemTimeIn = xQueueCreate( 5, sizeof( SystemTimeQueueData_t ) ); 
-	xQueue_SystemTimeOut = xQueueCreate( 5, sizeof( SystemTimeQueueData_t ) ); 
+    xQueue_MeasurePlanner_Rx = xQueueCreate( 5, sizeof( int ) );
+    xQueue_MeasureX_Rx = xQueueCreate( 5, sizeof( int ) );
+
+    xQueue_HwFatFs_Rx = xQueueCreate( 10, sizeof( int ) );
+    xQueue_HwFatFs_Tx = xQueueCreate( 10, sizeof( int ) );
+    xQueue_HwSystemTime_Rx = xQueueCreate( 5, sizeof( int ) );
+    xQueue_HwTerminal_Rx = xQueueCreate( 15, sizeof( char[ TERMINAL_BUFFER ] ) );
+    xQueue_HwRelay_Rx = xQueueCreate( 5, sizeof( int ) );
+    xQueue_HwSource_Rx = xQueueCreate( 5, sizeof( int ) );
+    xQueue_HwMeasureADC_Rx = xQueueCreate( 5, sizeof( int ) );
+    xQueue_HwMeasureADC_Tx = xQueueCreate( 5, sizeof( int ) );
+    xQueue_HwMeasureFrequency_Rx = xQueueCreate( 5, sizeof( int ) );
+    xQueue_HwMeasureFrequency_Tx = xQueueCreate( 5, sizeof( int ) );
+    xQueue_HwStatusLED_Rx = xQueueCreate( 5, sizeof( int ) );
+    xQueue_HwSDCardLED_Rx = xQueueCreate( 5, sizeof( int ) );
+    xQueue_HwRunButton_Rx = xQueueCreate( 5, sizeof( int ) );
+    xQueue_HwRunButton_Tx = xQueueCreate( 5, sizeof( int ) );
 
 
-
-	if( pdTRUE != xTaskCreate(  vTask_SDCardLed,
-                                "SD Card Led",
+    if( pdTRUE != xTaskCreate(  vTask_MeasurePlanner,
+                                "Task - Measure Planner",
                                 configMINIMAL_STACK_SIZE,
                                 NULL,
                                 tskIDLE_PRIORITY + 1,
-                                &xTask_SDCardLed )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
+                                &xTask_MeasurePlanner )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
 
-	if( pdTRUE != xTaskCreate(  vTask_StatusLed,
-                                "Status Led",
-                                configMINIMAL_STACK_SIZE,
-                                NULL,
-                                tskIDLE_PRIORITY + 1,
-                                &xTask_StatusLed )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
-
-
-    if( pdTRUE != xTaskCreate(  vTask_MainMeasure,
-                                "Main Measure",
-                                configMINIMAL_STACK_SIZE + 5000,
-                                NULL,
-                                tskIDLE_PRIORITY + 1,
-                                &xTask_MainMeasure )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
-
-
-    if( pdTRUE != xTaskCreate(  vTask_FatFs,
-                                "FatFs",
+    // Hw tasks
+	if( pdTRUE != xTaskCreate(  vTask_HwFatFs,
+                                "Task - HwFatFs",
                                 configMINIMAL_STACK_SIZE + 2000,
                                 NULL,
                                 tskIDLE_PRIORITY + 1,
-                                &xTask_FatFs )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
+                                &xTask_HwFatFs )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
 
-
-	if( pdTRUE != xTaskCreate(  vTask_Terminal,
-                                "Terminal",
+	if( pdTRUE != xTaskCreate(  vTask_HwSystemTime,
+                                "Task - HwSystemTime",
                                 configMINIMAL_STACK_SIZE,
                                 NULL,
                                 tskIDLE_PRIORITY + 1,
-                                &xTask_Terminal )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
+                                &xTask_HwSystemTime )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
 
-
-    if( pdTRUE != xTaskCreate(  vTask_SystemTime,
-                                "System Time",
+	if( pdTRUE != xTaskCreate(  vTask_HwTerminal,
+                                "Task - HwTerminal",
                                 configMINIMAL_STACK_SIZE,
                                 NULL,
                                 tskIDLE_PRIORITY + 1,
-                                &xTask_SystemTime )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
+                                &xTask_HwTerminal )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
 
-    if( pdTRUE != xTaskCreate(  vTask_RunButton,
-                                "Run Button",
+	if( pdTRUE != xTaskCreate(  vTask_HwRelay,
+                                "Task - HwRelay",
                                 configMINIMAL_STACK_SIZE,
                                 NULL,
                                 tskIDLE_PRIORITY + 1,
-                                &xTask_RunButton )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
+                                &xTask_HwRelay )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
 
-    if( pdTRUE != xTaskCreate(  vTask_SDCardDetect,
-                                "SD Card Detect",
+	if( pdTRUE != xTaskCreate(  vTask_HwSource,
+                                "Task - HwSource",
                                 configMINIMAL_STACK_SIZE,
                                 NULL,
                                 tskIDLE_PRIORITY + 1,
-                                &xTask_SDCardDetect )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
+                                &xTask_HwSource )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
+
+	if( pdTRUE != xTaskCreate(  vTask_HwMeasureADC,
+                                "Task - HwMeasureADC",
+                                configMINIMAL_STACK_SIZE,
+                                NULL,
+                                tskIDLE_PRIORITY + 1,
+                                &xTask_HwMeasureADC )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
+
+	if( pdTRUE != xTaskCreate(  vTask_HwMeasureFrequency,
+                                "Task - HwMeasureFrequency",
+                                configMINIMAL_STACK_SIZE,
+                                NULL,
+                                tskIDLE_PRIORITY + 1,
+                                &xTask_HwMeasureFrequency )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
+
+	if( pdTRUE != xTaskCreate(  vTask_HwStatusLED,
+                                "Task - HwStatusLED",
+                                configMINIMAL_STACK_SIZE,
+                                NULL,
+                                tskIDLE_PRIORITY + 1,
+                                &xTask_HwStatusLED )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
+
+	if( pdTRUE != xTaskCreate(  vTask_HwSDCardLED,
+                                "Task - HwSDCardLED",
+                                configMINIMAL_STACK_SIZE,
+                                NULL,
+                                tskIDLE_PRIORITY + 1,
+                                &xTask_HwSDCardLED )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
+
+	if( pdTRUE != xTaskCreate(  vTask_HwRunButton,
+                                "Task - HwRunButton",
+                                configMINIMAL_STACK_SIZE,
+                                NULL,
+                                tskIDLE_PRIORITY + 1,
+                                &xTask_HwRunButton )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
+
+	if( pdTRUE != xTaskCreate(  vTask_HwSDCardDetect,
+                                "Task - HwSDCardDetect",
+                                configMINIMAL_STACK_SIZE,
+                                NULL,
+                                tskIDLE_PRIORITY + 1,
+                                &xTask_HwSDCardDetect )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
 
 
-    xQueueSend( xQueue_Terminal, "*****************   Mockup 1290EF1  *********************\r\n", NULL );
+    xQueueSend( xQueue_HwTerminal_Rx, "***********   LoggerBox   UF113.887   " SYSTEM_VERSION "   ***********\n", NULL );
+    xQueueSend( xQueue_HwTerminal_Rx, "Supported ICs:\n", NULL );
+    xQueueSend( xQueue_HwTerminal_Rx, "- 1290EF1 V1.0\n", NULL );
+    xQueueSend( xQueue_HwTerminal_Rx, "- Sila-I1 V1.0\n", NULL );
+    xQueueSend( xQueue_HwTerminal_Rx, "- IC2..9 V1.0\n", NULL );
+    xQueueSend( xQueue_HwTerminal_Rx, "- Minoga V1.0\n", NULL );
 
 
 
