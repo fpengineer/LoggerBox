@@ -52,7 +52,7 @@ cfgMeasurePlan_t ConfigMeasurePlan_GetParameters(void)
 
 void ConfigMeasurePlan_SendParametersToTerminal(cfgMeasurePlan_t cfgMeasurePlan)
 {
-    extern QueueHandle_t xQueue_Terminal;
+    extern QueueHandle_t xQueue_HwTerminal_Rx;
 
     sprintf(tempString, "\r\n[MeasurePlan]\r\n"
                         "Tact1_Length_s = %d\r\n"
@@ -70,7 +70,7 @@ void ConfigMeasurePlan_SendParametersToTerminal(cfgMeasurePlan_t cfgMeasurePlan)
                         cfgMeasurePlan.SourceG3_V,
                         cfgMeasurePlan.SourceG4_V);
 
-    xQueueSend( xQueue_Terminal, &tempString, NULL );
+    xQueueSend( xQueue_HwTerminal_Rx, &tempString, NULL );
 }
 
 

@@ -103,20 +103,20 @@ enum stateSDCardDetect {
 
 
 // Task list
-vTask_MeasurePlanner( void *pvParameters );
-vTask_MeasureX( void *pvParameters );
+void vTask_MeasurePlanner( void *pvParameters );
+//vTask_MeasureX( void *pvParameters );
 
-vTask_HwFatFs( void *pvParameters );
-vTask_HwSystemTime( void *pvParameters );
-vTask_HwTerminal( void *pvParameters );
-vTask_HwRelay( void *pvParameters );
-vTask_HwSource( void *pvParameters );
-vTask_HwMeasureADC( void *pvParameters );
-vTask_HwMeasureFrequency( void *pvParameters );
-vTask_HwStatusLED( void *pvParameters );
-vTask_HwSDCardLED( void *pvParameters );
-vTask_HwRunButton( void *pvParameters );
-vTask_HwSDCardDetect( void *pvParameters );
+//vTask_HwFatFs( void *pvParameters );
+//vTask_HwSystemTime( void *pvParameters );
+//vTask_HwTerminal( void *pvParameters );
+//vTask_HwRelay( void *pvParameters );
+//vTask_HwSource( void *pvParameters );
+//vTask_HwMeasureADC( void *pvParameters );
+//vTask_HwMeasureFrequency( void *pvParameters );
+//vTask_HwStatusLED( void *pvParameters );
+//vTask_HwSDCardLED( void *pvParameters );
+//vTask_HwRunButton( void *pvParameters );
+//vTask_HwSDCardDetect( void *pvParameters );
 
 #endif /* _TS_TASK_H_ */
 /* End of file */

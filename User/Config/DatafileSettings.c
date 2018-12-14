@@ -55,7 +55,7 @@ cfgDatafileSettings_t ConfigDatafileSettings_GetParameters(void)
 
 void ConfigDatafileSettings_SendParametersToTerminal(cfgDatafileSettings_t cfgDatafileSettings)
 {
-    extern QueueHandle_t xQueue_Terminal;
+    extern QueueHandle_t xQueue_HwTerminal_Rx;
 
     sprintf(tempString, "\r\n[DatafileSettings]\r\n"
                         "PrefixDatafileName = %s\r\n"
@@ -65,7 +65,7 @@ void ConfigDatafileSettings_SendParametersToTerminal(cfgDatafileSettings_t cfgDa
                         cfgDatafileSettings.stringsToWrite,
                         cfgDatafileSettings.delimiter);
     
-    xQueueSend( xQueue_Terminal, &tempString, NULL );
+    xQueueSend( xQueue_HwTerminal_Rx, &tempString, NULL );
 
 }
 /* End of file */

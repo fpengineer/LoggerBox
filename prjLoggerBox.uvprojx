@@ -334,7 +334,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F40_41xxx,USE_STDPERIPH_DRIVER,STM32F4XX,__ASSEMBLY__,KEIL_IDE,TM_DISCO_STM32F4_DISCOVERY</Define>
               <Undefine></Undefine>
-              <IncludePath>..\Mockup_1290;.\User;.\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\CMSIS\Device\ST\STM32F4xx\Include;.\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\CMSIS\Include;.\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\CMSIS\Device\ST\STM32F4xx\Source\Templates\arm;.\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\STM32F4xx_StdPeriph_Driver\inc;.\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\STM32F4xx_StdPeriph_Driver\src;.\00-STM32F429_LIBRARIES\fatfs;.\00-STM32F429_LIBRARIES;.\00-STM32F429_LIBRARIES\fatfs\drivers;.\00-STM32F429_LIBRARIES\fatfs\option;.\User\FreeRTOS;.\User\FreeRTOS\include;.\User\minIni-master\dev;.\User\Config;.\User\Measure;.\User\ADC_DAC;.\User\Utilites</IncludePath>
+              <IncludePath>..\Mockup_1290;.\User;.\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\CMSIS\Device\ST\STM32F4xx\Include;.\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\CMSIS\Include;.\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\CMSIS\Device\ST\STM32F4xx\Source\Templates\arm;.\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\STM32F4xx_StdPeriph_Driver\inc;.\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\STM32F4xx_StdPeriph_Driver\src;.\00-STM32F429_LIBRARIES\fatfs;.\00-STM32F429_LIBRARIES;.\00-STM32F429_LIBRARIES\fatfs\drivers;.\00-STM32F429_LIBRARIES\fatfs\option;.\User\FreeRTOS;.\User\FreeRTOS\include;.\User\minIni-master\dev;.\User\Config;.\User\Measure;.\User\ADC_DAC;.\User\Utilites;.\User\HwAPI;.\User\UserTaskHw;.\User\UserTaskPlugins</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -706,15 +706,27 @@
         </Group>
         <Group>
           <GroupName>HwAPI</GroupName>
+          <Files>
+            <File>
+              <FileName>HwAPI.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\User\HwAPI\HwAPI.h</FilePath>
+            </File>
+            <File>
+              <FileName>HwAPI Def.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\User\HwAPI\HwAPI Def.h</FilePath>
+            </File>
+            <File>
+              <FileName>HwAPI Config.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\User\HwAPI\HwAPI Config.h</FilePath>
+            </File>
+          </Files>
         </Group>
         <Group>
           <GroupName>UserCommon</GroupName>
           <Files>
-            <File>
-              <FileName>main.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\User\main.h</FilePath>
-            </File>
             <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
@@ -740,46 +752,6 @@
               <FileType>5</FileType>
               <FilePath>.\User\TS_queue.h</FilePath>
             </File>
-            <File>
-              <FileName>TS_MainMeasure.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\TS_MainMeasure.c</FilePath>
-            </File>
-            <File>
-              <FileName>TS_FatFs.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\TS_FatFs.c</FilePath>
-            </File>
-            <File>
-              <FileName>TS_SDCardLed.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\TS_SDCardLed.c</FilePath>
-            </File>
-            <File>
-              <FileName>TS_StatusLed.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\TS_StatusLed.c</FilePath>
-            </File>
-            <File>
-              <FileName>TS_Terminal.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\TS_Terminal.c</FilePath>
-            </File>
-            <File>
-              <FileName>TS_SystemTime.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\TS_SystemTime.c</FilePath>
-            </File>
-            <File>
-              <FileName>TS_RunButton.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\TS_RunButton.c</FilePath>
-            </File>
-            <File>
-              <FileName>TS_SDCardDetect.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\TS_SDCardDetect.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -792,11 +764,6 @@
               <FileName>TS_MeasurePlanner.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\UserTaskPlugins\TS_MeasurePlanner.c</FilePath>
-            </File>
-            <File>
-              <FileName>TS_MeasureX.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\UserTaskPlugins\TS_MeasureX.c</FilePath>
             </File>
           </Files>
         </Group>

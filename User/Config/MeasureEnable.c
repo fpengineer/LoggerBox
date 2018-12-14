@@ -64,7 +64,7 @@ cfgMeasureEnable_t ConfigMeasureEnable_GetParameters(void)
 
 void ConfigMeasureEnable_SendParametersToTerminal(cfgMeasureEnable_t cfgMeasureEnable)
 {
-    extern QueueHandle_t xQueue_Terminal;
+    extern QueueHandle_t xQueue_HwTerminal_Rx;
         
 // Section [MeasureEnable]
     sprintf(tempString, "\r\n[MeasureEnable]\r\n"
@@ -117,7 +117,7 @@ void ConfigMeasureEnable_SendParametersToTerminal(cfgMeasureEnable_t cfgMeasureE
                         cfgMeasureEnable.enableIC3_Temperature,
                         cfgMeasureEnable.enableIC4_Temperature);
 
-    xQueueSend( xQueue_Terminal, &tempString, NULL );
+    xQueueSend( xQueue_HwTerminal_Rx, &tempString, NULL );
 }
 
 

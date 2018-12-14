@@ -27,7 +27,7 @@ static char configKeyStringValue[25] = {""};
 
 cfgSystemTime_t ConfigSystemTime_GetParameters(void)
 {
-    extern QueueHandle_t xQueue_Terminal;
+//    extern QueueHandle_t xQueue_HwTerminal_Rx;
     cfgSystemTime_t cfgSystemTime;
     
 // Sectoin [SystemTime]
@@ -72,7 +72,7 @@ TM_RTC_Time_t SystemTime_convertFromString(char *timeString)
 
 void ConfigSystemTime_SendParametersToTerminal(cfgSystemTime_t cfgSystemTime)
 {
-    extern QueueHandle_t xQueue_Terminal;
+    extern QueueHandle_t xQueue_HwTerminal_Rx;
     char string[25] = {""}; 
 
     SystemTime_convertToString(string, cfgSystemTime.datatime);
@@ -82,7 +82,7 @@ void ConfigSystemTime_SendParametersToTerminal(cfgSystemTime_t cfgSystemTime)
                         cfgSystemTime.UpdateSystemTime,
                         string);
     
-    xQueueSend( xQueue_Terminal, &tempString, NULL );
+    xQueueSend( xQueue_HwTerminal_Rx, &tempString, NULL );
 
 }
 /* End of file */

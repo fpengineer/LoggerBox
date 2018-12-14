@@ -26,6 +26,7 @@ typedef struct {
     enum stateMeasurePlanner stateMeasurePlanner;
 } MeasurePlannerQueueData_t;
 
+/*
 typedef struct {
     enum stateMeasureX stateMeasureX;
 } MeasureXQueueData_t;
@@ -86,7 +87,7 @@ typedef struct {
 typedef struct {
     enum stateHwSDCArdDetect stateHwSDCardDetect;
 } HwSDCardDetectQueueData_t;
-
+*/
 
 #endif /* _TS_QUEUE_H_ */
 /* End of file */
