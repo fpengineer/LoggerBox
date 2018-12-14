@@ -62,6 +62,7 @@ TaskHandle_t xTask_HwSDCardDetect;
 QueueHandle_t xQueue_HwFatFs_Rx;
 QueueHandle_t xQueue_HwFatFs_Tx;
 QueueHandle_t xQueue_HwSystemTime_Rx;
+QueueHandle_t xQueue_HwSystemTime_Tx;
 QueueHandle_t xQueue_HwTerminal_Rx;
 QueueHandle_t xQueue_HwRelay_Rx;
 QueueHandle_t xQueue_HwSource_Rx;
@@ -122,6 +123,7 @@ int main(void) {
 //    xQueue_HwFatFs_Rx = xQueueCreate( 10, sizeof( int ) );
 //    xQueue_HwFatFs_Tx = xQueueCreate( 10, sizeof( int ) );
 //    xQueue_HwSystemTime_Rx = xQueueCreate( 5, sizeof( int ) );
+//    xQueue_HwSystemTime_Tx = xQueueCreate( 5, sizeof( int ) );
 //    xQueue_HwTerminal_Rx = xQueueCreate( 15, sizeof( char[ TERMINAL_BUFFER ] ) );
 //    xQueue_HwRelay_Rx = xQueueCreate( 5, sizeof( int ) );
 //    xQueue_HwSource_Rx = xQueueCreate( 5, sizeof( int ) );

@@ -26,6 +26,12 @@ typedef struct {
     enum stateMeasurePlanner stateMeasurePlanner;
 } MeasurePlannerQueueData_t;
 
+
+typedef struct {
+    enum stateHwSystemTime stateHwSystemTime ;
+    TM_RTC_Time_t datatime;    
+} HwSystemTimeQueueData_t;
+
 /*
 typedef struct {
     enum stateMeasureX stateMeasureX;
@@ -41,10 +47,6 @@ typedef struct {
     char fileName[ 20 ];
 } HwFatFsQueueData_t;
 
-typedef struct {
-    enum stateHwSystemTime stateHwSystemTime ;
-    TM_RTC_Time_t datatime;    
-} HwSystemTimeQueueData_t;
 
 typedef struct {
     enum stateHwRelay stateHwRelay;
