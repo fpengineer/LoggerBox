@@ -787,6 +787,18 @@
         </Group>
         <Group>
           <GroupName>UserTaskPlugins</GroupName>
+          <Files>
+            <File>
+              <FileName>TS_MeasurePlanner.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\UserTaskPlugins\TS_MeasurePlanner.c</FilePath>
+            </File>
+            <File>
+              <FileName>TS_MeasureX.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\UserTaskPlugins\TS_MeasureX.c</FilePath>
+            </File>
+          </Files>
         </Group>
         <Group>
           <GroupName>ConfigFile</GroupName>
