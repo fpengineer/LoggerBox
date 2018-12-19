@@ -24,7 +24,8 @@
 
 
 /* Exported functions --------------------------------------------------------*/
-void HwAPI_SystemTim_Get( TM_RTC_Time_t *datatime );
+void HwAPI_SystemTime_Set( TM_RTC_Time_t datatime );
+TM_RTC_Time_t HwAPI_SystemTime_Get( void );
 
 #endif /* _HW_API_SYSTEM_TIME_H_*/
 /* End of file */
