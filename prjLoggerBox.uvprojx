@@ -722,6 +722,11 @@
               <FileType>5</FileType>
               <FilePath>.\User\HwAPI\HwAPI Config.h</FilePath>
             </File>
+            <File>
+              <FileName>HwAPI_SystemTime.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\HwAPI\HwAPI_SystemTime.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -756,6 +761,13 @@
         </Group>
         <Group>
           <GroupName>UserTaskHw</GroupName>
+          <Files>
+            <File>
+              <FileName>TS_HwSystemTime.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\UserTaskHw\TS_HwSystemTime.c</FilePath>
+            </File>
+          </Files>
         </Group>
         <Group>
           <GroupName>UserTaskPlugins</GroupName>
