@@ -763,6 +763,11 @@
           <GroupName>UserTaskHw</GroupName>
           <Files>
             <File>
+              <FileName>TS_HwQueue.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\User\UserTaskHw\TS_HwQueue.h</FilePath>
+            </File>
+            <File>
               <FileName>TS_HwSystemTime.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\UserTaskHw\TS_HwSystemTime.c</FilePath>

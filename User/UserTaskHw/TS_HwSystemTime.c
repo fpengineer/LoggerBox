@@ -24,7 +24,8 @@
 #include "Config.h"
 #include "SystemTime.h"
 
-#include "TS_queue.h"
+#include "TS_task.h"
+#include "TS_HwQueue.h"
 
 static char tempString[150] = {""}; 
 
