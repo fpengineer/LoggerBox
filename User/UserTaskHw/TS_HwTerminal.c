@@ -40,7 +40,7 @@ void vTask_Terminal( void *pvParameters )
         xQueueReceive( xQueue_Terminal, &tempString, portMAX_DELAY );
 
        /* Send to USART */
-        TM_USART_Puts(USART2, tempString);
+        TM_USART_Puts( USART2, tempString );
 	}
 }
 

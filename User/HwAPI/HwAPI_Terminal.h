@@ -1,37 +1,27 @@
 /*****************************************************************************************************
 
-    HwAPI
+    HwAPI terminal
 
 
 
 *******************************************************************************************************/
 
 
-#ifndef _HW_API_H_
-#define _HW_API_H_
+#ifndef _HW_API_TERMINAL_H_
+#define _HW_API_TERMINAL_H_
 
 /* Includes ------------------------------------------------------------------*/
 #include <stdint.h>
 #include <stdio.h>
 
 #include "HwAPI Def.h"
-#include "HwAPI Config.h"
-
-#include "HwAPI_SystemTime.h"
-#include "HwAPI_Terminal.h"
-//#include "HwAPI_FatFs.h"
-//#include "HwAPI_Relay.h"
-//#include "HwAPI_Source.h"
-//#include "HwAPI_MeasureADC.h"
-//#include "HwAPI_Frequency.h"
-//#include "HwAPI_LED.h"
-//#include "HwAPI_RunButton.h"
 
 
+/* Exported types ------------------------------------------------------------*/
 
 
 /* Exported functions --------------------------------------------------------*/
+void HwAPI_Terminal_SendMessage( char *message );
 
-
-#endif /* _HW_API_H_ */
+#endif /* _HW_API_TERMINAL_H_*/
 /* End of file */

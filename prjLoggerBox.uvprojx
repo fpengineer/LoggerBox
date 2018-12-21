@@ -727,6 +727,11 @@
               <FileType>1</FileType>
               <FilePath>.\User\HwAPI\HwAPI_SystemTime.c</FilePath>
             </File>
+            <File>
+              <FileName>HwAPI_Terminal.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\HwAPI\HwAPI_Terminal.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -771,6 +776,11 @@
               <FileName>TS_HwSystemTime.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\UserTaskHw\TS_HwSystemTime.c</FilePath>
+            </File>
+            <File>
+              <FileName>TS_HwTerminal.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\UserTaskHw\TS_HwTerminal.c</FilePath>
             </File>
           </Files>
         </Group>
