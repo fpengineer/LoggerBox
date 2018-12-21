@@ -42,7 +42,11 @@ enum stateHwFatFs {
     HW_FATFS_WRITE_DATA_TO_MEASUREMENT_FILE,
     HW_FATFS_GET_CONFIG,
     HW_FATFS_CHECK_CONFIG_FILE_EXIST,
+
+    HW_FATFS_GET_KEY_INI,
+    HW_FATFS_PUT_KEY_INI,
     HW_FATFS_IDLE 
+
 };
 
 enum stateHwSystemTime {
@@ -106,9 +110,9 @@ enum stateSDCardDetect {
 void vTask_MeasurePlanner( void *pvParameters );
 //void vTask_MeasureX( void *pvParameters );
 
-//void vTask_HwFatFs( void *pvParameters );
+void vTask_HwFatFs( void *pvParameters );
 void vTask_HwSystemTime( void *pvParameters );
-//void vTask_HwTerminal( void *pvParameters );
+void vTask_HwTerminal( void *pvParameters );
 //void vTask_HwRelay( void *pvParameters );
 //void vTask_HwSource( void *pvParameters );
 //void vTask_HwMeasureADC( void *pvParameters );

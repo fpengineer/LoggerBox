@@ -732,6 +732,11 @@
               <FileType>1</FileType>
               <FilePath>.\User\HwAPI\HwAPI_Terminal.c</FilePath>
             </File>
+            <File>
+              <FileName>HwAPI_FatFs.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\HwAPI\HwAPI_FatFs.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -781,6 +786,11 @@
               <FileName>TS_HwTerminal.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\UserTaskHw\TS_HwTerminal.c</FilePath>
+            </File>
+            <File>
+              <FileName>TS_HwFatFs.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\UserTaskHw\TS_HwFatFs.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -1,37 +1,34 @@
 /*****************************************************************************************************
 
-    HwAPI
+    HwAPI FatFs
 
 
 
 *******************************************************************************************************/
 
 
-#ifndef _HW_API_H_
-#define _HW_API_H_
+#ifndef _HWAPI_FATFS_H_
+#define _HWAPI_FATFS_H_
 
 /* Includes ------------------------------------------------------------------*/
 #include <stdint.h>
 #include <stdio.h>
 
 #include "HwAPI Def.h"
-#include "HwAPI Config.h"
-
-#include "HwAPI_SystemTime.h"
-#include "HwAPI_Terminal.h"
-#include "HwAPI_FatFs.h"
-//#include "HwAPI_Relay.h"
-//#include "HwAPI_Source.h"
-//#include "HwAPI_MeasureADC.h"
-//#include "HwAPI_Frequency.h"
-//#include "HwAPI_LED.h"
-//#include "HwAPI_RunButton.h"
 
 
-
+/* Exported types ------------------------------------------------------------*/
+enum KeyType {
+  INI_KEY_INT,
+  INI_KEY_FLOAT,
+  INI_KEY_STRING
+};
 
 /* Exported functions --------------------------------------------------------*/
+void HwAPI_FatFs_GetKeyINI( enum KeyType, char *nameSection, char *nameKey, char *fileName, void *data );
+void HwAPI_FatFs_PutKeyINI( enum KeyType, char *nameSection, char *nameKey, char *fileName, void *data );
 
 
-#endif /* _HW_API_H_ */
+
+#endif /* _HWAPI_FATFS_H_*/
 /* End of file */
