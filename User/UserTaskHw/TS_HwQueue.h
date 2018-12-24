@@ -23,12 +23,11 @@ typedef struct {
 
 typedef struct {
     enum stateHwFatFs stateHwFatFs;
-    char buffer[ 800 ];
-    cfgSystemTime_t cfgSystemTime;
-    uint32_t flagConfigFileExist;
-    uint32_t flagNewFileCreated;
-    uint32_t flagFileWrite;
-    char fileName[ 20 ];
+    FatFsStatus_t fatFsStatus;
+
+    char *textBuffer;
+    char *fileName;
+    INIInfoData_t iniInfoData
 } HwFatFsQueueData_t;
 
 /*
