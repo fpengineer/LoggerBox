@@ -17,13 +17,23 @@
 #include "HwAPI Def.h"
 
 
+
+#define MAX_FILES_TO_OPEN
+
 /* Exported types ------------------------------------------------------------*/
 typedef enum {
     FATFS_OK,
     FATFS_ERROR,
+    FATFS_ERROR_NO_SD_CARD,
     FATFS_ERROR_INI_KEY_NOT_FOUND,
     FATFS_ERROR_FILE_NOT_FOUND
 } FatFsStatus_t;
+
+
+typedef enum {
+    SD_CARD_INSERT,
+    SD_CARD_NOT_INSERT
+} SDCardStatus_t;
 
 
 enum KeyType {

@@ -22,12 +22,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "TS_queue.h"
+#include "HwAPI.h"
+#include "TS_HwQueue.h"
 #include "TS_task.h"
+
 #include "minIni.h"
-#include "Config.h"
+//#include "Config.h"
 #include "Measure.h"
-#include "MeasureString.h"
+//#include "MeasureString.h"
 
 
 //TaskHandle_t xTask_DebugLedBlinker;
@@ -54,67 +56,79 @@ static char *stringResult [20] = {
 	"FR_INVALID_PARAMETER"	/* (19) Given parameter is invalid */
 };
 /* Fatfs object */
-FATFS FatFs;
+static FATFS FatFs;
 /* File object */
-FIL fil;
-FILINFO fno;
-DIR dir;
-FRESULT result = FR_NOT_READY;
+static FIL fileObjectSet[ MAX_FILES_TO_OPEN ];
+static FIL fileConfig;
+static FILINFO fno;
+static DIR dir;
+static FRESULT result = FR_NOT_READY;
 
 static char tempString[450] = {""}; 
 static char headerString[1800] = {""}; 
 static char measureString[1800] = {""}; 
-static char pathMeasureFile[50] = {""}; 
+static char filePath[80] = {""}; 
 
 
 void vTask_HwFatFs( void *pvParameters )
 {
-    extern QueueHandle_t xQueue_SDCardLed;
-    extern QueueHandle_t xQueue_FatFsIn;
-    extern QueueHandle_t xQueue_FatFsOut;
-    extern QueueHandle_t xQueue_Terminal;
-    extern QueueHandle_t xQueue_SystemTimeIn;
-    extern QueueHandle_t xQueue_SystemTimeOut;
-    cfgSystemTime_t cfgSystemTime;
-    SystemTimeQueueData_t SystemTimeQueueData;
-    FatFsQueueData_t FatFsQueueData;
-    cfgMeasurePlan_t cfgMeasurePlan;
-    cfgMeasureEnable_t cfgMeasureEnable;
-    cfgDatafileSettings_t cfgDatafileSettings;
-    extern volatile uint32_t cardReady;
-    enum stateSDCardLed stateSDCardLed = SDCARD_LED_OFF;
-    uint32_t stringCounter = 0;
+    HwFatFsQueueData_t fatFsQueueData;
+    SDCardStatus_t sdCardStatus = SD_CARD_NOT_INSERT;
+    FatFsStatus_t fatFsStatus = FATFS_ERROR_NO_SD_CARD;
 
-    cardReady = 0;
-    FatFsQueueData.configFileExistFlag = 0;    
-    FatFsQueueData.newFileCreatedFlag = 0;    
-    FatFsQueueData.fileWriteFlag = 0;    
-
-    
-// Init FatFs module
-    f_mount(&FatFs, "0:", 1);
-    f_mount(0, "0:", 1);
-
+    fatFsQueueData.stateHwFatFs = HW_FATFS_INIT;            
+    xQueueSend( xQueue_HwFatFs_Rx, &fatFsQueueData, NULL ); 
 
     while (1)
     {
-        xQueueReceive( xQueue_FatFsIn, &FatFsQueueData, portMAX_DELAY );
+        xQueueReceive( xQueue_HwFatFs_Rx, &fatFsQueueData, portMAX_DELAY );
 
-        switch (FatFsQueueData.stateFatFs)
+        switch ( fatFsQueueData.stateHwFatFs )
         {
-            case FATFS_INIT_SD_CARD:
-                xQueueSend( xQueue_Terminal, "\rInitialize SD Card\r\n", NULL );
-                f_mount(0, "0:", 1); // Unmount drive
-                result = f_mount(&FatFs, "0:", 1);
-                sprintf(tempString, "f_mount = %s\r\r\n", stringResult[result]);
-                xQueueSend( xQueue_Terminal, &tempString, NULL );
-                switch (result)
+            case HW_FATFS_INIT:
+            {
+                // Init FatFs module
+                f_mount( &FatFs, "0:", 1 );
+                f_mount( 0, "0:", 1 );
+                break;
+            }
+
+            case HW_FATFS_GET_STATUS:
+            {
+                fatFsQueueData.sdCardStatus = sdCardStatus;            
+                fatFsQueueData.fatFsStatus = fatFsStatus;            
+                xQueueSend( xQueue_HwFatFs_Tx, &fatFsQueueData, NULL ); 
+                break;
+            }
+
+            case HW_FATFS_INIT_SD_CARD:
+            {    
+                HwAPI_Terminal_SendMessage( "TS_HwFatFs: Initialize SD Card\n" );
+
+                f_mount( 0, "0:", 1 ); // Unmount drive
+                result = f_mount( &FatFs, "0:", 1 );
+                sprintf( tempString, "f_mount = %s\n", stringResult[ result ] );
+                HwAPI_Terminal_SendMessage( tempString );
+
+                switch ( result )
                 {
                     case FR_OK:
-                        xQueueSend( xQueue_Terminal, "Start read config file\r\n", NULL );
-                        
-                        result = f_stat("0:/config.ini", NULL);
-                        switch (result)
+                        fatFsStatus = FATFS_OK;
+                        break;
+
+                    default:
+                        fatFsStatus = FATFS_ERROR;
+                        sprintf( tempString, "TS_HwFatFs: HW_FATFS_INIT_SD_CARD Error!\n"
+                                             "f_mount = %s\n", stringResult[ result ] );
+                        HwAPI_Terminal_SendMessage( tempString );
+                        break;
+                }
+                fatFsQueueData.fatFsStatus = fatFsStatus;            
+                xQueueSend( xQueue_HwFatFs_Tx, &fatFsQueueData, NULL ); 
+
+#if 0
+                    result = f_stat("0:/config.ini", NULL);
+                        switch ( result )
                         {
                             case FR_OK:
                                 cardReady = 1;
@@ -180,20 +194,200 @@ void vTask_HwFatFs( void *pvParameters )
                         FatFsQueueData.stateFatFs = FATFS_DEINIT_SD_CARD;            
                         xQueueSend( xQueue_FatFsIn, &FatFsQueueData, NULL ); 
                         break;
-                }
+#endif
+                
+
+
                 break;
+            }
 
 
-            case FATFS_DEINIT_SD_CARD:
-                f_close(&fil);
-                stateSDCardLed = SDCARD_LED_OFF;
-                xQueueSend( xQueue_SDCardLed, &stateSDCardLed, NULL );
+            case HW_FATFS_DEINIT_SD_CARD:
+            {
+                //Close all opened files
+                //f_close(&fil);
                 f_mount(0, "0:", 1);
-                cardReady = 0;
-                xQueueReset(xQueue_FatFsIn);
+                //xQueueReset( xQueue_HwFatFs_Rx );
+
+                fatFsStatus = FATFS_ERROR_NO_SD_CARD;
+                fatFsQueueData.fatFsStatus = fatFsStatus;            
+                xQueueSend( xQueue_HwFatFs_Tx, &fatFsQueueData, NULL ); 
                 break;
+            }             
 
                     
+            case HW_FATFS_CREATE_FILE:
+            {    
+                if ( fatFsStatus == FATFS_OK )
+                {
+                    f_close( &fileObjectSet[ fatFsQueueData.fileIndex ] );
+                    sprintf( filePath, "0:/%s", fatFsQueueData.fileName );
+                    result = f_open( &fileObjectSet[ fatFsQueueData.fileIndex ], filePath, FA_CREATE_ALWAYS | FA_WRITE | FA_READ );
+
+                    
+                    switch ( result )
+                    {
+                        case FR_OK:
+                            f_close( &fileObjectSet[ fatFsQueueData.fileIndex ] );
+                            fatFsStatus = FATFS_OK;
+                            break;
+
+                        default:
+                            sprintf( tempString, "TS_HwFatFs: HW_FATFS_CREATE_FILE Error!\n"
+                                                 "f_open = %s\n", stringResult[ result ] );
+                            HwAPI_Terminal_SendMessage( tempString );
+                            fatFsStatus = FATFS_ERROR;
+                            break;
+                    }
+                }                    
+
+                fatFsQueueData.fatFsStatus = fatFsStatus;            
+                QueueSend( xQueue_HwFatFs_Tx, &fatFsQueueData, NULL ); 
+                break;
+            }
+
+
+            case HW_FATFS_CHECK_FILE_EXIST:
+            {    
+                if ( fatFsStatus == FATFS_OK )
+                {
+                    sprintf( filePath, "0:/%s", fatFsQueueData.fileName );
+                    result = f_stat( filePath, NULL );
+                    
+                    switch ( result )
+                    {
+                        case FR_OK:
+                            fatFsStatus = FATFS_OK;
+                            break;
+
+                        case FR_NO_FILE:
+                            fatFsStatus = FATFS_ERROR_FILE_NOT_FOUND;
+                            break;
+                        
+                        default:
+                            sprintf( tempString, "TS_HwFatFs: HW_FATFS_CHECK_FILE_EXIST Error!\n"
+                                                 "f_stat = %s\n", stringResult[ result ] );
+                            HwAPI_Terminal_SendMessage( tempString );
+                            fatFsStatus = FATFS_ERROR;
+                            break;
+                    }
+                }                    
+
+                fatFsQueueData.fatFsStatus = fatFsStatus;            
+                QueueSend( xQueue_HwFatFs_Tx, &fatFsQueueData, NULL ); 
+                break;
+            }
+
+
+            case HW_FATFS_OPEN_FILE:
+            {    
+                if ( fatFsStatus == FATFS_OK )
+                {
+                    f_close( &fileObjectSet[ fatFsQueueData.fileIndex ] );
+                    sprintf( filePath, "0:/%s", fatFsQueueData.fileName );
+                    result = f_open( &fileObjectSet[ fatFsQueueData.fileIndex ], filePath, FA_OPEN_EXISTING | FA_WRITE | FA_READ );
+                    
+                    switch ( result )
+                    {
+                        case FR_OK:
+                            f_close( &fileObjectSet[ fatFsQueueData.fileIndex ] );
+                            fatFsStatus = FATFS_OK;
+                            break;
+
+                        case FR_NO_FILE:
+                            fatFsStatus = FATFS_ERROR_FILE_NOT_FOUND;
+                            break;
+
+                        default:
+                            sprintf( tempString, "TS_HwFatFs: HW_FATFS_OPEN_FILE Error!\n"
+                                                 "f_open = %s\n", stringResult[ result ] );
+                            HwAPI_Terminal_SendMessage( tempString );
+                            fatFsStatus = FATFS_ERROR;
+                            break;
+                    }
+                }                    
+
+                fatFsQueueData.fatFsStatus = fatFsStatus;            
+                QueueSend( xQueue_HwFatFs_Tx, &fatFsQueueData, NULL ); 
+                break;
+            }
+
+
+            case HW_FATFS_CLOSE_FILE:
+            {    
+                if ( fatFsStatus == FATFS_OK )
+                {
+                    result = f_close( &fileObjectSet[ fatFsQueueData.fileIndex ] );
+                    
+                    switch ( result )
+                    {
+                        case FR_OK:
+                            fatFsStatus = FATFS_OK;
+                            break;
+
+                        default:
+                            sprintf( tempString, "TS_HwFatFs: HW_FATFS_CLOSE_FILE Error!\n"
+                                                 "f_close = %s\n", stringResult[ result ] );
+                            HwAPI_Terminal_SendMessage( tempString );
+                            fatFsStatus = FATFS_ERROR;
+                            break;
+                    }
+                }                    
+
+                fatFsQueueData.fatFsStatus = fatFsStatus;            
+                QueueSend( xQueue_HwFatFs_Tx, &fatFsQueueData, NULL ); 
+                break;
+            }
+
+
+            case HW_FATFS_WRITE_FILE:
+            {    
+                if ( fatFsStatus == FATFS_OK )
+                {
+                    result = f_lseek( &fileObjectSet[ fatFsQueueData.fileIndex ],
+                                      f_size( &fileObjectSet[ fatFsQueueData.fileIndex ] ) );
+                    
+                    switch ( result )
+                    {
+                        case FR_OK:
+                            fatFsStatus = FATFS_OK;
+                            result = f_puts( fatFsQueueData.textBuffer, &fileObjectSet[ fatFsQueueData.fileIndex ] );
+                            switch ( result )
+                            {
+                                case FR_OK:
+                                    fatFsStatus = FATFS_OK;
+                                    break;
+
+                                default:
+                                    sprintf( tempString, "TS_HwFatFs: HW_FATFS_WRITE_FILE Error!\n"
+                                                         "f_puts = %s\n", stringResult[ result ] );
+                                    HwAPI_Terminal_SendMessage( tempString );
+                                    fatFsStatus = FATFS_ERROR;
+                                    break;
+                            }
+                            break;
+
+                        default:
+                            sprintf( tempString, "TS_HwFatFs: HW_FATFS_WRITE_FILE Error!\n"
+                                                 "f_lseek = %s\n", stringResult[ result ] );
+                            HwAPI_Terminal_SendMessage( tempString );
+                            fatFsStatus = FATFS_ERROR;
+                            break;
+                    }
+                }                    
+
+                fatFsQueueData.fatFsStatus = fatFsStatus;            
+                QueueSend( xQueue_HwFatFs_Tx, &fatFsQueueData, NULL ); 
+                break;
+            }
+
+
+
+
+            
+            
+            
+            
             case FATFS_CREATE_NEW_MEASUREMENT_FILE:
                 if (cardReady)
                 {

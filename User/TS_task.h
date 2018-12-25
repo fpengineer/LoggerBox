@@ -36,6 +36,8 @@ enum stateMeasureX {
 };
 
 enum stateHwFatFs { 
+    HW_FATFS_INIT,
+    HW_FATFS_GET_STATUS,
     HW_FATFS_INIT_SD_CARD,
     HW_FATFS_DEINIT_SD_CARD,
     HW_FATFS_CREATE_FILE,
@@ -46,10 +48,10 @@ enum stateHwFatFs {
     HW_FATFS_GET_KEY_INI,
     HW_FATFS_PUT_KEY_INI,
     HW_FATFS_IDLE 
-
 };
 
 enum stateHwSystemTime {
+    HW_SYSTEM_TIME_INIT,
     HW_SYSTEM_TIME_SET,
     HW_SYSTEM_TIME_GET,
     HW_SYSTEM_TIME_IDLE

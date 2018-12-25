@@ -24,9 +24,11 @@ typedef struct {
 typedef struct {
     enum stateHwFatFs stateHwFatFs;
     FatFsStatus_t fatFsStatus;
+    SDCardStatus_t sdCardStatus;
 
     char *textBuffer;
     char *fileName;
+    uint8_t fileIndex;
     INIInfoData_t iniInfoData
 } HwFatFsQueueData_t;
 
