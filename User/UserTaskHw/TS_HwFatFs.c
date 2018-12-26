@@ -32,6 +32,18 @@
 //#include "MeasureString.h"
 
 
+
+// Declare private functions
+static FatFsStatus_t CheckFileExist( char *fileName );
+static FatFsStatus_t CheckSectionINI( char *sectionName, char *fileName );
+static FatFsStatus_t CheckKeyINI( char *keyName, char *sectionName, char *fileName );
+
+
+
+
+
+
+
 //TaskHandle_t xTask_DebugLedBlinker;
 static char *stringResult [20] = {
 	"FR_OK",				/* (0) Succeeded */
@@ -72,18 +84,18 @@ static char filePath[80] = {""};
 
 void vTask_HwFatFs( void *pvParameters )
 {
-    HwFatFsQueueData_t fatFsQueueData;
+    HwFatFsQueueData_t hwFatFsQueueData;
     SDCardStatus_t sdCardStatus = SD_CARD_NOT_INSERT;
     FatFsStatus_t fatFsStatus = FATFS_ERROR_NO_SD_CARD;
 
-    fatFsQueueData.stateHwFatFs = HW_FATFS_INIT;            
-    xQueueSend( xQueue_HwFatFs_Rx, &fatFsQueueData, NULL ); 
+    hwFatFsQueueData.stateHwFatFs = HW_FATFS_INIT;            
+    xQueueSend( xQueue_HwFatFs_Rx, &hwFatFsQueueData, NULL ); 
 
     while (1)
     {
-        xQueueReceive( xQueue_HwFatFs_Rx, &fatFsQueueData, portMAX_DELAY );
+        xQueueReceive( xQueue_HwFatFs_Rx, &hwFatFsQueueData, portMAX_DELAY );
 
-        switch ( fatFsQueueData.stateHwFatFs )
+        switch ( hwFatFsQueueData.stateHwFatFs )
         {
             case HW_FATFS_INIT:
             {
@@ -95,9 +107,9 @@ void vTask_HwFatFs( void *pvParameters )
 
             case HW_FATFS_GET_STATUS:
             {
-                fatFsQueueData.sdCardStatus = sdCardStatus;            
-                fatFsQueueData.fatFsStatus = fatFsStatus;            
-                xQueueSend( xQueue_HwFatFs_Tx, &fatFsQueueData, NULL ); 
+                hwFatFsQueueData.sdCardStatus = sdCardStatus;            
+                hwFatFsQueueData.fatFsStatus = fatFsStatus;            
+                xQueueSend( xQueue_HwFatFs_Tx, &hwFatFsQueueData, NULL ); 
                 break;
             }
 
@@ -123,8 +135,8 @@ void vTask_HwFatFs( void *pvParameters )
                         HwAPI_Terminal_SendMessage( tempString );
                         break;
                 }
-                fatFsQueueData.fatFsStatus = fatFsStatus;            
-                xQueueSend( xQueue_HwFatFs_Tx, &fatFsQueueData, NULL ); 
+                hwFatFsQueueData.fatFsStatus = fatFsStatus;            
+                xQueueSend( xQueue_HwFatFs_Tx, &hwFatFsQueueData, NULL ); 
 
 #if 0
                     result = f_stat("0:/config.ini", NULL);
@@ -210,8 +222,8 @@ void vTask_HwFatFs( void *pvParameters )
                 //xQueueReset( xQueue_HwFatFs_Rx );
 
                 fatFsStatus = FATFS_ERROR_NO_SD_CARD;
-                fatFsQueueData.fatFsStatus = fatFsStatus;            
-                xQueueSend( xQueue_HwFatFs_Tx, &fatFsQueueData, NULL ); 
+                hwFatFsQueueData.fatFsStatus = fatFsStatus;            
+                xQueueSend( xQueue_HwFatFs_Tx, &hwFatFsQueueData, NULL ); 
                 break;
             }             
 
@@ -220,15 +232,15 @@ void vTask_HwFatFs( void *pvParameters )
             {    
                 if ( fatFsStatus == FATFS_OK )
                 {
-                    f_close( &fileObjectSet[ fatFsQueueData.fileIndex ] );
-                    sprintf( filePath, "0:/%s", fatFsQueueData.fileName );
-                    result = f_open( &fileObjectSet[ fatFsQueueData.fileIndex ], filePath, FA_CREATE_ALWAYS | FA_WRITE | FA_READ );
+                    f_close( &fileObjectSet[ hwFatFsQueueData.fileIndex ] );
+                    sprintf( filePath, "0:/%s", hwFatFsQueueData.fileName );
+                    result = f_open( &fileObjectSet[ hwFatFsQueueData.fileIndex ], filePath, FA_CREATE_ALWAYS | FA_WRITE | FA_READ );
 
                     
                     switch ( result )
                     {
                         case FR_OK:
-                            f_close( &fileObjectSet[ fatFsQueueData.fileIndex ] );
+                            f_close( &fileObjectSet[ hwFatFsQueueData.fileIndex ] );
                             fatFsStatus = FATFS_OK;
                             break;
 
@@ -241,8 +253,8 @@ void vTask_HwFatFs( void *pvParameters )
                     }
                 }                    
 
-                fatFsQueueData.fatFsStatus = fatFsStatus;            
-                QueueSend( xQueue_HwFatFs_Tx, &fatFsQueueData, NULL ); 
+                hwFatFsQueueData.fatFsStatus = fatFsStatus;            
+                xQueueSend( xQueue_HwFatFs_Tx, &hwFatFsQueueData, NULL ); 
                 break;
             }
 
@@ -251,7 +263,7 @@ void vTask_HwFatFs( void *pvParameters )
             {    
                 if ( fatFsStatus == FATFS_OK )
                 {
-                    sprintf( filePath, "0:/%s", fatFsQueueData.fileName );
+                    sprintf( filePath, "0:/%s", hwFatFsQueueData.fileName );
                     result = f_stat( filePath, NULL );
                     
                     switch ( result )
@@ -273,8 +285,8 @@ void vTask_HwFatFs( void *pvParameters )
                     }
                 }                    
 
-                fatFsQueueData.fatFsStatus = fatFsStatus;            
-                QueueSend( xQueue_HwFatFs_Tx, &fatFsQueueData, NULL ); 
+                hwFatFsQueueData.fatFsStatus = fatFsStatus;            
+                xQueueSend( xQueue_HwFatFs_Tx, &hwFatFsQueueData, NULL ); 
                 break;
             }
 
@@ -283,14 +295,14 @@ void vTask_HwFatFs( void *pvParameters )
             {    
                 if ( fatFsStatus == FATFS_OK )
                 {
-                    f_close( &fileObjectSet[ fatFsQueueData.fileIndex ] );
-                    sprintf( filePath, "0:/%s", fatFsQueueData.fileName );
-                    result = f_open( &fileObjectSet[ fatFsQueueData.fileIndex ], filePath, FA_OPEN_EXISTING | FA_WRITE | FA_READ );
+                    f_close( &fileObjectSet[ hwFatFsQueueData.fileIndex ] );
+                    sprintf( filePath, "0:/%s", hwFatFsQueueData.fileName );
+                    result = f_open( &fileObjectSet[ hwFatFsQueueData.fileIndex ], filePath, FA_OPEN_EXISTING | FA_WRITE | FA_READ );
                     
                     switch ( result )
                     {
                         case FR_OK:
-                            f_close( &fileObjectSet[ fatFsQueueData.fileIndex ] );
+                            f_close( &fileObjectSet[ hwFatFsQueueData.fileIndex ] );
                             fatFsStatus = FATFS_OK;
                             break;
 
@@ -307,8 +319,8 @@ void vTask_HwFatFs( void *pvParameters )
                     }
                 }                    
 
-                fatFsQueueData.fatFsStatus = fatFsStatus;            
-                QueueSend( xQueue_HwFatFs_Tx, &fatFsQueueData, NULL ); 
+                hwFatFsQueueData.fatFsStatus = fatFsStatus;            
+                xQueueSend( xQueue_HwFatFs_Tx, &hwFatFsQueueData, NULL ); 
                 break;
             }
 
@@ -317,7 +329,7 @@ void vTask_HwFatFs( void *pvParameters )
             {    
                 if ( fatFsStatus == FATFS_OK )
                 {
-                    result = f_close( &fileObjectSet[ fatFsQueueData.fileIndex ] );
+                    result = f_close( &fileObjectSet[ hwFatFsQueueData.fileIndex ] );
                     
                     switch ( result )
                     {
@@ -334,8 +346,8 @@ void vTask_HwFatFs( void *pvParameters )
                     }
                 }                    
 
-                fatFsQueueData.fatFsStatus = fatFsStatus;            
-                QueueSend( xQueue_HwFatFs_Tx, &fatFsQueueData, NULL ); 
+                hwFatFsQueueData.fatFsStatus = fatFsStatus;            
+                xQueueSend( xQueue_HwFatFs_Tx, &hwFatFsQueueData, NULL ); 
                 break;
             }
 
@@ -344,14 +356,22 @@ void vTask_HwFatFs( void *pvParameters )
             {    
                 if ( fatFsStatus == FATFS_OK )
                 {
-                    result = f_lseek( &fileObjectSet[ fatFsQueueData.fileIndex ],
-                                      f_size( &fileObjectSet[ fatFsQueueData.fileIndex ] ) );
+                    result = f_lseek( &fileObjectSet[ hwFatFsQueueData.fileIndex ],
+                                      f_size( &fileObjectSet[ hwFatFsQueueData.fileIndex ] ) );
                     
                     switch ( result )
                     {
                         case FR_OK:
                             fatFsStatus = FATFS_OK;
-                            result = f_puts( fatFsQueueData.textBuffer, &fileObjectSet[ fatFsQueueData.fileIndex ] );
+                            if ( f_puts( hwFatFsQueueData.textBuffer, &fileObjectSet[ hwFatFsQueueData.fileIndex ] ) > 0 )
+                            {
+                                // success
+                            }
+                            else
+                            {
+                                // error
+                            }
+/*
                             switch ( result )
                             {
                                 case FR_OK:
@@ -365,6 +385,7 @@ void vTask_HwFatFs( void *pvParameters )
                                     fatFsStatus = FATFS_ERROR;
                                     break;
                             }
+*/
                             break;
 
                         default:
@@ -376,229 +397,120 @@ void vTask_HwFatFs( void *pvParameters )
                     }
                 }                    
 
-                fatFsQueueData.fatFsStatus = fatFsStatus;            
-                QueueSend( xQueue_HwFatFs_Tx, &fatFsQueueData, NULL ); 
+                hwFatFsQueueData.fatFsStatus = fatFsStatus;            
+                xQueueSend( xQueue_HwFatFs_Tx, &hwFatFsQueueData, NULL ); 
                 break;
             }
 
 
-
-
-            
-            
-            
-            
-            case FATFS_CREATE_NEW_MEASUREMENT_FILE:
-                if (cardReady)
+            case HW_FATFS_GET_KEY_INI:
+            {
+                if ( fatFsStatus == FATFS_OK )
                 {
-                    /* Request current system time */
-                    SystemTimeQueueData.stateSystemTime = SYSTEM_TIME_GET;            
-                    xQueueSend( xQueue_SystemTimeIn, &SystemTimeQueueData, NULL );
-                    xQueueReceive( xQueue_SystemTimeOut, &SystemTimeQueueData, portMAX_DELAY );
-                    sprintf(pathMeasureFile, "0:/measure/%s_%02d.%02d.%02d_%02d.%02d.%02d.csv",
-                                             cfgDatafileSettings.prefixDatafileName,
-                                             SystemTimeQueueData.datatime.date,
-                                             SystemTimeQueueData.datatime.month,
-                                             SystemTimeQueueData.datatime.year,
-                                             SystemTimeQueueData.datatime.hours,
-                                             SystemTimeQueueData.datatime.minutes,
-                                             SystemTimeQueueData.datatime.seconds);
-
-                    sprintf(tempString, "Create new measurement file - %s\r\n", pathMeasureFile);
-                    xQueueSend( xQueue_Terminal, &tempString, NULL );
-
-                    f_close(&fil);
-                    result = f_open(&fil, pathMeasureFile, FA_CREATE_ALWAYS | FA_WRITE | FA_READ);
-//                    sprintf(tempString, "f_open = %s\n", stringResult[result]);
-//                    xQueueSend( xQueue_Terminal, &tempString, NULL );
-                    if (result == FR_OK)
+                    // check if file exist
+                    fatFsStatus = CheckFileExist( hwFatFsQueueData.fileName );
+                    if ( fatFsStatus == FATFS_OK )
                     {
-                        sprintf(tempString, "New file <%s> have been created!\r\r\n", pathMeasureFile);
-                        xQueueSend( xQueue_Terminal, &tempString, NULL );
-                        ClearString(headerString, sizeof(headerString));
-                        CreateHeaderString(cfgMeasureEnable, headerString, cfgDatafileSettings.delimiter);
-                        sprintf(tempString, "[MeasurePlan]\n"
-                                            "Tact1_Length_s = %d\n"
-                                            "Tact2_Length_s = %d\n"
-                                            "Tact3_Length_s = %d\n"
-                                            "SourceG1_V = %.1f\n"
-                                            "SourceG2_V = %.1f\n"
-                                            "SourceG3_V = %.1f\n"
-                                            "SourceG4_V = %.1f\n"
-                                            "\nMeasured Data\n"
-                                            "%s",
-                                            cfgMeasurePlan.Tact1_Length_s,
-                                            cfgMeasurePlan.Tact2_Length_s,
-                                            cfgMeasurePlan.Tact3_Length_s,
-                                            cfgMeasurePlan.SourceG1_V,
-                                            cfgMeasurePlan.SourceG2_V,
-                                            cfgMeasurePlan.SourceG3_V,
-                                            cfgMeasurePlan.SourceG4_V,
-                                            headerString);
-                        f_puts(tempString, &fil);
-                        f_close(&fil);
-                        stringCounter = 0;
-                        FatFsQueueData.configFileExistFlag = 1;    
-                        xQueueSend( xQueue_FatFsOut, &FatFsQueueData, NULL );
-                        ClearString(headerString, sizeof(headerString));
-                        CreateHeaderString(cfgMeasureEnable, headerString, "\t");
-                        sprintf(tempString, "\r[MeasurePlan]\r\n"
-                                            "Tact1_Length_s = %d\r\n"
-                                            "Tact2_Length_s = %d\r\n"
-                                            "Tact3_Length_s = %d\r\n"
-                                            "SourceG1_V = %.1f\r\n"
-                                            "SourceG2_V = %.1f\r\n"
-                                            "SourceG3_V = %.1f\r\n"
-                                            "SourceG4_V = %.1f\r\n"
-                                            "\r\nMeasured Data\r\n"
-                                            "%s\r",
-                                            cfgMeasurePlan.Tact1_Length_s,
-                                            cfgMeasurePlan.Tact2_Length_s,
-                                            cfgMeasurePlan.Tact3_Length_s,
-                                            cfgMeasurePlan.SourceG1_V,
-                                            cfgMeasurePlan.SourceG2_V,
-                                            cfgMeasurePlan.SourceG3_V,
-                                            cfgMeasurePlan.SourceG4_V,
-                                            headerString);
-                        xQueueSend( xQueue_Terminal, &tempString, NULL );
-//                        vTaskDelay(20);
-//                        result = f_open(&fil, pathMeasureFile, FA_OPEN_EXISTING | FA_WRITE);
-//sprintf(tempString, "f_open = %s\n", stringResult[result]);
-//xQueueSend( xQueue_Terminal, &tempString, NULL );
-                    }
-                    else
-                    {
-                        stateSDCardLed = SDCARD_LED_FLASH;
-                        xQueueSend( xQueue_SDCardLed, &stateSDCardLed, NULL );
-
-                        sprintf(tempString, "New file <%s> did not created!\r\n", pathMeasureFile);
-                        xQueueSend( xQueue_Terminal, &tempString, NULL );
-                        FatFsQueueData.configFileExistFlag = 0;    
-                        xQueueSend( xQueue_FatFsOut, &FatFsQueueData, NULL );
-                    }
-                }
-                break;
-                    
-            case FATFS_WRITE_DATA_TO_MEASUREMENT_FILE:
-//xQueueSend( xQueue_Terminal, "__FATFS - fatfs write file\n", NULL );
-                if (cardReady)
-                {
-
-                    SystemTimeQueueData.stateSystemTime = SYSTEM_TIME_GET;            
-                    xQueueSend( xQueue_SystemTimeIn, &SystemTimeQueueData, NULL );
-                    xQueueReceive( xQueue_SystemTimeOut, &SystemTimeQueueData, portMAX_DELAY );
-                    result = f_open(&fil, pathMeasureFile, FA_OPEN_EXISTING | FA_WRITE);
-//                    sprintf(tempString, "f_open = %s\n", stringResult[result]);
-//                    xQueueSend( xQueue_Terminal, &tempString, NULL );
-//                    result = FR_OK;
-                    if (result == FR_OK)
-                    {
-                        result = f_lseek(&fil, f_size(&fil));
-//                        sprintf(tempString, "f_lseek = %s\n", stringResult[result]);
-//                        xQueueSend( xQueue_Terminal, &tempString, NULL );
-
-                        ClearString(measureString, sizeof(measureString));
-                        CreateMeasureString(FatFsQueueData.measureData, cfgMeasureEnable, measureString, cfgDatafileSettings.delimiter);
-                        sprintf(tempString, "%s%02d.%02d.%02d %02d:%02d:%02d%s%s",
-                                             measureString,                     
-                                             SystemTimeQueueData.datatime.date,
-                                             SystemTimeQueueData.datatime.month,
-                                             SystemTimeQueueData.datatime.year,
-                                             SystemTimeQueueData.datatime.hours,
-                                             SystemTimeQueueData.datatime.minutes,
-                                             SystemTimeQueueData.datatime.seconds,
-                                             cfgDatafileSettings.delimiter,
-                                             FatFsQueueData.stringName);                     
-                        f_puts(tempString, &fil);
-                        
-//                        sprintf(tempString, "f_sizes = %d\n", (uint32_t)f_size(&fil));
-//                        xQueueSend( xQueue_Terminal, &tempString, NULL );
-//                        sprintf(tempString, "f_puts = %s\n", stringResult[result]);
-//                        xQueueSend( xQueue_Terminal, &tempString, NULL );
-
-                        FatFsQueueData.fileWriteFlag = 1;    
-                        xQueueSend( xQueue_FatFsOut, &FatFsQueueData, NULL );
-
-                        stringCounter++;
-                        
-                        if (stringCounter >= cfgDatafileSettings.stringsToWrite)
+                        // check if section exist
+                        fatFsStatus = CheckSectionINI( hwFatFsQueueData.iniInfoData.sectionName, hwFatFsQueueData.fileName );
+                        if ( fatFsStatus == FATFS_OK )
                         {
-                            FatFsQueueData.stateFatFs = FATFS_CREATE_NEW_MEASUREMENT_FILE;            
-                            xQueueSend( xQueue_FatFsIn, &FatFsQueueData, NULL ); 
+                            // check if key exist
+                            fatFsStatus = CheckKeyINI( hwFatFsQueueData.iniInfoData.keyName, hwFatFsQueueData.iniInfoData.sectionName, hwFatFsQueueData.fileName );
+                            if ( fatFsStatus == FATFS_OK )
+                            {
+                                // get key value
+                                switch ( hwFatFsQueueData.iniInfoData.keyType )
+                                {
+                                    case INI_KEY_INT:
+                                        hwFatFsQueueData.iniInfoData.intValue = ini_getl( hwFatFsQueueData.iniInfoData.sectionName, \
+                                                                                          hwFatFsQueueData.iniInfoData.keyName,     \
+                                                                                          -1,                                       \
+                                                                                          hwFatFsQueueData.fileName );    
+                                        break;
+                    
+                                    case INI_KEY_FLOAT:
+                                        hwFatFsQueueData.iniInfoData.floatValue = ini_getf( hwFatFsQueueData.iniInfoData.sectionName, \
+                                                                                          hwFatFsQueueData.iniInfoData.keyName,     \
+                                                                                          0.0f,                                       \
+                                                                                          hwFatFsQueueData.fileName );    
+                                        break;
+                    	
+                                    case INI_KEY_STRING:
+                                        ini_gets( hwFatFsQueueData.iniInfoData.sectionName, 
+                                                  hwFatFsQueueData.iniInfoData.keyName,
+                                                  "key not found", 
+                                                  hwFatFsQueueData.iniInfoData.stringValue, 
+                                                  MAX_INI_KEY_STRING_VALUE_LENGTH, 
+                                                  hwFatFsQueueData.fileName );
+                                        break;
+                    	
+                                    default:
+                                        break;
+                                }
+                            }
                         }
-                        ClearString(measureString, sizeof(measureString));
-                        CreateMeasureString(FatFsQueueData.measureData, cfgMeasureEnable, measureString, "\t");
-                        sprintf(tempString, "%s%02d.%02d.%02d %02d:%02d:%02d\t%s\tf_size = %d bytes\r\n",
-                                            measureString,
-                                            SystemTimeQueueData.datatime.date,
-                                            SystemTimeQueueData.datatime.month,
-                                            SystemTimeQueueData.datatime.year,
-                                            SystemTimeQueueData.datatime.hours,
-                                            SystemTimeQueueData.datatime.minutes,
-                                            SystemTimeQueueData.datatime.seconds,
-                                            FatFsQueueData.stringName,                     
-                                            (uint32_t)f_size(&fil));
-                        xQueueSend( xQueue_Terminal, &tempString, NULL );
-                        f_close(&fil);
                     }
-                    else
-                    {
-                        stateSDCardLed = SDCARD_LED_FLASH;
-                        xQueueSend( xQueue_SDCardLed, &stateSDCardLed, NULL );
+                }                
+                hwFatFsQueueData.fatFsStatus = fatFsStatus;            
+                xQueueSend( xQueue_HwFatFs_Tx, &hwFatFsQueueData, NULL ); 
+                break;
+            }             
 
-                        sprintf(tempString, "Can't write to measurement file <%s>!!!\nf_open = %s\r\n", pathMeasureFile, stringResult[result]);
-                        xQueueSend( xQueue_Terminal, &tempString, NULL );
-//                        measureEnableFlag = 0;
-                        FatFsQueueData.fileWriteFlag = 0;    
-                        xQueueSend( xQueue_FatFsOut, &FatFsQueueData, NULL );
-                    }
-  
-                }
-                break;
                     
-            case FATFS_GET_CONFIG:
-                if (cardReady)
+            case HW_FATFS_PUT_KEY_INI:
+            {
+                if ( fatFsStatus == FATFS_OK )
                 {
-                    cfgMeasurePlan = ConfigMeasurePlan_GetParameters();
-                    cfgMeasureEnable = ConfigMeasureEnable_GetParameters();
-                    FatFsQueueData.cfgMeasurePlan = cfgMeasurePlan;
-                    FatFsQueueData.cfgMeasureEnable = cfgMeasureEnable;
-                    xQueueSend( xQueue_FatFsOut, &FatFsQueueData, NULL );
-                }
-                break;
-                    
-            case FATFS_CHECK_CONFIG_FILE_EXIST:
-                if (cardReady)
-                {
-                    result = f_stat("0:/config.ini", NULL);
-                    switch (result)
+                    // check if file exist
+                    fatFsStatus = CheckFileExist( hwFatFsQueueData.fileName );
+                    if ( fatFsStatus == FATFS_OK )
                     {
-                        case FR_OK:
-                            /* config file exist */
-                            FatFsQueueData.configFileExistFlag = 1;    
-                            break;
-                                    
-                        case FR_NO_FILE:
-                            stateSDCardLed = SDCARD_LED_FLASH;
-                            xQueueSend( xQueue_SDCardLed, &stateSDCardLed, NULL );
-
-                            FatFsQueueData.configFileExistFlag = 0;    
-                            sprintf(tempString, "file <0:/config.ini> not found!\r\n");
-                            xQueueSend( xQueue_Terminal, &tempString, NULL );
-                            break;
-                            
-                        default:
-                            FatFsQueueData.configFileExistFlag = 0;    
-                            sprintf(tempString, "_FATFS - FATFS_CHECK_CONFIG_FILE_EXIST - f_stat = %s\r\n", stringResult[result]);
-                            xQueueSend( xQueue_Terminal, &tempString, NULL );
-//                            xQueueSend( xQueue_Terminal, "System is in freeze state!!!\n", NULL );
-                              break;
-                    }
-                    xQueueSend( xQueue_FatFsOut, &FatFsQueueData, NULL );
-                }
-                break;
+                        // check if section exist
+                        fatFsStatus = CheckSectionINI( hwFatFsQueueData.iniInfoData.sectionName, hwFatFsQueueData.fileName );
+                        if ( fatFsStatus == FATFS_OK )
+                        {
+                            // check if key exist
+                            fatFsStatus = CheckKeyINI( hwFatFsQueueData.iniInfoData.keyName, hwFatFsQueueData.iniInfoData.sectionName, hwFatFsQueueData.fileName );
+                            if ( fatFsStatus == FATFS_OK )
+                            {
+                                // get key value
+                                switch ( hwFatFsQueueData.iniInfoData.keyType )
+                                {
+                                    case INI_KEY_INT:
+                                        ini_putl( hwFatFsQueueData.iniInfoData.sectionName, \
+                                                  hwFatFsQueueData.iniInfoData.keyName,     \
+                                                  hwFatFsQueueData.iniInfoData.intValue,    \
+                                                  hwFatFsQueueData.fileName );    
+                                        break;
                     
-            case FATFS_IDLE:
+                                    case INI_KEY_FLOAT:
+                                        ini_putf( hwFatFsQueueData.iniInfoData.sectionName, \
+                                                  hwFatFsQueueData.iniInfoData.keyName,     \
+                                                  hwFatFsQueueData.iniInfoData.floatValue,  \
+                                                  hwFatFsQueueData.fileName );    
+                                        break;
+                    	
+                                    case INI_KEY_STRING:
+                                        ini_puts( hwFatFsQueueData.iniInfoData.sectionName, \
+                                                  hwFatFsQueueData.iniInfoData.keyName,     \
+                                                  hwFatFsQueueData.iniInfoData.stringValue, \
+                                                  hwFatFsQueueData.fileName );
+                                        break;
+                    	
+                                    default:
+                                        break;
+                                }
+                            }
+                        }
+                    }
+                }                
+                hwFatFsQueueData.fatFsStatus = fatFsStatus;            
+                xQueueSend( xQueue_HwFatFs_Tx, &hwFatFsQueueData, NULL ); 
+                break;
+            }             
+
+                case HW_FATFS_IDLE:
                 break;
 
             default:
@@ -606,5 +518,100 @@ void vTask_HwFatFs( void *pvParameters )
         }
     }
 }
+
+
+
+
+
+
+//*************************************************
+//
+// Private function
+//
+// check if file exist
+//
+//*************************************************
+static FatFsStatus_t CheckFileExist( char *fileName )
+{
+    char filePath[ 80 ] = {""};
+    FatFsStatus_t fatFsStatus = FATFS_OK;
+    FRESULT fresult = FR_OK;
+
+    sprintf( filePath, "%s:/%s", VOLUME_NAME, fileName );
+    fresult = f_stat( filePath, NULL );
+    switch ( fresult )
+    {
+        case FR_OK:
+            fatFsStatus = FATFS_OK;
+            break;
+
+        case FR_NO_FILE:
+            fatFsStatus = FATFS_ERROR_FILE_NOT_FOUND;
+            break;
+                        
+        default:
+            sprintf( tempString, "CheckFileExist() - Error!\n"
+                                 "f_stat( %s, NULL) = %s\n", filePath, stringResult[ fresult ] );
+            HwAPI_Terminal_SendMessage( tempString );
+            fatFsStatus = FATFS_ERROR;
+            break;
+    }
+    return fatFsStatus;
+}
+
+
+
+//*************************************************
+//
+// Private function
+//
+// check if section exist in INI file
+//
+//*************************************************
+static FatFsStatus_t CheckSectionINI( char *sectionName, char *fileName )
+{
+    char filePath[ 80 ] = {""};
+    int32_t sectionIndex = 0;   
+    char sectionNameBuffer[ MAX_INI_SECTION_NAME_LENGTH ] = {""};
+
+    sprintf( filePath, "%s:/%s", VOLUME_NAME, fileName );
+
+    for ( sectionIndex = 0; ini_getsection( sectionIndex, sectionNameBuffer, MAX_INI_SECTION_NAME_LENGTH, filePath ) > 0; sectionIndex++ ){;}
+    if ( sectionIndex == 0 )
+    {
+        return FATFS_ERROR_INI_SECTION_NOT_FOUND;
+    }
+
+    return FATFS_OK;
+}
+
+
+
+//*************************************************
+//
+// Private function
+//
+// check if section exist in INI file
+//
+//*************************************************
+static FatFsStatus_t CheckKeyINI( char *keyName, char *sectionName, char *fileName )
+{
+    char filePath[ 80 ] = {""};
+    int32_t keyIndex = 0;   
+    char keyNameBuffer[ MAX_INI_SECTION_NAME_LENGTH ] = {""};
+
+    sprintf( filePath, "%s:/%s", VOLUME_NAME, fileName );
+
+    for ( keyIndex = 0; ini_getkey( sectionName, keyIndex, keyNameBuffer, MAX_INI_KEY_NAME_LENGTH, filePath ) > 0; keyIndex++ ){;}
+    if ( keyIndex == 0 )
+    {
+        return FATFS_ERROR_INI_KEY_NOT_FOUND;
+    }
+
+    return FATFS_OK;
+}
+
+
+
 
 /* End of file */

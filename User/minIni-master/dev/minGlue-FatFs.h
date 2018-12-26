@@ -41,3 +41,8 @@ static int ini_rename(TCHAR *source, const TCHAR *dest)
   drive = (drive == NULL) ? dest : drive + 1;
   return (f_rename(source, drive) == FR_OK);
 }
+
+/* for floating-point support, define additional types and functions */
+#define INI_REAL                        float
+#define ini_ftoa(string,value)          sprintf((string),"%f",(value))
+#define ini_atof(string)                (INI_REAL)strtod((string),NULL)

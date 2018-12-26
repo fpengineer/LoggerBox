@@ -11,6 +11,7 @@
 #ifndef _TS_HW_QUEUE_H_
 #define _TS_HW_QUEUE_H_
 
+#include "TS_task.h"
 #include "HwAPI.h"
 
 
@@ -29,7 +30,7 @@ typedef struct {
     char *textBuffer;
     char *fileName;
     uint8_t fileIndex;
-    INIInfoData_t iniInfoData
+    INIInfoData_t iniInfoData;
 } HwFatFsQueueData_t;
 
 /*

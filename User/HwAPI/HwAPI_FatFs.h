@@ -18,7 +18,16 @@
 
 
 
-#define MAX_FILES_TO_OPEN
+#define MAX_FILES_TO_OPEN   10
+
+#define MAX_INI_SECTION_NAME_LENGTH       50
+#define MAX_INI_KEY_NAME_LENGTH          50
+#define MAX_INI_KEY_STRING_VALUE_LENGTH   50
+
+
+
+
+#define VOLUME_NAME   "0"
 
 /* Exported types ------------------------------------------------------------*/
 typedef enum {
@@ -26,6 +35,7 @@ typedef enum {
     FATFS_ERROR,
     FATFS_ERROR_NO_SD_CARD,
     FATFS_ERROR_INI_KEY_NOT_FOUND,
+    FATFS_ERROR_INI_SECTION_NOT_FOUND,
     FATFS_ERROR_FILE_NOT_FOUND
 } FatFsStatus_t;
 
@@ -43,8 +53,8 @@ enum KeyType {
 };
 
 typedef struct {
-    char *nameSection;
-    char *nameKey;
+    char *sectionName;
+    char *keyName;
     int32_t intValue;
     float floatValue;
     char *stringValue;

@@ -638,14 +638,14 @@
               <FilePath>.\User\minIni-master\dev\minGlue-FatFs.h</FilePath>
             </File>
             <File>
-              <FileName>minIni.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\minIni-master\dev\minIni.c</FilePath>
-            </File>
-            <File>
               <FileName>minIni.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\User\minIni-master\dev\minIni.h</FilePath>
+            </File>
+            <File>
+              <FileName>minIni.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\minIni-master\dev\minIni.c</FilePath>
             </File>
           </Files>
         </Group>
