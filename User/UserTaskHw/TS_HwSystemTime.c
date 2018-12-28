@@ -21,21 +21,19 @@
 /* Include my libraries here */
 #include "defines.h"
 #include "tm_stm32f4_rtc.h"
-#include "Config.h"
-#include "SystemTime.h"
 
-#include "TS_task.h"
+#include "HwAPI.h"
 #include "TS_HwQueue.h"
+#include "TS_task.h"
 
-static char tempString[150] = {""}; 
+
+
+//static char tempString[150] = {""}; 
 
 void vTask_HwSystemTime( void *pvParameters )
 {
-    extern QueueHandle_t xQueue_Terminal;
-    extern QueueHandle_t xQueue_SystemTimeIn;
-    extern QueueHandle_t xQueue_SystemTimeOut;
     HwSystemTimeQueueData_t SystemTimeQueueData;
-    TM_RTC_Time_t datatime;    
+//    TM_RTC_Time_t datatime;    
 
 	if ( !TM_RTC_Init( TM_RTC_ClockSource_External ) ) {
 		/* RTC was first time initialized */
@@ -58,7 +56,7 @@ void vTask_HwSystemTime( void *pvParameters )
 
 	while( 1 )
 	{
-        xQueueReceive( xQueue_SystemTimeIn, &SystemTimeQueueData, portMAX_DELAY );
+        xQueueReceive( xQueue_HwSystemTime_Rx, &SystemTimeQueueData, portMAX_DELAY );
         switch (SystemTimeQueueData.stateHwSystemTime)
         {
             case HW_SYSTEM_TIME_SET:
@@ -67,7 +65,7 @@ void vTask_HwSystemTime( void *pvParameters )
         
             case HW_SYSTEM_TIME_GET:
                 TM_RTC_GetDateTime(&SystemTimeQueueData.datatime, TM_RTC_Format_BIN);
-                xQueueSend( xQueue_SystemTimeOut, &SystemTimeQueueData, NULL );
+                xQueueSend( xQueue_HwSystemTime_Tx, &SystemTimeQueueData, NULL );
                 break;
         
             case HW_SYSTEM_TIME_IDLE:
