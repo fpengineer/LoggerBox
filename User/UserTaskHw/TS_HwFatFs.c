@@ -8,6 +8,10 @@
     Overview: Task - FatFs
 
 *******************************************************************************************************/
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 #include "FreeRTOS.h"
 #include "task.h"
 #include "queue.h"
@@ -18,20 +22,12 @@
 #include "defines.h"
 #include "tm_stm32f4_rtc.h"
 #include "tm_stm32f4_fatfs.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 #include "HwAPI.h"
 #include "TS_HwQueue.h"
 #include "TS_task.h"
 
 #include "minIni.h"
-//#include "Config.h"
-#include "Measure.h"
-//#include "MeasureString.h"
-
-
 
 // Declare private functions
 static FatFsStatus_t CheckFileExist( char *fileName );
