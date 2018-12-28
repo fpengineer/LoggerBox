@@ -25,7 +25,8 @@ typedef struct {
 typedef struct {
     enum stateHwFatFs stateHwFatFs;
     FatFsStatus_t fatFsStatus;
-    SDCardStatus_t sdCardStatus;
+    FatFsEnable_t fatFsEnable;
+//    SDCardStatus_t sdCardStatus;
 
     char *textBuffer;
     char *fileName;

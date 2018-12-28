@@ -45,6 +45,11 @@ typedef enum {
     SD_CARD_NOT_INSERT
 } SDCardStatus_t;
 
+typedef enum {
+    FATFS_ENABLE,
+    FATFS_DISABLE
+} FatFsEnable_t;
+
 
 enum KeyType {
   INI_KEY_INT,

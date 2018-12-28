@@ -71,22 +71,24 @@ static char *stringResult [20] = {
 static FATFS FatFs;
 /* File object */
 static FIL fileObjectSet[ MAX_FILES_TO_OPEN ];
-static FIL fileConfig;
-static FILINFO fno;
-static DIR dir;
+//static FIL fileConfig;
+//static FILINFO fno;
+//static DIR dir;
 static FRESULT result = FR_NOT_READY;
 
 static char tempString[450] = {""}; 
-static char headerString[1800] = {""}; 
-static char measureString[1800] = {""}; 
+//static char headerString[1800] = {""}; 
+//static char measureString[1800] = {""}; 
 static char filePath[80] = {""}; 
 
 
 void vTask_HwFatFs( void *pvParameters )
 {
     HwFatFsQueueData_t hwFatFsQueueData;
-    SDCardStatus_t sdCardStatus = SD_CARD_NOT_INSERT;
+//    SDCardStatus_t sdCardStatus = SD_CARD_NOT_INSERT;
     FatFsStatus_t fatFsStatus = FATFS_ERROR_NO_SD_CARD;
+    FatFsEnable_t fatFsEnable = FATFS_DISABLE;
+    
 
     hwFatFsQueueData.stateHwFatFs = HW_FATFS_INIT;            
     xQueueSend( xQueue_HwFatFs_Rx, &hwFatFsQueueData, NULL ); 
@@ -107,12 +109,12 @@ void vTask_HwFatFs( void *pvParameters )
 
             case HW_FATFS_GET_STATUS:
             {
-                hwFatFsQueueData.sdCardStatus = sdCardStatus;            
+                hwFatFsQueueData.fatFsEnable = fatFsEnable;            
                 hwFatFsQueueData.fatFsStatus = fatFsStatus;            
                 xQueueSend( xQueue_HwFatFs_Tx, &hwFatFsQueueData, NULL ); 
                 break;
             }
-
+            
             case HW_FATFS_INIT_SD_CARD:
             {    
                 HwAPI_Terminal_SendMessage( "TS_HwFatFs: Initialize SD Card\n" );
@@ -126,10 +128,12 @@ void vTask_HwFatFs( void *pvParameters )
                 {
                     case FR_OK:
                         fatFsStatus = FATFS_OK;
+                        fatFsEnable = FATFS_ENABLE;
                         break;
 
                     default:
                         fatFsStatus = FATFS_ERROR;
+                        fatFsEnable = FATFS_DISABLE;
                         sprintf( tempString, "TS_HwFatFs: HW_FATFS_INIT_SD_CARD Error!\n"
                                              "f_mount = %s\n", stringResult[ result ] );
                         HwAPI_Terminal_SendMessage( tempString );
@@ -138,7 +142,7 @@ void vTask_HwFatFs( void *pvParameters )
                 hwFatFsQueueData.fatFsStatus = fatFsStatus;            
                 xQueueSend( xQueue_HwFatFs_Tx, &hwFatFsQueueData, NULL ); 
 
-#if 0
+#if 0 // old initialization
                     result = f_stat("0:/config.ini", NULL);
                         switch ( result )
                         {
@@ -222,6 +226,8 @@ void vTask_HwFatFs( void *pvParameters )
                 //xQueueReset( xQueue_HwFatFs_Rx );
 
                 fatFsStatus = FATFS_ERROR_NO_SD_CARD;
+                fatFsEnable = FATFS_DISABLE;
+                hwFatFsQueueData.fatFsEnable = fatFsEnable;            
                 hwFatFsQueueData.fatFsStatus = fatFsStatus;            
                 xQueueSend( xQueue_HwFatFs_Tx, &hwFatFsQueueData, NULL ); 
                 break;
@@ -230,7 +236,7 @@ void vTask_HwFatFs( void *pvParameters )
                     
             case HW_FATFS_CREATE_FILE:
             {    
-                if ( fatFsStatus == FATFS_OK )
+                if ( fatFsEnable == FATFS_ENABLE )
                 {
                     f_close( &fileObjectSet[ hwFatFsQueueData.fileIndex ] );
                     sprintf( filePath, "0:/%s", hwFatFsQueueData.fileName );
@@ -261,7 +267,7 @@ void vTask_HwFatFs( void *pvParameters )
 
             case HW_FATFS_CHECK_FILE_EXIST:
             {    
-                if ( fatFsStatus == FATFS_OK )
+                if ( fatFsEnable == FATFS_ENABLE )
                 {
                     sprintf( filePath, "0:/%s", hwFatFsQueueData.fileName );
                     result = f_stat( filePath, NULL );
@@ -293,7 +299,7 @@ void vTask_HwFatFs( void *pvParameters )
 
             case HW_FATFS_OPEN_FILE:
             {    
-                if ( fatFsStatus == FATFS_OK )
+                if ( fatFsEnable == FATFS_ENABLE )
                 {
                     f_close( &fileObjectSet[ hwFatFsQueueData.fileIndex ] );
                     sprintf( filePath, "0:/%s", hwFatFsQueueData.fileName );
@@ -327,7 +333,7 @@ void vTask_HwFatFs( void *pvParameters )
 
             case HW_FATFS_CLOSE_FILE:
             {    
-                if ( fatFsStatus == FATFS_OK )
+                if ( fatFsEnable == FATFS_ENABLE )
                 {
                     result = f_close( &fileObjectSet[ hwFatFsQueueData.fileIndex ] );
                     
@@ -354,7 +360,7 @@ void vTask_HwFatFs( void *pvParameters )
 
             case HW_FATFS_WRITE_FILE:
             {    
-                if ( fatFsStatus == FATFS_OK )
+                if ( fatFsEnable == FATFS_ENABLE )
                 {
                     result = f_lseek( &fileObjectSet[ hwFatFsQueueData.fileIndex ],
                                       f_size( &fileObjectSet[ hwFatFsQueueData.fileIndex ] ) );
@@ -405,7 +411,7 @@ void vTask_HwFatFs( void *pvParameters )
 
             case HW_FATFS_GET_KEY_INI:
             {
-                if ( fatFsStatus == FATFS_OK )
+                if ( fatFsEnable == FATFS_ENABLE )
                 {
                     // check if file exist
                     fatFsStatus = CheckFileExist( hwFatFsQueueData.fileName );
@@ -423,16 +429,16 @@ void vTask_HwFatFs( void *pvParameters )
                                 switch ( hwFatFsQueueData.iniInfoData.keyType )
                                 {
                                     case INI_KEY_INT:
-                                        hwFatFsQueueData.iniInfoData.intValue = ini_getl( hwFatFsQueueData.iniInfoData.sectionName, \
-                                                                                          hwFatFsQueueData.iniInfoData.keyName,     \
-                                                                                          -1,                                       \
+                                        hwFatFsQueueData.iniInfoData.intValue = ini_getl( hwFatFsQueueData.iniInfoData.sectionName, 
+                                                                                          hwFatFsQueueData.iniInfoData.keyName,     
+                                                                                          -1,                                       
                                                                                           hwFatFsQueueData.fileName );    
                                         break;
                     
                                     case INI_KEY_FLOAT:
-                                        hwFatFsQueueData.iniInfoData.floatValue = ini_getf( hwFatFsQueueData.iniInfoData.sectionName, \
-                                                                                          hwFatFsQueueData.iniInfoData.keyName,     \
-                                                                                          0.0f,                                       \
+                                        hwFatFsQueueData.iniInfoData.floatValue = ini_getf( hwFatFsQueueData.iniInfoData.sectionName, 
+                                                                                          hwFatFsQueueData.iniInfoData.keyName,     
+                                                                                          0.0f,                                       
                                                                                           hwFatFsQueueData.fileName );    
                                         break;
                     	
@@ -460,7 +466,7 @@ void vTask_HwFatFs( void *pvParameters )
                     
             case HW_FATFS_PUT_KEY_INI:
             {
-                if ( fatFsStatus == FATFS_OK )
+                if ( fatFsEnable == FATFS_ENABLE )
                 {
                     // check if file exist
                     fatFsStatus = CheckFileExist( hwFatFsQueueData.fileName );
