@@ -28,6 +28,12 @@
 #ifndef TM_DEFINES_H
 #define TM_DEFINES_H
 
+//Disable EXTI0_IRQHandler function
+#define TM_EXTI_DISABLE_DEFAULT_HANDLER_0
+//Disable EXTI3_IRQHandler function
+#define TM_EXTI_DISABLE_DEFAULT_HANDLER_3
+
+
 /* Put your global defines for all libraries here used in your project */
 /* Use SPI communication with SDCard */
 #define    FATFS_USE_SDIO                0

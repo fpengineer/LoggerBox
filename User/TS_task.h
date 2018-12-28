@@ -81,27 +81,30 @@ enum stateHwMeasureFrequency {
     HW_MEASURE_FREQUENCY_IDLE
 };
 
-enum stateStatusLed {
+enum stateHwStatusLed {
     HW_STATUS_LED_ON,
     HW_STATUS_LED_OFF,
     HW_STATUS_LED_FLASH,
     HW_STATUS_LED_IDLE
 };
 
-enum stateSDCardLed {
+enum stateHwSDCardLed {
     HW_SDCARD_LED_ON,
     HW_SDCARD_LED_OFF,
     HW_SDCARD_LED_FLASH,
     HW_SDCARD_LWD_IDLE
 };
 
-enum stateRunButton {
+enum stateHwRunButton {
     HW_RUN_BUTTON_GET,
     HW_RUN_BUTTON_IDLE
 };
 
-enum stateSDCardDetect {
+enum stateHwSDCardDetect {
+    HW_SDCARD_DETECT_INIT,
     HW_SDCARD_DETECT_GET,
+    HW_SDCARD_DETECT_INSERT,
+    HW_SDCARD_DETECT_REMOVE,
     HW_SDCARD_DETECT_IDLE
 };
 

@@ -74,6 +74,8 @@ QueueHandle_t xQueue_HwStatusLED_Rx;
 QueueHandle_t xQueue_HwSDCardLED_Rx;
 QueueHandle_t xQueue_HwRunButton_Rx;
 QueueHandle_t xQueue_HwRunButton_Tx;
+QueueHandle_t xQueue_HwSDCardDetect_Rx;
+QueueHandle_t xQueue_HwSDCardDetect_Tx;
 
 
 

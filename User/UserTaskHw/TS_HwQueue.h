@@ -34,6 +34,11 @@ typedef struct {
     INIInfoData_t iniInfoData;
 } HwFatFsQueueData_t;
 
+typedef struct {
+    enum stateHwSDCardDetect stateHwSDCardDetect;
+    SDCardDetectStatus_t sdCardDetectStatus;
+} HwSDCardDetectQueueData_t;
+
 /*
 typedef struct {
     enum stateHwRelay stateHwRelay;
@@ -73,9 +78,6 @@ typedef struct {
     enum stateHwRunButton stateHwRunButton;
 } HwRunButtonQueueData_t;
 
-typedef struct {
-    enum stateHwSDCArdDetect stateHwSDCardDetect;
-} HwSDCardDetectQueueData_t;
 */
 
 
@@ -94,6 +96,8 @@ extern QueueHandle_t xQueue_HwStatusLED_Rx;
 extern QueueHandle_t xQueue_HwSDCardLED_Rx;
 extern QueueHandle_t xQueue_HwRunButton_Rx;
 extern QueueHandle_t xQueue_HwRunButton_Tx;
+extern QueueHandle_t xQueue_HwSDCardDetect_Rx;
+extern QueueHandle_t xQueue_HwSDCardDetect_Tx;
 
 #endif /* _TS_HW_EXTERN_QUEUE_H_ */
 /* End of file */

@@ -20,6 +20,7 @@
 #include "HwAPI_SystemTime.h"
 #include "HwAPI_Terminal.h"
 #include "HwAPI_FatFs.h"
+#include "HwAPI_SDCardDetect.h"
 //#include "HwAPI_Relay.h"
 //#include "HwAPI_Source.h"
 //#include "HwAPI_MeasureADC.h"

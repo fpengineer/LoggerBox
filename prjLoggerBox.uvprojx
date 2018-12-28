@@ -737,6 +737,11 @@
               <FileType>1</FileType>
               <FilePath>.\User\HwAPI\HwAPI_FatFs.c</FilePath>
             </File>
+            <File>
+              <FileName>HwAPI_SDCardDetect.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\HwAPI\HwAPI_SDCardDetect.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -792,6 +797,11 @@
               <FileType>1</FileType>
               <FilePath>.\User\UserTaskHw\TS_HwFatFs.c</FilePath>
             </File>
+            <File>
+              <FileName>TS_HwSDCardDetect.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\UserTaskHw\TS_HwSDCardDetect.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -806,53 +816,6 @@
         </Group>
         <Group>
           <GroupName>ConfigFile</GroupName>
-          <Files>
-            <File>
-              <FileName>SystemTime.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\Config\SystemTime.c</FilePath>
-            </File>
-            <File>
-              <FileName>SystemTime.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\User\Config\SystemTime.h</FilePath>
-            </File>
-            <File>
-              <FileName>Config.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\User\Config\Config.h</FilePath>
-            </File>
-            <File>
-              <FileName>MeasurePlan.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\Config\MeasurePlan.c</FilePath>
-            </File>
-            <File>
-              <FileName>MeasurePlan.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\User\Config\MeasurePlan.h</FilePath>
-            </File>
-            <File>
-              <FileName>MeasureEnable.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\Config\MeasureEnable.c</FilePath>
-            </File>
-            <File>
-              <FileName>MeasureEnable.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\User\Config\MeasureEnable.h</FilePath>
-            </File>
-            <File>
-              <FileName>DatafileSettings.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\Config\DatafileSettings.c</FilePath>
-            </File>
-            <File>
-              <FileName>DatafileSettings.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\User\Config\DatafileSettings.h</FilePath>
-            </File>
-          </Files>
         </Group>
         <Group>
           <GroupName>MeasureFile</GroupName>
@@ -891,16 +854,6 @@
               <FileName>Relay.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\Measure\Relay.c</FilePath>
-            </File>
-            <File>
-              <FileName>MeasureString.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\Measure\MeasureString.c</FilePath>
-            </File>
-            <File>
-              <FileName>MeasureString.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\User\Measure\MeasureString.h</FilePath>
             </File>
             <File>
               <FileName>Frequency_PWM.c</FileName>
