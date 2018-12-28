@@ -33,7 +33,9 @@
 //#define INI_READONLY
 #define INI_ANSIONLY
 
+#include <string.h>
 #include "minIni.h"
+
 #if defined NDEBUG
   #define assert(e)
 #else
@@ -44,6 +46,7 @@
   #include <ctype.h>
   #include <string.h>
   #include <stdlib.h>
+  #include <stdio.h>
   #define TCHAR     char
   #define __T(s)    s
   #define _tcscat   strcat

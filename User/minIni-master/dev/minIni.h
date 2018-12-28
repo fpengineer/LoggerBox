@@ -19,6 +19,7 @@
 #ifndef MININI_H
 #define MININI_H
 
+#include <string.h>
 #include "minGlue-FatFs.h"
 
 #if (defined _UNICODE || defined __UNICODE__ || defined UNICODE) && !defined INI_ANSIONLY
