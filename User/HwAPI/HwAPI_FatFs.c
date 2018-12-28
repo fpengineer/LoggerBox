@@ -17,7 +17,6 @@
 #include "task.h"
 #include "queue.h"
 
-#include "TS_queue.h"
 #include "TS_HwQueue.h"
 
 #include "HwAPI.h"
@@ -30,8 +29,8 @@ FatFsStatus_t HwAPI_FatFs_INI_GetKeyInt( char *nameSection, char *nameKey, char 
    
     hwFatFsQueueData.stateHwFatFs = HW_FATFS_GET_KEY_INI;
     hwFatFsQueueData.fileName = fileName;
-    hwFatFsQueueData.iniInfoData.nameKey = nameKey;
-    hwFatFsQueueData.iniInfoData.nameSection = nameSection;
+    hwFatFsQueueData.iniInfoData.keyName = nameKey;
+    hwFatFsQueueData.iniInfoData.sectionName = nameSection;
     hwFatFsQueueData.iniInfoData.keyType = INI_KEY_INT;
     
     xQueueSend( xQueue_HwFatFs_Rx, &hwFatFsQueueData, NULL );
@@ -50,8 +49,8 @@ FatFsStatus_t HwAPI_FatFs_INI_GetKeyFloat( char *nameSection, char *nameKey, cha
    
     hwFatFsQueueData.stateHwFatFs = HW_FATFS_GET_KEY_INI;
     hwFatFsQueueData.fileName = fileName;
-    hwFatFsQueueData.iniInfoData.nameKey = nameKey;
-    hwFatFsQueueData.iniInfoData.nameSection = nameSection;
+    hwFatFsQueueData.iniInfoData.keyName = nameKey;
+    hwFatFsQueueData.iniInfoData.sectionName = nameSection;
     hwFatFsQueueData.iniInfoData.keyType = INI_KEY_FLOAT;
     
     xQueueSend( xQueue_HwFatFs_Rx, &hwFatFsQueueData, NULL );
@@ -70,17 +69,15 @@ FatFsStatus_t HwAPI_FatFs_INI_GetKeyString( char *nameSection, char *nameKey, ch
    
     hwFatFsQueueData.stateHwFatFs = HW_FATFS_GET_KEY_INI;
     hwFatFsQueueData.fileName = fileName;
-    hwFatFsQueueData.iniInfoData.nameKey = nameKey;
-    hwFatFsQueueData.iniInfoData.nameSection = nameSection;
+    hwFatFsQueueData.iniInfoData.keyName = nameKey;
+    hwFatFsQueueData.iniInfoData.sectionName = nameSection;
     hwFatFsQueueData.iniInfoData.keyType = INI_KEY_STRING;
+    hwFatFsQueueData.iniInfoData.stringValue = data;
     
     xQueueSend( xQueue_HwFatFs_Rx, &hwFatFsQueueData, NULL );
     xQueueReceive( xQueue_HwFatFs_Tx, &hwFatFsQueueData, portMAX_DELAY );
 
-    data = hwFatFsQueueData.iniInfoData.stringValue;
-
     return hwFatFsQueueData.fatFsStatus;
-
 }
 
 //
@@ -90,8 +87,8 @@ FatFsStatus_t HwAPI_FatFs_INI_PutKeyInt( char *nameSection, char *nameKey, char 
    
     hwFatFsQueueData.stateHwFatFs = HW_FATFS_PUT_KEY_INI;
     hwFatFsQueueData.fileName = fileName;
-    hwFatFsQueueData.iniInfoData.nameKey = nameKey;
-    hwFatFsQueueData.iniInfoData.nameSection = nameSection;
+    hwFatFsQueueData.iniInfoData.keyName = nameKey;
+    hwFatFsQueueData.iniInfoData.sectionName = nameSection;
     hwFatFsQueueData.iniInfoData.keyType = INI_KEY_INT;
     hwFatFsQueueData.iniInfoData.intValue = data;
     
@@ -110,8 +107,8 @@ FatFsStatus_t HwAPI_FatFs_INI_PutKeyFloat( char *nameSection, char *nameKey, cha
    
     hwFatFsQueueData.stateHwFatFs = HW_FATFS_PUT_KEY_INI;
     hwFatFsQueueData.fileName = fileName;
-    hwFatFsQueueData.iniInfoData.nameKey = nameKey;
-    hwFatFsQueueData.iniInfoData.nameSection = nameSection;
+    hwFatFsQueueData.iniInfoData.keyName = nameKey;
+    hwFatFsQueueData.iniInfoData.sectionName = nameSection;
     hwFatFsQueueData.iniInfoData.keyType = INI_KEY_FLOAT;
     hwFatFsQueueData.iniInfoData.floatValue = data;
     
@@ -129,8 +126,8 @@ FatFsStatus_t HwAPI_FatFs_INI_PutKeyString( char *nameSection, char *nameKey, ch
    
     hwFatFsQueueData.stateHwFatFs = HW_FATFS_PUT_KEY_INI;
     hwFatFsQueueData.fileName = fileName;
-    hwFatFsQueueData.iniInfoData.nameKey = nameKey;
-    hwFatFsQueueData.iniInfoData.nameSection = nameSection;
+    hwFatFsQueueData.iniInfoData.keyName = nameKey;
+    hwFatFsQueueData.iniInfoData.sectionName = nameSection;
     hwFatFsQueueData.iniInfoData.keyType = INI_KEY_STRING;
     hwFatFsQueueData.iniInfoData.stringValue = data;
     
@@ -214,6 +211,28 @@ FatFsStatus_t HwAPI_FatFs_WriteTextFile( char *fileName, char *textData )
     xQueueReceive( xQueue_HwFatFs_Tx, &hwFatFsQueueData, portMAX_DELAY );
 
     return hwFatFsQueueData.fatFsStatus;
+}
+
+
+//
+void HwAPI_FatFs_InitSDCard( void )
+{
+    HwFatFsQueueData_t hwFatFsQueueData;
+   
+    hwFatFsQueueData.stateHwFatFs = HW_FATFS_INIT_SD_CARD;
+        
+    xQueueSend( xQueue_HwFatFs_Rx, &hwFatFsQueueData, NULL );
+}
+
+
+//
+void HwAPI_FatFs_DeinitSDCard( void )
+{
+    HwFatFsQueueData_t hwFatFsQueueData;
+   
+    hwFatFsQueueData.stateHwFatFs = HW_FATFS_DEINIT_SD_CARD;
+        
+    xQueueSend( xQueue_HwFatFs_Rx, &hwFatFsQueueData, NULL );
 }
 
 

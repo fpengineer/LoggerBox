@@ -41,11 +41,6 @@ typedef enum {
 
 
 typedef enum {
-    SD_CARD_INSERT,
-    SD_CARD_NOT_INSERT
-} SDCardStatus_t;
-
-typedef enum {
     FATFS_ENABLE,
     FATFS_DISABLE
 } FatFsEnable_t;
@@ -82,6 +77,9 @@ FatFsStatus_t HwAPI_FatFs_CheckFileExist( char *fileName );
 FatFsStatus_t HwAPI_FatFs_OpenFile( char *fileName );
 FatFsStatus_t HwAPI_FatFs_CloseFile( char *fileName );
 FatFsStatus_t HwAPI_FatFs_WriteTextFile( char *fileName, char *textData );
+
+void HwAPI_FatFs_InitSDCard( void );
+void HwAPI_FatFs_DeinitSDCard( void );
 
 
 
