@@ -7,8 +7,8 @@
 *******************************************************************************************************/
 
 
-#ifndef _HW_API_H_
-#define _HW_API_H_
+#ifndef _HWAPI_H_
+#define _HWAPI_H_
 
 /* Includes ------------------------------------------------------------------*/
 #include <stdint.h>
@@ -21,8 +21,8 @@
 #include "HwAPI_Terminal.h"
 #include "HwAPI_FatFs.h"
 #include "HwAPI_SDCardDetect.h"
+#include "HwAPI_VoltageSource.h"
 //#include "HwAPI_Relay.h"
-//#include "HwAPI_Source.h"
 //#include "HwAPI_MeasureADC.h"
 //#include "HwAPI_Frequency.h"
 //#include "HwAPI_LED.h"
