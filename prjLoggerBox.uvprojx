@@ -836,16 +836,6 @@
               <FilePath>.\User\Measure\Measure.h</FilePath>
             </File>
             <File>
-              <FileName>Source.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\User\Measure\Source.h</FilePath>
-            </File>
-            <File>
-              <FileName>Source.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\Measure\Source.c</FilePath>
-            </File>
-            <File>
               <FileName>Voltmeter.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\User\Measure\Voltmeter.h</FilePath>
