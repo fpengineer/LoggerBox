@@ -39,19 +39,19 @@ typedef struct {
     SDCardDetectStatus_t sdCardDetectStatus;
 } HwSDCardDetectQueueData_t;
 
+typedef struct {
+    enum stateHwVoltageSource stateHwVoltageSource;
+    NSource_t nSource;
+    ValueAD56x0_t valueDAC;
+} HwVoltageSourceQueueData_t;
+
+
 /*
 typedef struct {
     enum stateHwRelay stateHwRelay;
     uint8_t relay;
 } HwRelayQueueData_t;
 
-typedef struct {
-    enum stateHwSource stateHwSource;
-    float valueVoltage_G1;
-    float valueVoltage_G2;
-    float valueVoltage_G3;
-    float valueVoltage_G4;
-} HwSourceQueueData_t;
 
 typedef struct {
     enum stateHwMeasureADC stateHwMeasureADC;
@@ -87,7 +87,7 @@ extern QueueHandle_t xQueue_HwSystemTime_Rx;
 extern QueueHandle_t xQueue_HwSystemTime_Tx;
 extern QueueHandle_t xQueue_HwTerminal_Rx;
 extern QueueHandle_t xQueue_HwRelay_Rx;
-extern QueueHandle_t xQueue_HwSource_Rx;
+extern QueueHandle_t xQueue_HwVoltageSource_Rx;
 extern QueueHandle_t xQueue_HwMeasureADC_Rx;
 extern QueueHandle_t xQueue_HwMeasureADC_Tx;
 extern QueueHandle_t xQueue_HwMeasureFrequency_Rx;
