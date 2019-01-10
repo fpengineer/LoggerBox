@@ -54,6 +54,10 @@ void vTask_HwVoltageSource( void *pvParameters )
             case HW_VOLTAGE_SOURCE_INIT:
             {
 				InitVoltageSourceHardware();
+                SetSourceValue( NSOURCE_1, 0 );
+                SetSourceValue( NSOURCE_2, 0 );
+                SetSourceValue( NSOURCE_3, 0 );
+                SetSourceValue( NSOURCE_4, 0 );
 				break;
             }
 
