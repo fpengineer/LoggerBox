@@ -742,6 +742,11 @@
               <FileType>1</FileType>
               <FilePath>.\User\HwAPI\HwAPI_SDCardDetect.c</FilePath>
             </File>
+            <File>
+              <FileName>HwAPI_VoltageSource.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\HwAPI\HwAPI_VoltageSource.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -801,6 +806,11 @@
               <FileName>TS_HwSDCardDetect.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\UserTaskHw\TS_HwSDCardDetect.c</FilePath>
+            </File>
+            <File>
+              <FileName>TS_HwVoltageSource.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\UserTaskHw\TS_HwVoltageSource.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -889,6 +899,16 @@
               <FileName>EXT_Signal.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\User\Utilites\EXT_Signal.h</FilePath>
+            </File>
+            <File>
+              <FileName>AD56x0.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\Utilites\AD56x0.c</FilePath>
+            </File>
+            <File>
+              <FileName>delay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\Utilites\delay.c</FilePath>
             </File>
           </Files>
         </Group>
