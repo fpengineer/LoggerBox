@@ -29,7 +29,6 @@
 // Include application
 #include "TS_task.h"
 #include "TS_queue.h"
-#include "Config.h"
 #include "Measure.h"
 #include "ClockOutMCO.h"
 
@@ -50,7 +49,7 @@ TaskHandle_t xTask_HwFatFs;
 TaskHandle_t xTask_HwSystemTime;
 TaskHandle_t xTask_HwTerminal;
 TaskHandle_t xTask_HwRelay;
-TaskHandle_t xTask_HwSource;
+TaskHandle_t xTask_HwVoltageSource;
 TaskHandle_t xTask_HwMeasureADC;
 TaskHandle_t xTask_HwMeasureFrequency;
 TaskHandle_t xTask_HwStatusLED;
@@ -65,7 +64,7 @@ QueueHandle_t xQueue_HwSystemTime_Rx;
 QueueHandle_t xQueue_HwSystemTime_Tx;
 QueueHandle_t xQueue_HwTerminal_Rx;
 QueueHandle_t xQueue_HwRelay_Rx;
-QueueHandle_t xQueue_HwSource_Rx;
+QueueHandle_t xQueue_HwVoltageSource_Rx;
 QueueHandle_t xQueue_HwMeasureADC_Rx;
 QueueHandle_t xQueue_HwMeasureADC_Tx;
 QueueHandle_t xQueue_HwMeasureFrequency_Rx;
@@ -182,12 +181,12 @@ int main(void) {
                                 &xTask_HwRelay )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
 #endif
 #if 0       // HwSource
-	if( pdTRUE != xTaskCreate(  vTask_HwSource,
-                                "Task - HwSource",
+	if( pdTRUE != xTaskCreate(  vTask_HwVoltageSource,
+                                "Task - HwVoltageSource",
                                 configMINIMAL_STACK_SIZE,
                                 NULL,
                                 tskIDLE_PRIORITY + 1,
-                                &xTask_HwSource )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
+                                &xTask_HwVoltageSource )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
 #endif
 #if 0       // HwMeasureADC
 	if( pdTRUE != xTaskCreate(  vTask_HwMeasureADC,
