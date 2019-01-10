@@ -64,11 +64,12 @@ enum stateHwRelay {
     HW_RELAY_IDLE
 };
 
-enum stateHwSource {
-    HW_SOURCE_SET,
-    HW_SOURCE_CLEAR,
-    HW_SOURCE_CLEAR_ALL,
-    HW_SOURCE_IDLE
+enum stateHwVoltageSource {
+    HW_VOLTAGE_SOURCE_INIT,
+    HW_VOLTAGE_SOURCE_SET,
+    HW_VOLTAGE_SOURCE_CLEAR,
+    HW_VOLTAGE_SOURCE_CLEAR_ALL,
+    HW_VOLTAGE_SOURCE_IDLE
 };
 
 enum stateHwMeasureADC {
