@@ -22,7 +22,7 @@
 #include "HwAPI_FatFs.h"
 #include "HwAPI_SDCardDetect.h"
 #include "HwAPI_VoltageSource.h"
-//#include "HwAPI_Relay.h"
+#include "HwAPI_Relay.h"
 //#include "HwAPI_MeasureADC.h"
 //#include "HwAPI_Frequency.h"
 //#include "HwAPI_LED.h"
