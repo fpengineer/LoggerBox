@@ -5,7 +5,7 @@
     Date: 
     Author: Filipp Popov
 
-    Overview: Task - FatFs
+    Overview: Task - Hw Voltage Source
 
 *******************************************************************************************************/
 #include <stdio.h>
