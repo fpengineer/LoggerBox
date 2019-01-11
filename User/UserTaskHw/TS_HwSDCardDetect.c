@@ -5,7 +5,7 @@
     Date: 
     Author: Filipp Popov
 
-    Overview: Task - FatFs
+    Overview: Task - Hw SD Card Detect
 
 *******************************************************************************************************/
 #include "FreeRTOS.h"
