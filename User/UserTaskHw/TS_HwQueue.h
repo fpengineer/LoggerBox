@@ -45,6 +45,11 @@ typedef struct {
     ValueAD56x0_t valueDAC;
 } HwVoltageSourceQueueData_t;
 
+typedef struct {
+    enum stateHwRelay stateHwRelay;
+    NRelay_t nRelay;
+} HwRelayQueueData_t;
+
 
 /*
 typedef struct {
