@@ -747,6 +747,11 @@
               <FileType>1</FileType>
               <FilePath>.\User\HwAPI\HwAPI_VoltageSource.c</FilePath>
             </File>
+            <File>
+              <FileName>HwAPI_Relay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\HwAPI\HwAPI_Relay.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -812,6 +817,11 @@
               <FileType>1</FileType>
               <FilePath>.\User\UserTaskHw\TS_HwVoltageSource.c</FilePath>
             </File>
+            <File>
+              <FileName>TS_HwRelay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\UserTaskHw\TS_HwRelay.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -844,16 +854,6 @@
               <FileName>Voltmeter.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\Measure\Voltmeter.c</FilePath>
-            </File>
-            <File>
-              <FileName>Relay.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\User\Measure\Relay.h</FilePath>
-            </File>
-            <File>
-              <FileName>Relay.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\Measure\Relay.c</FilePath>
             </File>
             <File>
               <FileName>Frequency_PWM.c</FileName>
