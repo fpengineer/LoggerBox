@@ -58,6 +58,7 @@ enum stateHwSystemTime {
 };
 
 enum stateHwRelay {
+    HW_RELAY_INIT,
     HW_RELAY_SET,
     HW_RELAY_CLEAR,
     HW_RELAY_CLEAR_ALL,
