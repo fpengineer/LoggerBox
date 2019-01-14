@@ -197,6 +197,8 @@ static void InitVoltageSourceHardware( void )
 //*************************************************
 void SetSourceValue( NSource_t nSource, ValueAD56x0_t valueDAC )
 {
+    taskENTER_CRITICAL();
+
     switch ( nSource )
     {
         case NSOURCE_1:
@@ -231,7 +233,8 @@ void SetSourceValue( NSource_t nSource, ValueAD56x0_t valueDAC )
     SPI_I2S_SendData( SPI3, ( uint16_t )valueDAC & 0x00ff );
 //    delay_us( 5 );
     while( SPI_I2S_GetFlagStatus( SPI3, SPI_I2S_FLAG_BSY ) == SET ){;}
-    delay_us( 5 );
+    while( SPI_I2S_GetFlagStatus( SPI2, SPI_I2S_FLAG_RXNE ) == RESET ){;}
+//    delay_us( 5 );
 
 #elif defined( ad5660 )
     while( SPI_I2S_GetFlagStatus( SPI3, SPI_I2S_FLAG_TXE ) == RESET ){;}
@@ -244,9 +247,10 @@ void SetSourceValue( NSource_t nSource, ValueAD56x0_t valueDAC )
     SPI_I2S_SendData( SPI3, ( uint16_t )valueDAC & 0x00ff );
 //    delay_us( 5 );
     while( SPI_I2S_GetFlagStatus( SPI3, SPI_I2S_FLAG_BSY ) == SET ){;}
-    delay_us( 5 );
+    while( SPI_I2S_GetFlagStatus( SPI2, SPI_I2S_FLAG_RXNE ) == RESET ){;}
+//    delay_us( 5 );
 #endif        
-
+    
     switch ( nSource )
     {
         case NSOURCE_1:
@@ -272,6 +276,8 @@ void SetSourceValue( NSource_t nSource, ValueAD56x0_t valueDAC )
             DAC4_CS_1();
             break;
     }
+
+    taskEXIT_CRITICAL();
 }
 
 
