@@ -50,6 +50,14 @@ typedef struct {
     NRelay_t nRelay;
 } HwRelayQueueData_t;
 
+typedef struct {
+    enum stateHwDAQ_ADC stateHwDAQ_ADC;
+    NChannelADC_t nChannelADC;
+    NSourceADC_t nSourceADC;
+    ValueDAQ_ADC_t valueADC;
+    int32_t numberAverages;
+} HwDAQ_ADCQueueData_t;
+
 
 /*
 typedef struct {
@@ -93,8 +101,8 @@ extern QueueHandle_t xQueue_HwSystemTime_Tx;
 extern QueueHandle_t xQueue_HwTerminal_Rx;
 extern QueueHandle_t xQueue_HwRelay_Rx;
 extern QueueHandle_t xQueue_HwVoltageSource_Rx;
-extern QueueHandle_t xQueue_HwMeasureADC_Rx;
-extern QueueHandle_t xQueue_HwMeasureADC_Tx;
+extern QueueHandle_t xQueue_HwDAQ_ADC_Rx;
+extern QueueHandle_t xQueue_HwDAQ_ADC_Tx;
 extern QueueHandle_t xQueue_HwMeasureFrequency_Rx;
 extern QueueHandle_t xQueue_HwMeasureFrequency_Tx;
 extern QueueHandle_t xQueue_HwStatusLED_Rx;

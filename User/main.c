@@ -50,7 +50,7 @@ TaskHandle_t xTask_HwSystemTime;
 TaskHandle_t xTask_HwTerminal;
 TaskHandle_t xTask_HwRelay;
 TaskHandle_t xTask_HwVoltageSource;
-TaskHandle_t xTask_HwMeasureADC;
+TaskHandle_t xTask_HwDAQ_ADC;
 TaskHandle_t xTask_HwMeasureFrequency;
 TaskHandle_t xTask_HwStatusLED;
 TaskHandle_t xTask_HwSDCardLED;
@@ -65,8 +65,8 @@ QueueHandle_t xQueue_HwSystemTime_Tx;
 QueueHandle_t xQueue_HwTerminal_Rx;
 QueueHandle_t xQueue_HwRelay_Rx;
 QueueHandle_t xQueue_HwVoltageSource_Rx;
-QueueHandle_t xQueue_HwMeasureADC_Rx;
-QueueHandle_t xQueue_HwMeasureADC_Tx;
+QueueHandle_t xQueue_HwDAQ_ADC_Rx;
+QueueHandle_t xQueue_HwDAQ_ADC_Tx;
 QueueHandle_t xQueue_HwMeasureFrequency_Rx;
 QueueHandle_t xQueue_HwMeasureFrequency_Tx;
 QueueHandle_t xQueue_HwStatusLED_Rx;
@@ -189,12 +189,12 @@ int main(void) {
                                 &xTask_HwVoltageSource )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
 #endif
 #if 0       // HwMeasureADC
-	if( pdTRUE != xTaskCreate(  vTask_HwMeasureADC,
-                                "Task - HwMeasureADC",
+	if( pdTRUE != xTaskCreate(  vTask_HwDAQ_ADC,
+                                "Task - HwDAQ_ADC",
                                 configMINIMAL_STACK_SIZE,
                                 NULL,
                                 tskIDLE_PRIORITY + 1,
-                                &xTask_HwMeasureADC )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
+                                &xTask_HwDAQ_ADC )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
 #endif
 #if 0       // HwMeasureFrequency
 	if( pdTRUE != xTaskCreate(  vTask_HwMeasureFrequency,
@@ -238,11 +238,6 @@ int main(void) {
 #endif
 
     xQueueSend( xQueue_HwTerminal_Rx, "***********   LoggerBox   UF113.887   " SYSTEM_VERSION "   ***********\n", NULL );
-    xQueueSend( xQueue_HwTerminal_Rx, "Supported ICs:\n", NULL );
-    xQueueSend( xQueue_HwTerminal_Rx, "- 1290EF1 V1.0\n", NULL );
-    xQueueSend( xQueue_HwTerminal_Rx, "- Sila-I1 V1.0\n", NULL );
-    xQueueSend( xQueue_HwTerminal_Rx, "- IC2..9 V1.0\n", NULL );
-    xQueueSend( xQueue_HwTerminal_Rx, "- Minoga V1.0\n", NULL );
 
 
 

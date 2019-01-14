@@ -73,9 +73,12 @@ enum stateHwVoltageSource {
     HW_VOLTAGE_SOURCE_IDLE
 };
 
-enum stateHwMeasureADC {
-    HW_MEASURE_ADC_GET,
-    HW_MEASURE_ADC_IDLE
+enum stateHwDAQ_ADC {
+    HW_DAQ_ADC_INIT,
+    HW_DAQ_ADC_SELECT_INPUT,
+    HW_DAQ_ADC_GET_SINGLE,
+    HW_DAQ_ADC_GET_AVERAGED,
+    HW_DAQ_ADC_IDLE
 };
 
 enum stateHwMeasureFrequency {
