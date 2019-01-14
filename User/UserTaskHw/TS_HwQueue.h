@@ -53,8 +53,9 @@ typedef struct {
 typedef struct {
     enum stateHwDAQ_ADC stateHwDAQ_ADC;
     NChannelADC_t nChannelADC;
+    NSourceADC_t nSourceADC;
     ValueDAQ_ADC_t valueADC;
-    int32_t numberAverages
+    int32_t numberAverages;
 } HwDAQ_ADCQueueData_t;
 
 
