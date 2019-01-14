@@ -13,14 +13,14 @@
 
 #include <stdint.h>
 
-#if !defined (AD5620) && !defined (AD5640) && !defined (AD5660) 
+#if !defined( AD5620 ) && !defined( AD5640 ) && !defined( AD5660 ) 
   #define AD5620  /*!< AD5620: Single, 12-Bit nanoDAC with 5 ppm/°C On-Chip Reference in SOT-23 */
   /* #define AD5640 */  /*!< AD5640: Single, 14-Bit nanoDAC with 5 ppm/°C On-Chip Reference in SOT-23 */  
   /* #define AD5660 */  /*!< AD5660: Single, 16-Bit nanoDAC with 5 ppm/°C On-Chip Reference in SOT-23 */  
 #endif
 
-#if !defined (AD5620) && !defined (AD5640) && !defined (AD5660)
- #error "Please select first the DAC AD56x0 in your application (in HwAPI_VoltageSource.h file)"
+#if !defined( AD5620 ) && !defined( AD5640 ) && !defined( AD5660 )
+ #error "Please select first the DAC AD56x0 in your application (in AD56x0.h file)"
 #endif
 
 

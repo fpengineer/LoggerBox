@@ -28,7 +28,7 @@ ValueAD56x0_t CalculateDAC( float value, float range, OperationModeAD56X0_t mode
     temp <<= 2; // shift left due to 2 least insignificant bits 
     temp |= mode << 14; // add operation mode to value
     
-#elif defined( ad5640 )
+#elif defined( AD5640 )
     temp = ( ValueAD56x0_t )roundf( ( value * powf( 2, AD5640_RESOLUTION_BITS ) ) / range );
     if ( temp > AD5640_MAX_VALUE )
     {
@@ -36,7 +36,7 @@ ValueAD56x0_t CalculateDAC( float value, float range, OperationModeAD56X0_t mode
     }
     temp |= mode << 14; // add operation mode to value
 
-#elif defined( ad5660 )
+#elif defined( AD5660 )
     temp = ( ValueAD56x0_t )roundf( ( value * powf( 2, AD5660_RESOLUTION_BITS ) ) / range );
     if ( temp > AD5660_MAX_VALUE )
     {
