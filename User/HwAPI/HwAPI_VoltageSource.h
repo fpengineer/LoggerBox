@@ -75,6 +75,13 @@ typedef enum {
     NSOURCE_4
 } NSource_t;
 
+#ifndef CALIBRATION_DATA_TYPEDEF
+#define CALIBRATION_DATA_TYPEDEF
+typedef struct {
+    float slope;
+    float offset;
+} CalibrationData_t;
+#endif
 
 
 
