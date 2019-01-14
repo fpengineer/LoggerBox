@@ -75,7 +75,7 @@ enum stateHwVoltageSource {
 
 enum stateHwDAQ_ADC {
     HW_DAQ_ADC_INIT,
-    HW_DAQ_ADC_SELECT_CHANNEL,
+    HW_DAQ_ADC_SELECT_INPUT,
     HW_DAQ_ADC_GET_SINGLE,
     HW_DAQ_ADC_GET_AVERAGED,
     HW_DAQ_ADC_IDLE
