@@ -752,6 +752,11 @@
               <FileType>1</FileType>
               <FilePath>.\User\HwAPI\HwAPI_Relay.c</FilePath>
             </File>
+            <File>
+              <FileName>HwAPI_DAQ_ADC.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\HwAPI\HwAPI_DAQ_ADC.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -822,6 +827,11 @@
               <FileType>1</FileType>
               <FilePath>.\User\UserTaskHw\TS_HwRelay.c</FilePath>
             </File>
+            <File>
+              <FileName>TS_HwDAQ_ADC.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\UserTaskHw\TS_HwDAQ_ADC.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -835,25 +845,12 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>ConfigFile</GroupName>
-        </Group>
-        <Group>
           <GroupName>MeasureFile</GroupName>
           <Files>
             <File>
               <FileName>Measure.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\User\Measure\Measure.h</FilePath>
-            </File>
-            <File>
-              <FileName>Voltmeter.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\User\Measure\Voltmeter.h</FilePath>
-            </File>
-            <File>
-              <FileName>Voltmeter.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\Measure\Voltmeter.c</FilePath>
             </File>
             <File>
               <FileName>Frequency_PWM.c</FileName>
@@ -876,19 +873,14 @@
               <FilePath>.\User\Utilites\ClockOutMCO.c</FilePath>
             </File>
             <File>
-              <FileName>ClockOutMCO.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\User\Utilites\ClockOutMCO.h</FilePath>
-            </File>
-            <File>
               <FileName>EXT_Signal.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\Utilites\EXT_Signal.c</FilePath>
             </File>
             <File>
-              <FileName>EXT_Signal.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\User\Utilites\EXT_Signal.h</FilePath>
+              <FileName>delay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\Utilites\delay.c</FilePath>
             </File>
             <File>
               <FileName>AD56x0.c</FileName>
@@ -896,9 +888,9 @@
               <FilePath>.\User\Utilites\AD56x0.c</FilePath>
             </File>
             <File>
-              <FileName>delay.c</FileName>
+              <FileName>AD747x.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\User\Utilites\delay.c</FilePath>
+              <FilePath>.\User\Utilites\AD747x.c</FilePath>
             </File>
           </Files>
         </Group>
