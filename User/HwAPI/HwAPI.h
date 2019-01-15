@@ -24,7 +24,7 @@
 #include "HwAPI_VoltageSource.h"
 #include "HwAPI_Relay.h"
 #include "HwAPI_DAQ_ADC.h"
-//#include "HwAPI_Frequency.h"
+#include "HwAPI_DAQ_Frequency.h"
 //#include "HwAPI_LED.h"
 //#include "HwAPI_RunButton.h"
 

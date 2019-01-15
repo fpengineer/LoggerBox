@@ -757,6 +757,11 @@
               <FileType>1</FileType>
               <FilePath>.\User\HwAPI\HwAPI_DAQ_ADC.c</FilePath>
             </File>
+            <File>
+              <FileName>HwAPI_DAQ_Frequency.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\HwAPI\HwAPI_DAQ_Frequency.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -831,6 +836,11 @@
               <FileName>TS_HwDAQ_ADC.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\UserTaskHw\TS_HwDAQ_ADC.c</FilePath>
+            </File>
+            <File>
+              <FileName>TS_HwDAQ_Frequency.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\UserTaskHw\TS_HwDAQ_Frequency.c</FilePath>
             </File>
           </Files>
         </Group>

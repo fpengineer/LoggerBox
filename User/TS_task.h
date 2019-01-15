@@ -81,9 +81,11 @@ enum stateHwDAQ_ADC {
     HW_DAQ_ADC_IDLE
 };
 
-enum stateHwMeasureFrequency {
-    HW_MEASURE_FREQUENCY_GET,
-    HW_MEASURE_FREQUENCY_IDLE
+enum stateHwDAQ_Frequency {
+    HW_DAQ_FREQUENCY_INIT,
+    HW_DAQ_FREQUENCY_GET_SINGLE,
+    HW_DAQ_FREQUENCY_GET_AVERAGED,
+    HW_DAQ_FREQUENCY_IDLE
 };
 
 enum stateHwStatusLed {

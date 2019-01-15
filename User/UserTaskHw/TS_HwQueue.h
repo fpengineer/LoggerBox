@@ -58,27 +58,16 @@ typedef struct {
     int32_t numberAverages;
 } HwDAQ_ADCQueueData_t;
 
+typedef struct {
+    enum stateHwDAQ_Frequency stateHwDAQ_Frequency;
+    NChannelFreq_t nChannelFrequency;
+    FreqPWMData_t freqPWMData;
+    int32_t numberAverages;
+} HwDAQ_FrequencyQueueData_t;
+
+
 
 /*
-typedef struct {
-    enum stateHwRelay stateHwRelay;
-    uint8_t relay;
-} HwRelayQueueData_t;
-
-
-typedef struct {
-    enum stateHwMeasureADC stateHwMeasureADC;
-    uint8_t selectSource;
-    uint8_t selectChannel;
-    uint16_t valueADC;
-} HwMwasureADCQueueData_t;
-
-typedef struct {
-    enum stateHwMeasureFrequency stateHwMeasureFrequency;
-    uint8_t selectChannel;
-    FreqPWMData_t freqPWMData;
-} HwMeasurFrequencyQueueData_t;
-
 typedef struct {
     enum stateHwStatusLED stateHwStatusLED;
 } HwStatusLED_QueueData_t;
@@ -103,8 +92,8 @@ extern QueueHandle_t xQueue_HwRelay_Rx;
 extern QueueHandle_t xQueue_HwVoltageSource_Rx;
 extern QueueHandle_t xQueue_HwDAQ_ADC_Rx;
 extern QueueHandle_t xQueue_HwDAQ_ADC_Tx;
-extern QueueHandle_t xQueue_HwMeasureFrequency_Rx;
-extern QueueHandle_t xQueue_HwMeasureFrequency_Tx;
+extern QueueHandle_t xQueue_HwDAQ_Frequency_Rx;
+extern QueueHandle_t xQueue_HwDAQ_Frequency_Tx;
 extern QueueHandle_t xQueue_HwStatusLED_Rx;
 extern QueueHandle_t xQueue_HwSDCardLED_Rx;
 extern QueueHandle_t xQueue_HwRunButton_Rx;
