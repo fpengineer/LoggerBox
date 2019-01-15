@@ -51,7 +51,7 @@ TaskHandle_t xTask_HwTerminal;
 TaskHandle_t xTask_HwRelay;
 TaskHandle_t xTask_HwVoltageSource;
 TaskHandle_t xTask_HwDAQ_ADC;
-TaskHandle_t xTask_HwMeasureFrequency;
+TaskHandle_t xTask_HwDAQ_Frequency;
 TaskHandle_t xTask_HwStatusLED;
 TaskHandle_t xTask_HwSDCardLED;
 TaskHandle_t xTask_HwRunButton;
@@ -67,8 +67,8 @@ QueueHandle_t xQueue_HwRelay_Rx;
 QueueHandle_t xQueue_HwVoltageSource_Rx;
 QueueHandle_t xQueue_HwDAQ_ADC_Rx;
 QueueHandle_t xQueue_HwDAQ_ADC_Tx;
-QueueHandle_t xQueue_HwMeasureFrequency_Rx;
-QueueHandle_t xQueue_HwMeasureFrequency_Tx;
+QueueHandle_t xQueue_HwDAQ_Frequency_Rx;
+QueueHandle_t xQueue_HwDAQ_Frequency_Tx;
 QueueHandle_t xQueue_HwStatusLED_Rx;
 QueueHandle_t xQueue_HwSDCardLED_Rx;
 QueueHandle_t xQueue_HwRunButton_Rx;
@@ -196,13 +196,13 @@ int main(void) {
                                 tskIDLE_PRIORITY + 1,
                                 &xTask_HwDAQ_ADC )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
 #endif
-#if 0       // HwMeasureFrequency
-	if( pdTRUE != xTaskCreate(  vTask_HwMeasureFrequency,
-                                "Task - HwMeasureFrequency",
+#if 0       // HwDAQ_Frequency
+	if( pdTRUE != xTaskCreate(  vTask_HwDAQ_Frequency,
+                                "Task - HwDAQ_Frequency",
                                 configMINIMAL_STACK_SIZE,
                                 NULL,
                                 tskIDLE_PRIORITY + 1,
-                                &xTask_HwMeasureFrequency )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
+                                &xTask_HwDAQ_Frequency )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
 #endif
 #if 0       // HwStatusLED
 	if( pdTRUE != xTaskCreate(  vTask_HwStatusLED,
