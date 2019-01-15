@@ -117,7 +117,7 @@ typedef enum {
     ADC_CHANNEL_1 = 0,
     ADC_CHANNEL_2,
     ADC_CHANNEL_3,
-    ADC_CHANNEL_4,
+    ADC_CHANNEL_4
 } NChannelADC_t;
 
 typedef uint16_t ValueDAQ_ADC_t;
