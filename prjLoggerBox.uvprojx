@@ -757,6 +757,11 @@
               <FileType>1</FileType>
               <FilePath>.\User\HwAPI\HwAPI_DAQ_ADC.c</FilePath>
             </File>
+            <File>
+              <FileName>HwAPI_DAQ_Frequency.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\HwAPI\HwAPI_DAQ_Frequency.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
