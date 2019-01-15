@@ -35,8 +35,8 @@
 // Declare private functions
 static void InitDAQ_ADCHardware( void );
 static void SelectInputADC( NChannelADC_t nChannel, NSourceADC_t nSource );
-ValueDAQ_ADC_t GetSingleADC( void );
-ValueDAQ_ADC_t GetAveragedADC( int32_t numberAverages );
+static ValueDAQ_ADC_t GetSingleADC( void );
+static ValueDAQ_ADC_t GetAveragedADC( int32_t numberAverages );
 
 // Declare private variables
 
@@ -337,9 +337,9 @@ ValueDAQ_ADC_t GetAveragedADC( int32_t numberAverages )
     float temp = 0.0f;
     int32_t i = 0;
     
+    taskENTER_CRITICAL();
     for ( i = 0; i < numberAverages; i++ )
     {
-        taskENTER_CRITICAL();
         ADC_CS_0();
 
         delay_us(1);
@@ -365,10 +365,10 @@ ValueDAQ_ADC_t GetAveragedADC( int32_t numberAverages )
 #endif        
 
         ADC_CS_1();
-        taskEXIT_CRITICAL();
     
         temp += ( float )valueADC;
     }
+    taskEXIT_CRITICAL();
     
     return ( ValueDAQ_ADC_t )roundf( temp / numberAverages );
 }
