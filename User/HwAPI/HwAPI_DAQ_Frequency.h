@@ -49,14 +49,14 @@
 /* Exported types ------------------------------------------------------------*/
 // Select IC
 typedef enum {
-    FREQUENCY_CHANNEL_1 = 0,
-    FREQUENCY_CHANNEL_2,
-    FREQUENCY_CHANNEL_3,
-    FREQUENCY_CHANNEL_4,
-    FREQUENCY_CHANNEL_5,
-    FREQUENCY_CHANNEL_6,
-    FREQUENCY_CHANNEL_7,
-    FREQUENCY_CHANNEL_8
+    FREQ_CHANNEL_1 = 0,
+    FREQ_CHANNEL_2,
+    FREQ_CHANNEL_3,
+    FREQ_CHANNEL_4,
+    FREQ_CHANNEL_5,
+    FREQ_CHANNEL_6,
+    FREQ_CHANNEL_7,
+    FREQ_CHANNEL_8
 } NChannelFreq_t;
 
 
