@@ -60,7 +60,7 @@ typedef struct {
 
 typedef struct {
     enum stateHwDAQ_Frequency stateHwDAQ_Frequency;
-    uint8_t nChannelFrequency;
+    NChannelFreq_t nChannelFrequency;
     FreqPWMData_t freqPWMData;
     int32_t numberAverages;
 } HwDAQ_FrequencyQueueData_t;
