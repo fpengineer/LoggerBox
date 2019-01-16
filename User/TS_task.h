@@ -132,7 +132,7 @@ void vTask_HwSource( void *pvParameters );
 void vTask_HwDAQ_ADC( void *pvParameters );
 void vTask_HwDAQ_Frequency( void *pvParameters );
 void vTask_HwStatusLED( void *pvParameters );
-//void vTask_HwSDCardLED( void *pvParameters );
+void vTask_HwSDCardLED( void *pvParameters );
 //void vTask_HwRunButton( void *pvParameters );
 //void vTask_HwSDCardDetect( void *pvParameters );
 
