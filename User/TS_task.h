@@ -96,12 +96,12 @@ enum stateHwStatusLED {
     HW_STATUS_LED_IDLE
 };
 
-enum stateHwSDCardLed {
+enum stateHwSDCardLED {
     HW_SDCARD_LED_INIT,
     HW_SDCARD_LED_ON,
     HW_SDCARD_LED_OFF,
     HW_SDCARD_LED_FLASH,
-    HW_SDCARD_LWD_IDLE
+    HW_SDCARD_LED_IDLE
 };
 
 enum stateHwRunButton {
