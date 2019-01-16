@@ -852,6 +852,11 @@
               <FileType>1</FileType>
               <FilePath>.\User\UserTaskHw\TS_HwStatusLED.c</FilePath>
             </File>
+            <File>
+              <FileName>TS_HwSDCardLED.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\UserTaskHw\TS_HwSDCardLED.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
