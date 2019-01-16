@@ -53,7 +53,7 @@ HwAPI_StatusTypeDef HwAPI_StatusLED_Flash( uint16_t delay_ms )
 {
     HwStatusLEDQueueData_t hwStatusLEDQueueData;
 
-    hwStatusLEDQueueData.stateHwStatusLED = HW_STATUS_LED_ON;
+    hwStatusLEDQueueData.stateHwStatusLED = HW_STATUS_LED_FLASH;
     hwStatusLEDQueueData.delay_ms = delay_ms;
     
     xQueueSend( xQueue_HwStatusLED_Rx, &hwStatusLEDQueueData, NULL );

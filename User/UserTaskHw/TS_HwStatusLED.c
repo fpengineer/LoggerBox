@@ -33,7 +33,7 @@ static void InitStatusLEDHardware( void );
 // Declare private variables
 
 
-void vTask_HwStatusLed( void *pvParameters )
+void vTask_HwStatusLED( void *pvParameters )
 {
     HwStatusLEDQueueData_t hwStatusLEDQueueData;
     TickType_t timeout = 0;
