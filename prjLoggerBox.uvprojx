@@ -767,6 +767,11 @@
               <FileType>1</FileType>
               <FilePath>.\User\HwAPI\HwAPI_StatusLED.c</FilePath>
             </File>
+            <File>
+              <FileName>HwAPI_SDCardLED.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\HwAPI\HwAPI_SDCardLED.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
