@@ -762,6 +762,11 @@
               <FileType>1</FileType>
               <FilePath>.\User\HwAPI\HwAPI_DAQ_Frequency.c</FilePath>
             </File>
+            <File>
+              <FileName>HwAPI_StatusLED.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\HwAPI\HwAPI_StatusLED.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
