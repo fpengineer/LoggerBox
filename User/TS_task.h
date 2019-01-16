@@ -88,7 +88,8 @@ enum stateHwDAQ_Frequency {
     HW_DAQ_FREQUENCY_IDLE
 };
 
-enum stateHwStatusLed {
+enum stateHwStatusLED {
+    HW_STATUS_LED_INIT,
     HW_STATUS_LED_ON,
     HW_STATUS_LED_OFF,
     HW_STATUS_LED_FLASH,
