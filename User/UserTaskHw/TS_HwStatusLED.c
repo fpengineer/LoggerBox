@@ -36,9 +36,9 @@ static void InitStatusLEDHardware( void );
 void vTask_HwStatusLed( void *pvParameters )
 {
     HwStatusLEDQueueData_t hwStatusLEDQueueData;
-    hwStatusLEDQueueData.stateHwStatusLED = HW_STATUS_LED_INIT;            
     TickType_t timeout = 0;
     
+    hwStatusLEDQueueData.stateHwStatusLED = HW_STATUS_LED_INIT;            
     xQueueSend( xQueue_HwStatusLED_Rx, &hwStatusLEDQueueData, NULL ); 
 	while ( 1 )
 	{
@@ -57,7 +57,6 @@ void vTask_HwStatusLed( void *pvParameters )
             {
                 StatusLED_On();
                 timeout = portMAX_DELAY;
-                xQueueReset( xQueue_HwStatusLED_Rx ); 
                 break;
             }
             
@@ -65,7 +64,6 @@ void vTask_HwStatusLed( void *pvParameters )
             {
 				StatusLED_Off();
                 timeout = portMAX_DELAY;
-                xQueueReset( xQueue_HwStatusLED_Rx ); 
                 break;
             }
             
@@ -73,8 +71,6 @@ void vTask_HwStatusLed( void *pvParameters )
             {
 				StatusLED_Toggle();
                 timeout = hwStatusLEDQueueData.delay_ms / portTICK_PERIOD_MS;
-                hwStatusLEDQueueData.stateHwStatusLED = HW_STATUS_LED_INIT;            
-                xQueueSend( xQueue_HwStatusLED_Rx, &hwStatusLEDQueueData, NULL ); 
                 break;
             }                
             case HW_STATUS_LED_IDLE:
