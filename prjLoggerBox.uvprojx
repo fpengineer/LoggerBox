@@ -842,6 +842,11 @@
               <FileType>1</FileType>
               <FilePath>.\User\UserTaskHw\TS_HwDAQ_Frequency.c</FilePath>
             </File>
+            <File>
+              <FileName>TS_HwStatusLED.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\UserTaskHw\TS_HwStatusLED.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
