@@ -70,6 +70,11 @@ typedef struct {
     uint16_t delay_ms;
 } HwStatusLEDQueueData_t;
 
+typedef struct {
+    enum stateHwSDCardLED stateHwSDCardLED;
+    uint16_t delay_ms;
+} HwSDCardLEDQueueData_t;
+
 /*
 typedef struct {
     enum stateHwSDCardLED stateHwSDCardLED;
