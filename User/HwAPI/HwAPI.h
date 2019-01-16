@@ -26,6 +26,7 @@
 #include "HwAPI_DAQ_ADC.h"
 #include "HwAPI_DAQ_Frequency.h"
 #include "HwAPI_StatusLED.h"
+#include "HwAPI_SDCardLED.h"
 //#include "HwAPI_RunButton.h"
 
 
