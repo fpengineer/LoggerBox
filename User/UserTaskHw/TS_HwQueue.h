@@ -65,13 +65,12 @@ typedef struct {
     int32_t numberAverages;
 } HwDAQ_FrequencyQueueData_t;
 
-
-
-/*
 typedef struct {
     enum stateHwStatusLED stateHwStatusLED;
-} HwStatusLED_QueueData_t;
+    uint16_t delay_ms;
+} HwStatusLEDQueueData_t;
 
+/*
 typedef struct {
     enum stateHwSDCardLED stateHwSDCardLED;
 } HwSDCardDetectQueueData_t;
