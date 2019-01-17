@@ -46,11 +46,6 @@
 #define FATFS_CS_PORT		GPIOC
 #define FATFS_CS_PIN		GPIO_Pin_4
 
-//Enable Card detect pin
-//#define FATFS_USE_DETECT_PIN				1
-//Default CD pin			
-#define FATFS_USE_DETECT_PIN_PORT          GPIOA
-#define FATFS_USE_DETECT_PIN_PIN           GPIO_Pin_0
 
 #define TERMINAL_BUFFER     800
 

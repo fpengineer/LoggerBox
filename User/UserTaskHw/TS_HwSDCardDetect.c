@@ -62,7 +62,7 @@ void vTask_HwSDCardDetect( void *pvParameters )
                 // Init gpio for sd card detction signal
                 InitGPIO_SDCardDetect();
 
-                if ( !TM_GPIO_GetInputPinValue( FATFS_USE_DETECT_PIN_PORT, FATFS_USE_DETECT_PIN_PIN ) )
+                if ( !TM_GPIO_GetInputPinValue( SDCARD_DETECT_PIN_PORT, SDCARD_DETECT_PIN_PIN ) )
                 {
                     sdCardDetectStatus = SD_CARD_INSERT;
                     HwAPI_FatFs_InitSDCard();
@@ -116,11 +116,11 @@ static void InitGPIO_SDCardDetect( void )
 {
 	CustomTimer = TM_DELAY_TimerCreate( 70, 0, 0, ContactBounceTimer_Task, NULL );
 
-    TM_EXTI_Attach( FATFS_USE_DETECT_PIN_PORT,
-                    FATFS_USE_DETECT_PIN_PIN, 
+    TM_EXTI_Attach( SDCARD_DETECT_PIN_PORT,
+                    SDCARD_DETECT_PIN_PIN, 
                     TM_EXTI_Trigger_Rising_Falling );
 
-    if ( !TM_GPIO_GetInputPinValue( FATFS_USE_DETECT_PIN_PORT, FATFS_USE_DETECT_PIN_PIN ) )
+    if ( !TM_GPIO_GetInputPinValue( SDCARD_DETECT_PIN_PORT, SDCARD_DETECT_PIN_PIN ) )
     {
         TM_DISCO_LedOn( LED_GREEN );
     }
@@ -147,7 +147,7 @@ static void ContactBounceTimer_Task( void* UserParameters )
 {
     HwSDCardDetectQueueData_t hwSDCardDetectQueueData;
 
-    if ( !TM_GPIO_GetInputPinValue( FATFS_USE_DETECT_PIN_PORT, FATFS_USE_DETECT_PIN_PIN ) )
+    if ( !TM_GPIO_GetInputPinValue( SDCARD_DETECT_PIN_PORT, SDCARD_DETECT_PIN_PIN ) )
     {
         TM_DISCO_LedOn( LED_GREEN );
         

@@ -16,6 +16,10 @@
 
 #include "HwAPI Def.h"
 
+// SD card detect port/pin defines
+#define SDCARD_DETECT_PIN_PORT          GPIOA
+#define SDCARD_DETECT_PIN_PIN           GPIO_Pin_0
+
 
 /* Exported types ------------------------------------------------------------*/
 typedef enum {
