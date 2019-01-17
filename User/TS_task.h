@@ -105,7 +105,9 @@ enum stateHwSDCardLED {
 };
 
 enum stateHwRunButton {
+    HW_RUN_BUTTON_INIT,
     HW_RUN_BUTTON_GET,
+    HW_RUN_BUTTON_PRESSED,
     HW_RUN_BUTTON_IDLE
 };
 
