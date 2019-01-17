@@ -772,6 +772,11 @@
               <FileType>1</FileType>
               <FilePath>.\User\HwAPI\HwAPI_SDCardLED.c</FilePath>
             </File>
+            <File>
+              <FileName>HwAPI_RunButton.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\HwAPI\HwAPI_RunButton.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -861,6 +866,11 @@
               <FileName>TS_HwSDCardLED.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\UserTaskHw\TS_HwSDCardLED.c</FilePath>
+            </File>
+            <File>
+              <FileName>TS_HwRunButton.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\UserTaskHw\TS_HwRunButton.c</FilePath>
             </File>
           </Files>
         </Group>
