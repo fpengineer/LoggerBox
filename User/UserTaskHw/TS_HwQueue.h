@@ -75,18 +75,18 @@ typedef struct {
     uint16_t delay_ms;
 } HwSDCardLEDQueueData_t;
 
-/*
-typedef struct {
-    enum stateHwSDCardLED stateHwSDCardLED;
-} HwSDCardDetectQueueData_t;
-
 typedef struct {
     enum stateHwRunButton stateHwRunButton;
+    RunButtonStatus_t runButtonStatus;
 } HwRunButtonQueueData_t;
 
-*/
 
 
+
+
+
+
+/* Exported functions ------------------------------------------------------------*/
 extern QueueHandle_t xQueue_HwFatFs_Rx;
 extern QueueHandle_t xQueue_HwFatFs_Tx;
 extern QueueHandle_t xQueue_HwSystemTime_Rx;
