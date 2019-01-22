@@ -49,14 +49,15 @@ void vTask_HwRelay( void *pvParameters )
     while ( 1 )
     {
         xQueueReceive( xQueue_HwRelay_Rx, &hwRelayQueueData, portMAX_DELAY );
-
         switch ( hwRelayQueueData.stateHwRelay )
         {
             case HW_RELAY_INIT:
             {
 				InitRelayHardware();
 				RelayClearAll();
-				break;
+				
+                bootState_HwRelay = TASK_BOOT_PENDING;
+                break;
             }
 
             case HW_RELAY_SET:
