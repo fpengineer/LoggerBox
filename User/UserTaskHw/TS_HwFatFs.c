@@ -92,7 +92,6 @@ void vTask_HwFatFs( void *pvParameters )
     while (1)
     {
         xQueueReceive( xQueue_HwFatFs_Rx, &hwFatFsQueueData, portMAX_DELAY );
-
         switch ( hwFatFsQueueData.stateHwFatFs )
         {
             case HW_FATFS_INIT:
@@ -100,6 +99,8 @@ void vTask_HwFatFs( void *pvParameters )
                 // Init FatFs module
                 f_mount( &FatFs, "0:", 1 );
                 f_mount( 0, "0:", 1 );
+
+                bootState_HwFatFs = TASK_BOOT_PENDING;
                 break;
             }
 
