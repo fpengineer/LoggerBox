@@ -334,7 +334,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F40_41xxx,USE_STDPERIPH_DRIVER,STM32F4XX,__ASSEMBLY__,KEIL_IDE,TM_DISCO_STM32F4_DISCOVERY</Define>
               <Undefine></Undefine>
-              <IncludePath>..\Mockup_1290;.\User;.\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\CMSIS\Device\ST\STM32F4xx\Include;.\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\CMSIS\Include;.\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\CMSIS\Device\ST\STM32F4xx\Source\Templates\arm;.\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\STM32F4xx_StdPeriph_Driver\inc;.\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\STM32F4xx_StdPeriph_Driver\src;.\00-STM32F429_LIBRARIES\fatfs;.\00-STM32F429_LIBRARIES;.\00-STM32F429_LIBRARIES\fatfs\drivers;.\00-STM32F429_LIBRARIES\fatfs\option;.\User\FreeRTOS;.\User\FreeRTOS\include;.\User\minIni-master\dev;.\User\Config;.\User\Measure;.\User\ADC_DAC;.\User\Utilites;.\User\HwAPI;.\User\UserTaskHw;.\User\UserTaskPlugins</IncludePath>
+              <IncludePath>..\Mockup_1290;.\User;.\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\CMSIS\Device\ST\STM32F4xx\Include;.\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\CMSIS\Include;.\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\CMSIS\Device\ST\STM32F4xx\Source\Templates\arm;.\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\STM32F4xx_StdPeriph_Driver\inc;.\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\STM32F4xx_StdPeriph_Driver\src;.\00-STM32F429_LIBRARIES\fatfs;.\00-STM32F429_LIBRARIES;.\00-STM32F429_LIBRARIES\fatfs\drivers;.\00-STM32F429_LIBRARIES\fatfs\option;.\User\FreeRTOS;.\User\FreeRTOS\include;.\User\minIni-master\dev;.\User\Measure;.\User\Utilites;.\User\HwAPI;.\User\UserTaskHw;.\User\UserTaskPlugins</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -813,9 +813,19 @@
           <GroupName>UserTaskHw</GroupName>
           <Files>
             <File>
+              <FileName>TS_HwTask.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\User\UserTaskHw\TS_HwTask.h</FilePath>
+            </File>
+            <File>
               <FileName>TS_HwQueue.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\User\UserTaskHw\TS_HwQueue.h</FilePath>
+            </File>
+            <File>
+              <FileName>TS_HwBoot.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\UserTaskHw\TS_HwBoot.c</FilePath>
             </File>
             <File>
               <FileName>TS_HwSystemTime.c</FileName>
@@ -911,11 +921,6 @@
               <FileName>ClockOutMCO.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\Utilites\ClockOutMCO.c</FilePath>
-            </File>
-            <File>
-              <FileName>EXT_Signal.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\Utilites\EXT_Signal.c</FilePath>
             </File>
             <File>
               <FileName>delay.c</FileName>
