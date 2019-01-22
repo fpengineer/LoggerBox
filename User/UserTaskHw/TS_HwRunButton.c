@@ -54,12 +54,13 @@ void vTask_HwRunButton( void *pvParameters )
     while (1)
     {
         xQueueReceive( xQueue_HwRunButton_Rx, &hwRunButtonQueueData, portMAX_DELAY );
-
         switch ( hwRunButtonQueueData.stateHwRunButton )
         {
             case HW_RUN_BUTTON_INIT:
             {
                 InitGPIO_RunButton();
+                
+                bootState_HwRunButton = TASK_BOOT_PENDING;
                 break;
             }
 
