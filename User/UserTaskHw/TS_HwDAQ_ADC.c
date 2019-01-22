@@ -51,13 +51,14 @@ void vTask_HwDAQ_ADC( void *pvParameters )
     while ( 1 )
     {
         xQueueReceive( xQueue_HwDAQ_ADC_Rx, &hwDAQ_ADCQueueData, portMAX_DELAY );
-
         switch ( hwDAQ_ADCQueueData.stateHwDAQ_ADC )
         {
             case HW_DAQ_ADC_INIT:
             {
                 InitDAQ_ADCHardware();
-				break;
+				
+                bootState_HwDAQ_ADC = TASK_BOOT_PENDING;
+                break;
             }
 
             case HW_DAQ_ADC_SELECT_INPUT:
