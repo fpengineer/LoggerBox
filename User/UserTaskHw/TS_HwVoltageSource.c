@@ -48,7 +48,6 @@ void vTask_HwVoltageSource( void *pvParameters )
     while ( 1 )
     {
         xQueueReceive( xQueue_HwVoltageSource_Rx, &hwVoltageSourceQueueData, portMAX_DELAY );
-
         switch ( hwVoltageSourceQueueData.stateHwVoltageSource )
         {
             case HW_VOLTAGE_SOURCE_INIT:
@@ -58,7 +57,9 @@ void vTask_HwVoltageSource( void *pvParameters )
                 SetSourceValue( NSOURCE_2, 0 );
                 SetSourceValue( NSOURCE_3, 0 );
                 SetSourceValue( NSOURCE_4, 0 );
-				break;
+				
+                bootState_HwVoltageSource = TASK_BOOT_PENDING;
+                break;
             }
 
             case HW_VOLTAGE_SOURCE_SET:
