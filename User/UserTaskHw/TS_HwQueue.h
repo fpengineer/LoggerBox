@@ -11,7 +11,7 @@
 #ifndef _TS_HW_QUEUE_H_
 #define _TS_HW_QUEUE_H_
 
-#include "TS_task.h"
+#include "TS_HwTask.h"
 #include "HwAPI.h"
 
 
@@ -86,7 +86,7 @@ typedef struct {
 
 
 
-/* Exported functions ------------------------------------------------------------*/
+/* Exported variables ------------------------------------------------------------*/
 extern QueueHandle_t xQueue_HwFatFs_Rx;
 extern QueueHandle_t xQueue_HwFatFs_Tx;
 extern QueueHandle_t xQueue_HwSystemTime_Rx;
