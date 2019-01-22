@@ -32,42 +32,40 @@
 
 void vTask_HwSystemTime( void *pvParameters )
 {
-    HwSystemTimeQueueData_t SystemTimeQueueData;
-//    TM_RTC_Time_t datatime;    
+    HwSystemTimeQueueData_t hwSystemTimeQueueData;
 
-	if ( !TM_RTC_Init( TM_RTC_ClockSource_External ) ) {
-		/* RTC was first time initialized */
-		/* Do your stuff here */
-		/* eg. set default time */
-
-	}
-
-/*
-    TM_RTC_GetDateTime( &datatime, TM_RTC_Format_BIN );
-    sprintf( tempString, "Current system time - %02d.%02d.%02d %02d:%02d:%02d\r\n",
-                        datatime.date,
-                        datatime.month,
-                        datatime.year,
-                        datatime.hours,
-                        datatime.minutes,
-                        datatime.seconds );
-    xQueueSend( xQueue_Terminal, &tempString, NULL );
-*/
-
-	while( 1 )
+	hwSystemTimeQueueData.stateHwSystemTime = HW_SYSTEM_TIME_INIT;
+    xQueueSend( xQueue_HwSystemTime_Rx, &hwSystemTimeQueueData, NULL ); 
+    
+    while( 1 )
 	{
-        xQueueReceive( xQueue_HwSystemTime_Rx, &SystemTimeQueueData, portMAX_DELAY );
-        switch (SystemTimeQueueData.stateHwSystemTime)
+        xQueueReceive( xQueue_HwSystemTime_Rx, &hwSystemTimeQueueData, portMAX_DELAY );
+        switch ( hwSystemTimeQueueData.stateHwSystemTime )
         {
+            case HW_SYSTEM_TIME_INIT:
+            {
+                if ( !TM_RTC_Init( TM_RTC_ClockSource_External ) ) {
+                    /* RTC was first time initialized */
+                    /* Do your stuff here */
+                    /* eg. set default time */
+                }
+                bootState_HwSystemTime = TASK_BOOT_PENDING;
+                break;
+            }
+
             case HW_SYSTEM_TIME_SET:
-                TM_RTC_SetDateTime(&SystemTimeQueueData.datatime, TM_RTC_Format_BIN);
+            {
+                TM_RTC_SetDateTime( &hwSystemTimeQueueData.datatime, TM_RTC_Format_BIN );
                 break;
-        
+            }
+            
             case HW_SYSTEM_TIME_GET:
-                TM_RTC_GetDateTime(&SystemTimeQueueData.datatime, TM_RTC_Format_BIN);
-                xQueueSend( xQueue_HwSystemTime_Tx, &SystemTimeQueueData, NULL );
+            {            
+                TM_RTC_GetDateTime( &hwSystemTimeQueueData.datatime, TM_RTC_Format_BIN );
+                xQueueSend( xQueue_HwSystemTime_Tx, &hwSystemTimeQueueData, NULL );
                 break;
-        
+            }
+            
             case HW_SYSTEM_TIME_IDLE:
                 break;
         
