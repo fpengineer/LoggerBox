@@ -50,13 +50,14 @@ void vTask_HwDAQ_Frequency( void *pvParameters )
     while ( 1 )
     {
         xQueueReceive( xQueue_HwDAQ_Frequency_Rx, &hwDAQ_FrequencyQueueData, portMAX_DELAY );
-
         switch ( hwDAQ_FrequencyQueueData.stateHwDAQ_Frequency )
         {
             case HW_DAQ_FREQUENCY_INIT:
             {
                 InitDAQ_FrequencyHardware();
-				break;
+
+                bootState_HwDAQ_Frequency = TASK_BOOT_PENDING;
+                break;
             }
 
             case HW_DAQ_FREQUENCY_GET_SINGLE:
