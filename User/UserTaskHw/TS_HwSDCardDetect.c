@@ -42,7 +42,6 @@ static void ContactBounceTimer_Task(void* UserParameters);
 /* Pointers to custom timers */
 static TM_DELAY_Timer_t* CustomTimer;
 
-
 void vTask_HwSDCardDetect( void *pvParameters )
 {
     HwSDCardDetectQueueData_t hwSDCardDetectQueueData;
@@ -54,7 +53,6 @@ void vTask_HwSDCardDetect( void *pvParameters )
     while (1)
     {
         xQueueReceive( xQueue_HwSDCardDetect_Rx, &hwSDCardDetectQueueData, portMAX_DELAY );
-
         switch ( hwSDCardDetectQueueData.stateHwSDCardDetect )
         {
             case HW_SDCARD_DETECT_INIT:
@@ -67,6 +65,8 @@ void vTask_HwSDCardDetect( void *pvParameters )
                     sdCardDetectStatus = SD_CARD_INSERT;
                     HwAPI_FatFs_InitSDCard();
                 }
+                
+                bootState_HwSDCardDetect = TASK_BOOT_PENDING;
                 break;
             }
 
