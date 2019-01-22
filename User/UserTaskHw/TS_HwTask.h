@@ -5,7 +5,7 @@
     
     Author: Filipp Popov
 
-    Overview: RTOS Haedware task functions header
+    Overview: RTOS Hardware task functions header
 
 *******************************************************************************************************/
 
