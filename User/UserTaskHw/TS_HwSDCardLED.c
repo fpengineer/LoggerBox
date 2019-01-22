@@ -43,14 +43,15 @@ void vTask_HwSDCardLED( void *pvParameters )
 	while ( 1 )
 	{
         xQueueReceive( xQueue_HwSDCardLED_Rx, &hwSDCardLEDQueueData, timeout );
-        
         switch ( hwSDCardLEDQueueData.stateHwSDCardLED )
         {
             case HW_SDCARD_LED_INIT:
             {
 				InitSDCardLEDHardware();
 				SDCardLED_Off();
-				break;
+				
+                bootState_HwSDCardLED = TASK_BOOT_PENDING;
+                break;
             }
 
             case HW_SDCARD_LED_ON:
