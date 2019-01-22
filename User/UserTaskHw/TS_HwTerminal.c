@@ -19,24 +19,21 @@
 #include "stm32f4xx.h"
 /* Include my libraries here */
 #include "defines.h"
-#include "tm_stm32f4_rtc.h"
 #include "tm_stm32f4_usart.h"
-#include "tm_stm32f4_disco.h"
 
 #include "HwAPI.h"
 #include "TS_HwQueue.h"
-#include "TS_task.h"
 
 
 static char tempString[500] = {""}; 
-//char* tempString2[20] = {""};
     
 void vTask_HwTerminal( void *pvParameters )
 {
 	/* Initialize USART, TX: PB10, RX: PB11 */
-    TM_USART_Init(USART2, TM_USART_PinsPack_2, (uint32_t)(115200.0 * 3.125)); // Why coefficient 3.125?
-
-	while( 1 )
+    TM_USART_Init(USART2, TM_USART_PinsPack_2, (uint32_t)(115200.0 * 3.125)); // Why coefficient is 3.125?
+    bootState_HwTerminal = TASK_BOOT_PENDING;
+	
+    while( 1 )
 	{
         xQueueReceive( xQueue_HwTerminal_Rx, &tempString, portMAX_DELAY );
 
