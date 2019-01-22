@@ -43,14 +43,15 @@ void vTask_HwStatusLED( void *pvParameters )
 	while ( 1 )
 	{
         xQueueReceive( xQueue_HwStatusLED_Rx, &hwStatusLEDQueueData, timeout );
-        
         switch ( hwStatusLEDQueueData.stateHwStatusLED )
         {
             case HW_STATUS_LED_INIT:
             {
 				InitStatusLEDHardware();
 				StatusLED_Off();
-				break;
+				
+                bootState_HwStatusLED = TASK_BOOT_PENDING;
+                break;
             }
 
             case HW_STATUS_LED_ON:
