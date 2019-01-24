@@ -17,6 +17,7 @@
 
 
 #include "HwAPI Def.h"
+#include "tm_stm32f4_rtc.h"
 
 #define UPDATE_SYSTEM_TIME_DISABLE 0
 #define UPDATE_SYSTEM_TIME_ENABLE 1

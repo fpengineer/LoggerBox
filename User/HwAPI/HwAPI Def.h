@@ -15,7 +15,6 @@
 #include <stdio.h>
 
 #include "defines.h"
-#include "tm_stm32f4_rtc.h"
 
 
 /* Exported types ------------------------------------------------------------*/
