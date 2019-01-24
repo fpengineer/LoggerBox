@@ -334,7 +334,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F40_41xxx,USE_STDPERIPH_DRIVER,STM32F4XX,__ASSEMBLY__,KEIL_IDE,TM_DISCO_STM32F4_DISCOVERY</Define>
               <Undefine></Undefine>
-              <IncludePath>..\Mockup_1290;.\User;.\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\CMSIS\Device\ST\STM32F4xx\Include;.\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\CMSIS\Include;.\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\CMSIS\Device\ST\STM32F4xx\Source\Templates\arm;.\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\STM32F4xx_StdPeriph_Driver\inc;.\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\STM32F4xx_StdPeriph_Driver\src;.\00-STM32F429_LIBRARIES\fatfs;.\00-STM32F429_LIBRARIES;.\00-STM32F429_LIBRARIES\fatfs\drivers;.\00-STM32F429_LIBRARIES\fatfs\option;.\User\FreeRTOS;.\User\FreeRTOS\include;.\User\minIni-master\dev;.\User\Measure;.\User\Utilites;.\User\HwAPI;.\User\UserTaskHw;.\User\UserTaskPlugins</IncludePath>
+              <IncludePath>..\Mockup_1290;.\User;.\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\CMSIS\Device\ST\STM32F4xx\Include;.\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\CMSIS\Include;.\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\CMSIS\Device\ST\STM32F4xx\Source\Templates\arm;.\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\STM32F4xx_StdPeriph_Driver\inc;.\00-STM32F4xx_STANDARD_PERIPHERAL_DRIVERS\STM32F4xx_StdPeriph_Driver\src;.\00-STM32F429_LIBRARIES\fatfs;.\00-STM32F429_LIBRARIES;.\00-STM32F429_LIBRARIES\fatfs\drivers;.\00-STM32F429_LIBRARIES\fatfs\option;.\User\FreeRTOS;.\User\FreeRTOS\include;.\User\minIni-master\dev;.\User\Measure;.\User\Utilites;.\User\HwAPI;.\User\HwAPI_Task;.\User\UserTaskPlugins</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -780,6 +780,81 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>HwAPI_Task</GroupName>
+          <Files>
+            <File>
+              <FileName>TS_HwTask.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\User\HwAPI_Task\TS_HwTask.h</FilePath>
+            </File>
+            <File>
+              <FileName>TS_HwQueue.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\User\HwAPI_Task\TS_HwQueue.h</FilePath>
+            </File>
+            <File>
+              <FileName>TS_HwBoot.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\HwAPI_Task\TS_HwBoot.c</FilePath>
+            </File>
+            <File>
+              <FileName>TS_HwDAQ_ADC.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\HwAPI_Task\TS_HwDAQ_ADC.c</FilePath>
+            </File>
+            <File>
+              <FileName>TS_HwDAQ_Frequency.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\HwAPI_Task\TS_HwDAQ_Frequency.c</FilePath>
+            </File>
+            <File>
+              <FileName>TS_HwFatFs.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\HwAPI_Task\TS_HwFatFs.c</FilePath>
+            </File>
+            <File>
+              <FileName>TS_HwRelay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\HwAPI_Task\TS_HwRelay.c</FilePath>
+            </File>
+            <File>
+              <FileName>TS_HwRunButton.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\HwAPI_Task\TS_HwRunButton.c</FilePath>
+            </File>
+            <File>
+              <FileName>TS_HwSDCardDetect.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\HwAPI_Task\TS_HwSDCardDetect.c</FilePath>
+            </File>
+            <File>
+              <FileName>TS_HwSDCardLED.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\HwAPI_Task\TS_HwSDCardLED.c</FilePath>
+            </File>
+            <File>
+              <FileName>TS_HwStatusLED.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\HwAPI_Task\TS_HwStatusLED.c</FilePath>
+            </File>
+            <File>
+              <FileName>TS_HwSystemTime.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\HwAPI_Task\TS_HwSystemTime.c</FilePath>
+            </File>
+            <File>
+              <FileName>TS_HwTerminal.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\HwAPI_Task\TS_HwTerminal.c</FilePath>
+            </File>
+            <File>
+              <FileName>TS_HwVoltageSource.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\HwAPI_Task\TS_HwVoltageSource.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>UserCommon</GroupName>
           <Files>
             <File>
@@ -806,81 +881,6 @@
               <FileName>TS_queue.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\User\TS_queue.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>UserTaskHw</GroupName>
-          <Files>
-            <File>
-              <FileName>TS_HwTask.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\User\UserTaskHw\TS_HwTask.h</FilePath>
-            </File>
-            <File>
-              <FileName>TS_HwQueue.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\User\UserTaskHw\TS_HwQueue.h</FilePath>
-            </File>
-            <File>
-              <FileName>TS_HwBoot.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\UserTaskHw\TS_HwBoot.c</FilePath>
-            </File>
-            <File>
-              <FileName>TS_HwSystemTime.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\UserTaskHw\TS_HwSystemTime.c</FilePath>
-            </File>
-            <File>
-              <FileName>TS_HwTerminal.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\UserTaskHw\TS_HwTerminal.c</FilePath>
-            </File>
-            <File>
-              <FileName>TS_HwFatFs.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\UserTaskHw\TS_HwFatFs.c</FilePath>
-            </File>
-            <File>
-              <FileName>TS_HwSDCardDetect.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\UserTaskHw\TS_HwSDCardDetect.c</FilePath>
-            </File>
-            <File>
-              <FileName>TS_HwVoltageSource.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\UserTaskHw\TS_HwVoltageSource.c</FilePath>
-            </File>
-            <File>
-              <FileName>TS_HwRelay.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\UserTaskHw\TS_HwRelay.c</FilePath>
-            </File>
-            <File>
-              <FileName>TS_HwDAQ_ADC.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\UserTaskHw\TS_HwDAQ_ADC.c</FilePath>
-            </File>
-            <File>
-              <FileName>TS_HwDAQ_Frequency.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\UserTaskHw\TS_HwDAQ_Frequency.c</FilePath>
-            </File>
-            <File>
-              <FileName>TS_HwStatusLED.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\UserTaskHw\TS_HwStatusLED.c</FilePath>
-            </File>
-            <File>
-              <FileName>TS_HwSDCardLED.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\UserTaskHw\TS_HwSDCardLED.c</FilePath>
-            </File>
-            <File>
-              <FileName>TS_HwRunButton.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\UserTaskHw\TS_HwRunButton.c</FilePath>
             </File>
           </Files>
         </Group>
