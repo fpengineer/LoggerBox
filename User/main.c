@@ -50,6 +50,9 @@ QueueHandle_t xQueue_MeasureX_Rx;
 
 /* User Global Variables */    
 
+    
+    
+    
 /*******************************************************************/
 //void vApplicationIdleHook( void )
 //{
@@ -74,7 +77,7 @@ void vApplicationTickHook( void )
 /*******************************************************************/    
 
 int main(void) {
-    extern enum bootState bootState_HwBoot;
+    extern BootState_t bootState_HwBoot;
 	
     SystemInit();
 

@@ -20,12 +20,13 @@
 #include "HwAPI Config.h"
 
 
-enum bootState {
+/* Exported variables ------------------------------------------------------------*/
+typedef enum {
     TASK_BOOT_PENDING,
     TASK_BOOT_RUN,
     TASK_BOOT_IDLE,
     TASK_BOOT_ERROR
-};
+} BootState_t;
 
 
 
@@ -116,17 +117,17 @@ enum stateHwRunButton {
 
 
 /* Exported variables ------------------------------------------------------------*/
-extern enum bootState bootState_HwSystemTime;
-extern enum bootState bootState_HwTerminal;
-extern enum bootState bootState_HwFatFs;
-extern enum bootState bootState_HwSDCardDetect;
-extern enum bootState bootState_HwRelay;
-extern enum bootState bootState_HwVoltageSource;
-extern enum bootState bootState_HwDAQ_ADC;
-extern enum bootState bootState_HwDAQ_Frequency;
-extern enum bootState bootState_HwStatusLED;
-extern enum bootState bootState_HwSDCardLED;
-extern enum bootState bootState_HwRunButton;
+extern BootState_t bootState_HwSystemTime;
+extern BootState_t bootState_HwTerminal;
+extern BootState_t bootState_HwFatFs;
+extern BootState_t bootState_HwSDCardDetect;
+extern BootState_t bootState_HwRelay;
+extern BootState_t bootState_HwVoltageSource;
+extern BootState_t bootState_HwDAQ_ADC;
+extern BootState_t bootState_HwDAQ_Frequency;
+extern BootState_t bootState_HwStatusLED;
+extern BootState_t bootState_HwSDCardLED;
+extern BootState_t bootState_HwRunButton;
 
 
 

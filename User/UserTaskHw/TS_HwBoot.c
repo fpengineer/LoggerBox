@@ -58,19 +58,19 @@ QueueHandle_t xQueue_HwRunButton_Tx;
 
 
 // task boot state
-enum bootState bootState_HwSystemTime = TASK_BOOT_IDLE;
-enum bootState bootState_HwTerminal = TASK_BOOT_IDLE;
-enum bootState bootState_HwFatFs = TASK_BOOT_IDLE;
-enum bootState bootState_HwSDCardDetect = TASK_BOOT_IDLE;
-enum bootState bootState_HwRelay = TASK_BOOT_IDLE;
-enum bootState bootState_HwVoltageSource = TASK_BOOT_IDLE;
-enum bootState bootState_HwDAQ_ADC = TASK_BOOT_IDLE;
-enum bootState bootState_HwDAQ_Frequency = TASK_BOOT_IDLE;
-enum bootState bootState_HwStatusLED = TASK_BOOT_IDLE;
-enum bootState bootState_HwSDCardLED = TASK_BOOT_IDLE;
-enum bootState bootState_HwRunButton = TASK_BOOT_IDLE;
+BootState_t bootState_HwSystemTime = TASK_BOOT_IDLE;
+BootState_t bootState_HwTerminal = TASK_BOOT_IDLE;
+BootState_t bootState_HwFatFs = TASK_BOOT_IDLE;
+BootState_t bootState_HwSDCardDetect = TASK_BOOT_IDLE;
+BootState_t bootState_HwRelay = TASK_BOOT_IDLE;
+BootState_t bootState_HwVoltageSource = TASK_BOOT_IDLE;
+BootState_t bootState_HwDAQ_ADC = TASK_BOOT_IDLE;
+BootState_t bootState_HwDAQ_Frequency = TASK_BOOT_IDLE;
+BootState_t bootState_HwStatusLED = TASK_BOOT_IDLE;
+BootState_t bootState_HwSDCardLED = TASK_BOOT_IDLE;
+BootState_t bootState_HwRunButton = TASK_BOOT_IDLE;
 
-enum bootState bootState_HwBoot = TASK_BOOT_IDLE;
+BootState_t bootState_HwBoot = TASK_BOOT_IDLE;
 
 
 
