@@ -8,6 +8,10 @@
     Overview: Task - Hw SD Card Detect
 
 *******************************************************************************************************/
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 #include "FreeRTOS.h"
 #include "task.h"
 #include "queue.h"
@@ -20,13 +24,12 @@
 #include "tm_stm32f4_delay.h"
 #include "tm_stm32f4_exti.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 #include "HwAPI.h"
-#include "TS_HwQueue.h"
-#include "TS_task.h"
+
+TaskHandle_t xTask_HwSDCardDetect;
+QueueHandle_t xQueue_HwSDCardDetect_Rx;
+QueueHandle_t xQueue_HwSDCardDetect_Tx;
+HwAPI_BootStatus_t bootStatus_HwSDCardDetect = HW_TASK_BOOT_IDLE;
 
 
 // Declare private functions
@@ -66,7 +69,7 @@ void vTask_HwSDCardDetect( void *pvParameters )
                     HwAPI_FatFs_InitSDCard();
                 }
                 
-                bootState_HwSDCardDetect = TASK_BOOT_PENDING;
+                bootStatus_HwSDCardDetect = HW_TASK_BOOT_PENDING;
                 break;
             }
 

@@ -25,6 +25,8 @@
 //
 SDCardDetectStatus_t HwAPI_SDCardDetect_GetStatus( void )
 {
+    extern QueueHandle_t xQueue_HwSDCardDetect_Rx;
+    extern QueueHandle_t xQueue_HwSDCardDetect_Tx;
     HwSDCardDetectQueueData_t hwSDCardDetectQueueData;
    
     hwSDCardDetectQueueData.stateHwSDCardDetect = HW_SDCARD_DETECT_GET;
@@ -34,4 +36,34 @@ SDCardDetectStatus_t HwAPI_SDCardDetect_GetStatus( void )
 
     return 	hwSDCardDetectQueueData.sdCardDetectStatus;
 }
+
+//
+void HwAPI_SDCardDetect_Run( void )
+{
+    extern TaskHandle_t xTask_HwSDCardDetect;
+    extern QueueHandle_t xQueue_HwSDCardDetect_Rx;
+    extern QueueHandle_t xQueue_HwSDCardDetect_Tx;
+    
+    xQueue_HwSDCardDetect_Rx = xQueueCreate( 5, sizeof( HwSDCardDetectQueueData_t ) );
+    xQueue_HwSDCardDetect_Tx = xQueueCreate( 5, sizeof( HwSDCardDetectQueueData_t ) );
+
+	if( pdTRUE != xTaskCreate(  vTask_HwSDCardDetect,
+                                "Task - HwSDCardDetect",
+                                configMINIMAL_STACK_SIZE,
+                                NULL,
+                                tskIDLE_PRIORITY + 1,
+                                &xTask_HwSDCardDetect ) ) { /* some error action */ }	
+}
+
+
+//
+HwAPI_BootStatus_t HwAPI_SDCardDetect_GetBootStatus( void )
+{
+    extern HwAPI_BootStatus_t bootStatus_HwSDCardDetect;
+    
+    return bootStatus_HwSDCardDetect;
+}
+
+
+
 /* End of file */
