@@ -22,14 +22,30 @@
 
 
 /* Exported types ------------------------------------------------------------*/
+enum stateHwRunButton {
+    HW_RUN_BUTTON_INIT,
+    HW_RUN_BUTTON_GET,
+    HW_RUN_BUTTON_PRESSED,
+    HW_RUN_BUTTON_IDLE
+};
+
 typedef enum {
     RUN_BUTTON_PRESSED,
     RUN_BUTTON_NO_ACTION
 } RunButtonStatus_t;
 
+typedef struct {
+    enum stateHwRunButton stateHwRunButton;
+    RunButtonStatus_t runButtonStatus;
+} HwRunButtonQueueData_t;
+
 
 /* Exported functions --------------------------------------------------------*/
 RunButtonStatus_t HwAPI_RunButton_GetStatus( void );
+
+void vTask_HwRunButton( void *pvParameters );
+void HwAPI_RunButton_Run( void );
+HwAPI_BootStatus_t HwAPI_RunButton_GetBootStatus( void );
 
 #endif /* _HWAPI_RUN_BUTTON_H_*/
 /* End of file */

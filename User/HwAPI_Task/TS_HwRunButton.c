@@ -25,8 +25,12 @@
 #include <string.h>
 
 #include "HwAPI.h"
-#include "TS_HwQueue.h"
-#include "TS_task.h"
+
+
+TaskHandle_t xTask_HwRunButton;
+QueueHandle_t xQueue_HwRunButton_Rx;
+QueueHandle_t xQueue_HwRunButton_Tx;
+HwAPI_BootStatus_t bootStatus_HwRunButton = HW_TASK_BOOT_IDLE;
 
 
 // Declare private functions
@@ -60,7 +64,7 @@ void vTask_HwRunButton( void *pvParameters )
             {
                 InitGPIO_RunButton();
                 
-                bootState_HwRunButton = TASK_BOOT_PENDING;
+                bootStatus_HwRunButton = HW_TASK_BOOT_PENDING;
                 break;
             }
 
