@@ -25,6 +25,12 @@ typedef enum {
     HW_API_TIMEOUT  = 0x03U
 } HwAPI_Status_t;
 
+typedef enum {
+    HW_TASK_BOOT_PENDING,
+    HW_TASK_BOOT_RUN,
+    HW_TASK_BOOT_IDLE,
+    HW_TASK_BOOT_ERROR
+} HwAPI_BootStatus_t;
 
 
 /* Exported functions --------------------------------------------------------*/
