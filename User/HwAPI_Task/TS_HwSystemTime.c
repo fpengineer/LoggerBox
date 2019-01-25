@@ -26,6 +26,10 @@
 #include "TS_HwQueue.h"
 #include "TS_task.h"
 
+TaskHandle_t xTask_HwSystemTime;
+QueueHandle_t xQueue_HwSystemTime_Rx;
+QueueHandle_t xQueue_HwSystemTime_Tx;
+HwAPI_BootStatus_t bootStatus_HwSystemTime = HW_TASK_BOOT_IDLE;
 
 
 //static char tempString[150] = {""}; 
@@ -49,7 +53,7 @@ void vTask_HwSystemTime( void *pvParameters )
                     /* Do your stuff here */
                     /* eg. set default time */
                 }
-                bootState_HwSystemTime = TASK_BOOT_PENDING;
+                bootStatus_HwSystemTime = HW_TASK_BOOT_PENDING;
                 break;
             }
 

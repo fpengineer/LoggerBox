@@ -21,9 +21,12 @@
 
 #include "HwAPI.h"
 
+
+
 //
 void HwAPI_SystemTime_Set( TM_RTC_Time_t datatime )
 {
+    extern QueueHandle_t xQueue_HwSystemTime_Rx;
     HwSystemTimeQueueData_t hwSystemTimeQueueData;
 
     // Send to TS_HwSystemTime new time value to set
@@ -36,6 +39,8 @@ void HwAPI_SystemTime_Set( TM_RTC_Time_t datatime )
 //
 void HwAPI_SystemTime_Get( char *timeString )
 {
+    extern QueueHandle_t xQueue_HwSystemTime_Rx;
+    extern QueueHandle_t xQueue_HwSystemTime_Tx;
     HwSystemTimeQueueData_t hwSystemTimeQueueData;
 
     // get current system time from TS_HwSystemTime
@@ -57,9 +62,9 @@ void HwAPI_SystemTime_Get( char *timeString )
 //
 void HwAPI_SystemTime_ProcessConfig( int32_t *flagUpdateSystemTime, char *timeString )
 {
-//    HwFatFsQueueData_t hwFatFsQueueData;
+    extern QueueHandle_t xQueue_HwSystemTime_Rx;
+    extern QueueHandle_t xQueue_HwSystemTime_Tx;
     HwSystemTimeQueueData_t hwSystemTimeQueueData;
-//    cfgSystemTime_t cfgSystemTime;
     char stringSystemTime[ 30 ] = "";
     
     // read config values for time from "config.ini" file
@@ -110,11 +115,39 @@ void HwAPI_SystemTime_ProcessConfig( int32_t *flagUpdateSystemTime, char *timeSt
 
 
 
-
+//
 void HwAPI_SystemTime_SendToTerminal( char *timeString )
 {
     
     
+}
+
+
+//
+void HwAPI_SystemTime_Run( void )
+{
+    extern TaskHandle_t xTask_HwSystemTime;
+    extern QueueHandle_t xQueue_HwSystemTime_Rx;
+    extern QueueHandle_t xQueue_HwSystemTime_Tx;
+    
+    xQueue_HwSystemTime_Rx = xQueueCreate( 5, sizeof( HwSystemTimeQueueData_t ) );
+    xQueue_HwSystemTime_Tx = xQueueCreate( 5, sizeof( HwSystemTimeQueueData_t ) );
+
+	if( pdTRUE != xTaskCreate(  vTask_HwSystemTime,
+                                "Task - HwSystemTime",
+                                configMINIMAL_STACK_SIZE,
+                                NULL,
+                                tskIDLE_PRIORITY + 1,
+                                &xTask_HwSystemTime ) ) { /* some error action */ }	
+}
+
+
+//
+HwAPI_BootStatus_t HwAPI_SystemTime_GetBootStatus( void )
+{
+    extern HwAPI_BootStatus_t bootStatus_HwSystemTime;
+    
+    return bootStatus_HwSystemTime;
 }
 
 
