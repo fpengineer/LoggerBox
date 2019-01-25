@@ -26,11 +26,15 @@
 #include "stm32f4xx_spi.h"
 
 #include "HwAPI.h"
-#include "TS_HwQueue.h"
-#include "TS_task.h"
 
 #include "AD747x.h"
 #include "delay.h"
+
+TaskHandle_t xTask_HwDAQ_ADC;
+QueueHandle_t xQueue_HwDAQ_ADC_Rx;
+QueueHandle_t xQueue_HwDAQ_ADC_Tx;
+HwAPI_BootStatus_t bootStatus_HwDAQ_ADC = HW_TASK_BOOT_IDLE;
+
 
 // Declare private functions
 static void InitDAQ_ADCHardware( void );
@@ -57,7 +61,7 @@ void vTask_HwDAQ_ADC( void *pvParameters )
             {
                 InitDAQ_ADCHardware();
 				
-                bootState_HwDAQ_ADC = TASK_BOOT_PENDING;
+                bootStatus_HwDAQ_ADC = HW_TASK_BOOT_PENDING;
                 break;
             }
 

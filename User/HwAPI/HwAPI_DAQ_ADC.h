@@ -100,6 +100,14 @@
 #define MUX_CHANNEL_B_0()       GPIO_ResetBits( MUX_CHANNEL_B_PORT, MUX_CHANNEL_B_PIN )
 
 /* Exported types ------------------------------------------------------------*/
+enum stateHwDAQ_ADC {
+    HW_DAQ_ADC_INIT,
+    HW_DAQ_ADC_SELECT_INPUT,
+    HW_DAQ_ADC_GET_SINGLE,
+    HW_DAQ_ADC_GET_AVERAGED,
+    HW_DAQ_ADC_IDLE
+};
+
 // Select input source for the ADC
 typedef enum {
     ADC_SOURCE_1 = 0,
@@ -130,12 +138,22 @@ typedef struct {
 } CalibrationData_t;
 #endif
 
+typedef struct {
+    enum stateHwDAQ_ADC stateHwDAQ_ADC;
+    NChannelADC_t nChannelADC;
+    NSourceADC_t nSourceADC;
+    ValueDAQ_ADC_t valueADC;
+    int32_t numberAverages;
+} HwDAQ_ADCQueueData_t;
 
 /* Exported functions --------------------------------------------------------*/
 HwAPI_Status_t HwAPI_DAQ_ADC_SelectInput( NChannelADC_t nChannel, NSourceADC_t nSource );
 HwAPI_Status_t HwAPI_DAQ_ADC_GetSingle( float *valueADC, float range );
 HwAPI_Status_t HwAPI_DAQ_ADC_GetAveraged( float *valueADC, float range, int32_t numberAverages );
 
+void vTask_HwDAQ_ADC( void *pvParameters );
+void HwAPI_DAQ_ADC_Run( void );
+HwAPI_BootStatus_t HwAPI_DAQ_ADC_GetBootStatus( void );
 
 
 #endif /* _HWAPI_DAQ_ADC_H_*/
