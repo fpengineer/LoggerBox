@@ -17,8 +17,8 @@
 #include "HwAPI Def.h"
 #include "HwAPI Config.h"
 
-#include "HwAPI_SystemTime.h"
 #include "HwAPI_Terminal.h"
+#include "HwAPI_SystemTime.h"
 #include "HwAPI_FatFs.h"
 #include "HwAPI_SDCardDetect.h"
 #include "HwAPI_VoltageSource.h"
