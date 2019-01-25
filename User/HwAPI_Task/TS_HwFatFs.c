@@ -24,8 +24,6 @@
 #include "tm_stm32f4_fatfs.h"
 
 #include "HwAPI.h"
-#include "TS_HwQueue.h"
-#include "TS_task.h"
 
 #include "minIni.h"
 
