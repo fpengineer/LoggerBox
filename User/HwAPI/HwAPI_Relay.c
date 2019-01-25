@@ -25,7 +25,7 @@
 
 
 //
-HwAPI_StatusTypeDef HwAPI_Relay_Set( NRelay_t nRelay )
+HwAPI_Status_t HwAPI_Relay_Set( NRelay_t nRelay )
 {
     HwRelayQueueData_t hwRelayQueueData;
 
@@ -40,7 +40,7 @@ HwAPI_StatusTypeDef HwAPI_Relay_Set( NRelay_t nRelay )
 
 
 //
-HwAPI_StatusTypeDef HwAPI_Relay_Clear( NRelay_t nRelay )
+HwAPI_Status_t HwAPI_Relay_Clear( NRelay_t nRelay )
 {
     HwRelayQueueData_t hwRelayQueueData;
 
@@ -55,7 +55,7 @@ HwAPI_StatusTypeDef HwAPI_Relay_Clear( NRelay_t nRelay )
 
 
 //
-HwAPI_StatusTypeDef HwAPI_Relay_ClearAll( void )
+HwAPI_Status_t HwAPI_Relay_ClearAll( void )
 {
     HwRelayQueueData_t hwRelayQueueData;
 

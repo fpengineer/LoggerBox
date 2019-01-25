@@ -23,7 +23,7 @@ typedef enum {
     HW_API_ERROR    = 0x01U,
     HW_API_BUSY     = 0x02U,
     HW_API_TIMEOUT  = 0x03U
-} HwAPI_StatusTypeDef;
+} HwAPI_Status_t;
 
 
 

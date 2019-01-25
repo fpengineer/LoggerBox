@@ -87,9 +87,9 @@ typedef struct {
 
 
 /* Exported functions --------------------------------------------------------*/
-HwAPI_StatusTypeDef HwAPI_VoltageSource_Set( NSource_t nSource, float value );
-HwAPI_StatusTypeDef HwAPI_VoltageSource_Clear( NSource_t nSource );
-HwAPI_StatusTypeDef HwAPI_VoltageSource_ClearAll( void );
+HwAPI_Status_t HwAPI_VoltageSource_Set( NSource_t nSource, float value );
+HwAPI_Status_t HwAPI_VoltageSource_Clear( NSource_t nSource );
+HwAPI_Status_t HwAPI_VoltageSource_ClearAll( void );
 
 
 

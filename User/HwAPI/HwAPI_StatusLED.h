@@ -33,9 +33,9 @@
 
 
 /* Exported functions --------------------------------------------------------*/
-HwAPI_StatusTypeDef HwAPI_StatusLED_On( void );
-HwAPI_StatusTypeDef HwAPI_StatusLED_Off( void );
-HwAPI_StatusTypeDef HwAPI_StatusLED_Flash( uint16_t delay_ms );
+HwAPI_Status_t HwAPI_StatusLED_On( void );
+HwAPI_Status_t HwAPI_StatusLED_Off( void );
+HwAPI_Status_t HwAPI_StatusLED_Flash( uint16_t delay_ms );
 
 
 

@@ -39,7 +39,7 @@ static const CalibrationData_t calibrationData[] = {
    
 
 // This function should be called earlier than HwAPI_DAQ_ADC_GetSingle and HwAPI_DAQ_ADC_GetAveraged
-HwAPI_StatusTypeDef HwAPI_DAQ_ADC_SelectInput( NChannelADC_t nChannel, NSourceADC_t nSource )
+HwAPI_Status_t HwAPI_DAQ_ADC_SelectInput( NChannelADC_t nChannel, NSourceADC_t nSource )
 {
     HwDAQ_ADCQueueData_t hwDAQ_ADCQueueData;
         
@@ -56,7 +56,7 @@ HwAPI_StatusTypeDef HwAPI_DAQ_ADC_SelectInput( NChannelADC_t nChannel, NSourceAD
 }
 
 //
-HwAPI_StatusTypeDef HwAPI_DAQ_ADC_GetSingle( float *valueADC, float range )
+HwAPI_Status_t HwAPI_DAQ_ADC_GetSingle( float *valueADC, float range )
 {
     HwDAQ_ADCQueueData_t hwDAQ_ADCQueueData;
         
@@ -71,7 +71,7 @@ HwAPI_StatusTypeDef HwAPI_DAQ_ADC_GetSingle( float *valueADC, float range )
 }
 
 //
-HwAPI_StatusTypeDef HwAPI_DAQ_ADC_GetAveraged( float *valueADC, float range, int32_t numberAverages )
+HwAPI_Status_t HwAPI_DAQ_ADC_GetAveraged( float *valueADC, float range, int32_t numberAverages )
 {
     HwDAQ_ADCQueueData_t hwDAQ_ADCQueueData;
         

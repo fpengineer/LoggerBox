@@ -25,7 +25,7 @@
 static const CalibrationData_t calibrationData = { FREQ_CALIBRATION_SLOPE, FREQ_CALIBRATION_OFFSET };
 
 //
-HwAPI_StatusTypeDef HwAPI_DAQ_Frequency_GetSingle( NChannelFreq_t nChannel, FreqPWMData_t *valueFreq )
+HwAPI_Status_t HwAPI_DAQ_Frequency_GetSingle( NChannelFreq_t nChannel, FreqPWMData_t *valueFreq )
 {
     HwDAQ_FrequencyQueueData_t hwDAQ_FrequencyQueueData;
         
@@ -43,7 +43,7 @@ HwAPI_StatusTypeDef HwAPI_DAQ_Frequency_GetSingle( NChannelFreq_t nChannel, Freq
 
 
 //
-HwAPI_StatusTypeDef HwAPI_DAQ_Frequency_GetAveraged( NChannelFreq_t nChannel, FreqPWMData_t *valueFreq, int32_t numberAverages )
+HwAPI_Status_t HwAPI_DAQ_Frequency_GetAveraged( NChannelFreq_t nChannel, FreqPWMData_t *valueFreq, int32_t numberAverages )
 {
     HwDAQ_FrequencyQueueData_t hwDAQ_FrequencyQueueData;
         
