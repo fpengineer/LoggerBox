@@ -105,9 +105,7 @@ HwAPI_Status_t HwAPI_VoltageSource_Clear( NSource_t nSource );
 HwAPI_Status_t HwAPI_VoltageSource_ClearAll( void );
 
 void vTask_HwVoltageSource( void *pvParameters );
-void HwAPI_VoltageSource_Run( void );
-HwAPI_BootStatus_t HwAPI_VoltageSource_GetBootStatus( void );
-
+HwAPI_BootStatus_t HwAPI_VoltageSource_Run( void );
 
 #endif /* _HWAPI_SOURCE_H_*/
 /* End of file */

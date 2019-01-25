@@ -44,8 +44,7 @@ typedef struct {
 RunButtonStatus_t HwAPI_RunButton_GetStatus( void );
 
 void vTask_HwRunButton( void *pvParameters );
-void HwAPI_RunButton_Run( void );
-HwAPI_BootStatus_t HwAPI_RunButton_GetBootStatus( void );
+HwAPI_BootStatus_t HwAPI_RunButton_Run( void );
 
 #endif /* _HWAPI_RUN_BUTTON_H_*/
 /* End of file */

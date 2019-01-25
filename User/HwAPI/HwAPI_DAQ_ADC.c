@@ -90,11 +90,12 @@ HwAPI_Status_t HwAPI_DAQ_ADC_GetAveraged( float *valueADC, float range, int32_t 
 }
 
 //
-void HwAPI_DAQ_ADC_Run( void )
+HwAPI_BootStatus_t HwAPI_DAQ_ADC_Run( void )
 {
     extern TaskHandle_t xTask_HwDAQ_ADC;
     extern QueueHandle_t xQueue_HwDAQ_ADC_Rx;
     extern QueueHandle_t xQueue_HwDAQ_ADC_Tx;
+    extern HwAPI_BootStatus_t bootStatus_HwDAQ_ADC;
     
     xQueue_HwDAQ_ADC_Rx = xQueueCreate( 5, sizeof( HwDAQ_ADCQueueData_t ) );
     xQueue_HwDAQ_ADC_Tx = xQueueCreate( 5, sizeof( HwDAQ_ADCQueueData_t ) );
@@ -105,16 +106,15 @@ void HwAPI_DAQ_ADC_Run( void )
                                 NULL,
                                 tskIDLE_PRIORITY + 1,
                                 &xTask_HwDAQ_ADC ) ) { /* some error action */ }	
-}
 
-
-//
-HwAPI_BootStatus_t HwAPI_DAQ_ADC_GetBootStatus( void )
-{
-    extern HwAPI_BootStatus_t bootStatus_HwDAQ_ADC;
+    while ( bootStatus_HwDAQ_ADC == HW_TASK_BOOT_IDLE ){;}
+    
+    if ( bootStatus_HwDAQ_ADC == HW_TASK_BOOT_PENDING )
+    {
+        bootStatus_HwDAQ_ADC = HW_TASK_BOOT_RUN;
+    }
     
     return bootStatus_HwDAQ_ADC;
 }
-
 
 /* End of file */

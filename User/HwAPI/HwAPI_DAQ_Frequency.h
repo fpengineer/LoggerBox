@@ -96,9 +96,7 @@ HwAPI_Status_t HwAPI_DAQ_Frequency_GetSingle( NChannelFreq_t nChannel, FreqPWMDa
 HwAPI_Status_t HwAPI_DAQ_Frequency_GetAveraged( NChannelFreq_t nChannel, FreqPWMData_t *valueFreq, int32_t numberAverages );
 
 void vTask_HwDAQ_Frequency( void *pvParameters );
-void HwAPI_DAQ_Frequency_Run( void );
-HwAPI_BootStatus_t HwAPI_DAQ_Frequency_GetBootStatus( void );
-
+HwAPI_BootStatus_t HwAPI_DAQ_Frequency_Run( void );
 
 #endif /* _HWAPI_DAQ_FREQUENCY_H_*/
 /* End of file */

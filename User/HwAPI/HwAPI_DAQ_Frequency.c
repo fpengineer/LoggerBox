@@ -64,11 +64,12 @@ HwAPI_Status_t HwAPI_DAQ_Frequency_GetAveraged( NChannelFreq_t nChannel, FreqPWM
     
 
 //
-void HwAPI_DAQ_Frequency_Run( void )
+HwAPI_BootStatus_t HwAPI_DAQ_Frequency_Run( void )
 {
     extern TaskHandle_t xTask_HwDAQ_Frequency;
     extern QueueHandle_t xQueue_HwDAQ_Frequency_Rx;
     extern QueueHandle_t xQueue_HwDAQ_Frequency_Tx;
+    extern HwAPI_BootStatus_t bootStatus_HwDAQ_Frequency;
     
     xQueue_HwDAQ_Frequency_Rx = xQueueCreate( 5, sizeof( HwDAQ_FrequencyQueueData_t ) );
     xQueue_HwDAQ_Frequency_Tx = xQueueCreate( 5, sizeof( HwDAQ_FrequencyQueueData_t ) );
@@ -79,16 +80,15 @@ void HwAPI_DAQ_Frequency_Run( void )
                                 NULL,
                                 tskIDLE_PRIORITY + 1,
                                 &xTask_HwDAQ_Frequency ) ) { /* some error action */ }	
-}
 
-
-//
-HwAPI_BootStatus_t HwAPI_DAQ_Frequency_GetBootStatus( void )
-{
-    extern HwAPI_BootStatus_t bootStatus_HwDAQ_Frequency;
+    while ( bootStatus_HwDAQ_Frequency == HW_TASK_BOOT_IDLE ){;}
+    
+    if ( bootStatus_HwDAQ_Frequency == HW_TASK_BOOT_PENDING )
+    {
+        bootStatus_HwDAQ_Frequency = HW_TASK_BOOT_RUN;
+    }
     
     return bootStatus_HwDAQ_Frequency;
 }
-
 
 /* End of file */

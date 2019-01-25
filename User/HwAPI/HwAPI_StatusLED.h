@@ -49,9 +49,7 @@ HwAPI_Status_t HwAPI_StatusLED_Off( void );
 HwAPI_Status_t HwAPI_StatusLED_Flash( uint16_t delay_ms );
 
 void vTask_HwStatusLED( void *pvParameters );
-void HwAPI_StatusLED_Run( void );
-HwAPI_BootStatus_t HwAPI_StatusLED_GetBootStatus( void );
-
+HwAPI_BootStatus_t HwAPI_StatusLED_Run( void );
 
 #endif /* _HWAPI_STATUS_LED_H_*/
 /* End of file */

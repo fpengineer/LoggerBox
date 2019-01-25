@@ -28,10 +28,11 @@ void HwAPI_Terminal_SendMessage( char *message )
 
 
 //
-void HwAPI_Terminal_Run( void )
+HwAPI_BootStatus_t HwAPI_Terminal_Run( void )
 {
     extern TaskHandle_t xTask_HwTerminal;
     extern QueueHandle_t xQueue_HwTerminal_Rx;
+    extern HwAPI_BootStatus_t bootStatus_HwTerminal;
     
     xQueue_HwTerminal_Rx = xQueueCreate( 5, sizeof( char[ TERMINAL_BUFFER ] ) );
 
@@ -41,16 +42,14 @@ void HwAPI_Terminal_Run( void )
                                 NULL,
                                 tskIDLE_PRIORITY + 1,
                                 &xTask_HwTerminal ) ) { /* some error action */ }	
-}
 
-
-//
-HwAPI_BootStatus_t HwAPI_Terminal_GetBootStatus( void )
-{
-    extern HwAPI_BootStatus_t bootStatus_HwTerminal;
+    while ( bootStatus_HwTerminal == HW_TASK_BOOT_IDLE ){;}
+    
+    if ( bootStatus_HwTerminal == HW_TASK_BOOT_PENDING )
+    {
+        bootStatus_HwTerminal = HW_TASK_BOOT_RUN;
+    }
     
     return bootStatus_HwTerminal;
 }
-
-
 /* End of file */

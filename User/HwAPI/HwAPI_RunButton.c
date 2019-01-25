@@ -37,11 +37,12 @@ RunButtonStatus_t HwAPI_RunButton_GetStatus( void )
 
 
 //
-void HwAPI_RunButton_Run( void )
+HwAPI_BootStatus_t HwAPI_RunButton_Run( void )
 {
     extern TaskHandle_t xTask_HwRunButton;
     extern QueueHandle_t xQueue_HwRunButton_Rx;
     extern QueueHandle_t xQueue_HwRunButton_Tx;
+    extern HwAPI_BootStatus_t bootStatus_HwRunButton;
     
     xQueue_HwRunButton_Rx = xQueueCreate( 5, sizeof( HwRunButtonQueueData_t ) );
     xQueue_HwRunButton_Tx = xQueueCreate( 5, sizeof( HwRunButtonQueueData_t ) );
@@ -52,16 +53,15 @@ void HwAPI_RunButton_Run( void )
                                 NULL,
                                 tskIDLE_PRIORITY + 1,
                                 &xTask_HwRunButton ) ) { /* some error action */ }	
-}
 
-
-//
-HwAPI_BootStatus_t HwAPI_RunButton_GetBootStatus( void )
-{
-    extern HwAPI_BootStatus_t bootStatus_HwRunButton;
+    while ( bootStatus_HwRunButton == HW_TASK_BOOT_IDLE ){;}
+    
+    if ( bootStatus_HwRunButton == HW_TASK_BOOT_PENDING )
+    {
+        bootStatus_HwRunButton = HW_TASK_BOOT_RUN;
+    }
     
     return bootStatus_HwRunButton;
 }
-
 
 /* End of file */

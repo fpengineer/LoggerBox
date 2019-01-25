@@ -64,10 +64,11 @@ HwAPI_Status_t HwAPI_SDCardLED_Flash( uint16_t delay_ms )
 
 
 //
-void HwAPI_SDCardLED_Run( void )
+HwAPI_BootStatus_t HwAPI_SDCardLED_Run( void )
 {
     extern TaskHandle_t xTask_HwSDCardLED;
     extern QueueHandle_t xQueue_HwSDCardLED_Rx;
+    extern HwAPI_BootStatus_t bootStatus_HwSDCardLED;
     
     xQueue_HwSDCardLED_Rx = xQueueCreate( 5, sizeof( HwSDCardLEDQueueData_t ) );
 
@@ -77,16 +78,15 @@ void HwAPI_SDCardLED_Run( void )
                                 NULL,
                                 tskIDLE_PRIORITY + 1,
                                 &xTask_HwSDCardLED ) ) { /* some error action */ }	
-}
 
-
-//
-HwAPI_BootStatus_t HwAPI_SDCardLED_GetBootStatus( void )
-{
-    extern HwAPI_BootStatus_t bootStatus_HwSDCardLED;
+    while ( bootStatus_HwSDCardLED == HW_TASK_BOOT_IDLE ){;}
+    
+    if ( bootStatus_HwSDCardLED == HW_TASK_BOOT_PENDING )
+    {
+        bootStatus_HwSDCardLED = HW_TASK_BOOT_RUN;
+    }
     
     return bootStatus_HwSDCardLED;
 }
-
 
 /* End of file */

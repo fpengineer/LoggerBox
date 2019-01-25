@@ -64,10 +64,11 @@ HwAPI_Status_t HwAPI_StatusLED_Flash( uint16_t delay_ms )
 
 
 //
-void HwAPI_StatusLED_Run( void )
+HwAPI_BootStatus_t HwAPI_StatusLED_Run( void )
 {
     extern TaskHandle_t xTask_HwStatusLED;
     extern QueueHandle_t xQueue_HwStatusLED_Rx;
+    extern HwAPI_BootStatus_t bootStatus_HwStatusLED;
     
     xQueue_HwStatusLED_Rx = xQueueCreate( 5, sizeof( HwStatusLEDQueueData_t ) );
 
@@ -77,16 +78,15 @@ void HwAPI_StatusLED_Run( void )
                                 NULL,
                                 tskIDLE_PRIORITY + 1,
                                 &xTask_HwStatusLED ) ) { /* some error action */ }	
-}
 
-
-//
-HwAPI_BootStatus_t HwAPI_StatusLED_GetBootStatus( void )
-{
-    extern HwAPI_BootStatus_t bootStatus_HwStatusLED;
+    while ( bootStatus_HwStatusLED == HW_TASK_BOOT_IDLE ){;}
+    
+    if ( bootStatus_HwStatusLED == HW_TASK_BOOT_PENDING )
+    {
+        bootStatus_HwStatusLED = HW_TASK_BOOT_RUN;
+    }
     
     return bootStatus_HwStatusLED;
 }
-
 
 /* End of file */

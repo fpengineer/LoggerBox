@@ -84,11 +84,12 @@ HwAPI_Status_t HwAPI_VoltageSource_ClearAll( void )
 
 
 //
-void HwAPI_VoltageSource_Run( void )
+HwAPI_BootStatus_t HwAPI_VoltageSource_Run( void )
 {
     extern TaskHandle_t xTask_HwVoltageSource;
     extern QueueHandle_t xQueue_HwVoltageSource_Rx;
 //    extern QueueHandle_t xQueue_HwVoltageSource_Tx;
+    extern HwAPI_BootStatus_t bootStatus_HwVoltageSource;
     
     xQueue_HwVoltageSource_Rx = xQueueCreate( 5, sizeof( HwVoltageSourceQueueData_t ) );
 //    xQueue_HwVoltageSource_Tx = xQueueCreate( 5, sizeof( HwVoltageSourceQueueData_t ) );
@@ -99,16 +100,15 @@ void HwAPI_VoltageSource_Run( void )
                                 NULL,
                                 tskIDLE_PRIORITY + 1,
                                 &xTask_HwVoltageSource ) ) { /* some error action */ }	
-}
 
-
-//
-HwAPI_BootStatus_t HwAPI_VoltageSource_GetBootStatus( void )
-{
-    extern HwAPI_BootStatus_t bootStatus_HwVoltageSource;
+    while ( bootStatus_HwVoltageSource == HW_TASK_BOOT_IDLE ){;}
+    
+    if ( bootStatus_HwVoltageSource == HW_TASK_BOOT_PENDING )
+    {
+        bootStatus_HwVoltageSource = HW_TASK_BOOT_RUN;
+    }
     
     return bootStatus_HwVoltageSource;
 }
-
 
 /* End of file */

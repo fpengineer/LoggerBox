@@ -96,9 +96,7 @@ HwAPI_Status_t HwAPI_Relay_Clear( NRelay_t nRelay );
 HwAPI_Status_t HwAPI_Relay_ClearAll( void );
 
 void vTask_HwRelay( void *pvParameters );
-void HwAPI_Relay_Run( void );
-HwAPI_BootStatus_t HwAPI_Relay_GetBootStatus( void );
-
+HwAPI_BootStatus_t HwAPI_Relay_Run( void );
 
 #endif /* _HWAPI_RELAY_H_*/
 /* End of file */

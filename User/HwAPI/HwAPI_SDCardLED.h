@@ -49,9 +49,7 @@ HwAPI_Status_t HwAPI_SDCardLED_Off( void );
 HwAPI_Status_t HwAPI_SDCardLED_Flash( uint16_t delay_ms );
 
 void vTask_HwSDCardLED( void *pvParameters );
-void HwAPI_SDCardLED_Run( void );
-HwAPI_BootStatus_t HwAPI_SDCardLED_GetBootStatus( void );
-
+HwAPI_BootStatus_t HwAPI_SDCardLED_Run( void );
 
 #endif /* _HWAPI_SDCARD_LED_H_*/
 /* End of file */

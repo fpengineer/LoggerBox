@@ -46,7 +46,7 @@ typedef struct {
 SDCardDetectStatus_t HwAPI_SDCardDetect_GetStatus( void );
 
 void vTask_HwSDCardDetect( void *pvParameters );
-void HwAPI_SDCardDetect_Run( void );
-HwAPI_BootStatus_t HwAPI_SDCardDetect_GetBootStatus( void );
+HwAPI_BootStatus_t HwAPI_SDCardDetect_Run( void );
+
 #endif /* _HWAPI_SDCARD_DETECT_H_*/
 /* End of file */

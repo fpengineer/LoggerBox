@@ -152,9 +152,7 @@ HwAPI_Status_t HwAPI_DAQ_ADC_GetSingle( float *valueADC, float range );
 HwAPI_Status_t HwAPI_DAQ_ADC_GetAveraged( float *valueADC, float range, int32_t numberAverages );
 
 void vTask_HwDAQ_ADC( void *pvParameters );
-void HwAPI_DAQ_ADC_Run( void );
-HwAPI_BootStatus_t HwAPI_DAQ_ADC_GetBootStatus( void );
-
+HwAPI_BootStatus_t HwAPI_DAQ_ADC_Run( void );
 
 #endif /* _HWAPI_DAQ_ADC_H_*/
 /* End of file */

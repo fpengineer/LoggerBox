@@ -121,11 +121,12 @@ void HwAPI_SystemTime_SendToTerminal( char *timeString )
 
 
 //
-void HwAPI_SystemTime_Run( void )
+HwAPI_BootStatus_t HwAPI_SystemTime_Run( void )
 {
     extern TaskHandle_t xTask_HwSystemTime;
     extern QueueHandle_t xQueue_HwSystemTime_Rx;
     extern QueueHandle_t xQueue_HwSystemTime_Tx;
+    extern HwAPI_BootStatus_t bootStatus_HwSystemTime;
     
     xQueue_HwSystemTime_Rx = xQueueCreate( 5, sizeof( HwSystemTimeQueueData_t ) );
     xQueue_HwSystemTime_Tx = xQueueCreate( 5, sizeof( HwSystemTimeQueueData_t ) );
@@ -136,17 +137,14 @@ void HwAPI_SystemTime_Run( void )
                                 NULL,
                                 tskIDLE_PRIORITY + 1,
                                 &xTask_HwSystemTime ) ) { /* some error action */ }	
-}
 
-
-//
-HwAPI_BootStatus_t HwAPI_SystemTime_GetBootStatus( void )
-{
-    extern HwAPI_BootStatus_t bootStatus_HwSystemTime;
+    while ( bootStatus_HwSystemTime == HW_TASK_BOOT_IDLE ){;}
+    
+    if ( bootStatus_HwSystemTime == HW_TASK_BOOT_PENDING )
+    {
+        bootStatus_HwSystemTime = HW_TASK_BOOT_RUN;
+    }
     
     return bootStatus_HwSystemTime;
 }
-
-
-
 /* End of file */

@@ -124,8 +124,7 @@ void HwAPI_FatFs_InitSDCard( void );
 void HwAPI_FatFs_DeinitSDCard( void );
 
 void vTask_HwFatFs( void *pvParameters );
-void HwAPI_FatFs_Run( void );
-HwAPI_BootStatus_t HwAPI_FatFs_GetBootStatus( void );
+HwAPI_BootStatus_t HwAPI_FatFs_Run( void );
 
 #endif /* _HWAPI_FATFS_H_*/
 /* End of file */

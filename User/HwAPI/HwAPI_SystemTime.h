@@ -51,9 +51,7 @@ void HwAPI_SystemTime_ProcessConfig( int32_t *flagUpdateSystemTime, char *timeSt
 void HwAPI_SystemTime_SendToTerminal( char *timeString );
 
 void vTask_HwSystemTime( void *pvParameters );
-void HwAPI_SystemTime_Run( void );
-HwAPI_BootStatus_t HwAPI_SystemTime_GetBootStatus( void );
-
+HwAPI_BootStatus_t HwAPI_SystemTime_Run( void );
 
 #endif /* _HWAPI_SYSTEM_TIME_H_*/
 /* End of file */
