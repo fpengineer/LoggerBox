@@ -292,7 +292,7 @@ void HwAPI_FatFs_Run( void )
 
 	if( pdTRUE != xTaskCreate(  vTask_HwFatFs,
                                 "Task - HwFatFs",
-                                configMINIMAL_STACK_SIZE,
+                                configMINIMAL_STACK_SIZE + 5000,
                                 NULL,
                                 tskIDLE_PRIORITY + 1,
                                 &xTask_HwFatFs ) ) { /* some error action */ }	
