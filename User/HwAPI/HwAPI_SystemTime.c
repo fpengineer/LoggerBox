@@ -16,9 +16,6 @@
 #include "task.h"
 #include "queue.h"
 
-#include "TS_queue.h"
-#include "TS_HwQueue.h"
-
 #include "HwAPI.h"
 
 
