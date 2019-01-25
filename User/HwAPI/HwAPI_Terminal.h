@@ -23,5 +23,9 @@
 /* Exported functions --------------------------------------------------------*/
 void HwAPI_Terminal_SendMessage( char *message );
 
+void vTask_HwTerminal( void *pvParameters );
+void HwAPI_Terminal_Run( void );
+HwAPI_BootStatus_t HwAPI_Terminal_GetBootStatus( void );
+
 #endif /* _HW_API_TERMINAL_H_*/
 /* End of file */

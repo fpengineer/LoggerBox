@@ -22,8 +22,10 @@
 #include "tm_stm32f4_usart.h"
 
 #include "HwAPI.h"
-#include "TS_HwQueue.h"
 
+TaskHandle_t xTask_HwTerminal;
+QueueHandle_t xQueue_HwTerminal_Rx;
+HwAPI_BootStatus_t bootStatus_HwTerminal = HW_TASK_BOOT_IDLE;
 
 static char tempString[500] = {""}; 
     
@@ -31,7 +33,7 @@ void vTask_HwTerminal( void *pvParameters )
 {
 	/* Initialize USART, TX: PB10, RX: PB11 */
     TM_USART_Init(USART2, TM_USART_PinsPack_2, (uint32_t)(115200.0 * 3.125)); // Why coefficient is 3.125?
-    bootState_HwTerminal = TASK_BOOT_PENDING;
+    bootStatus_HwTerminal = HW_TASK_BOOT_PENDING;
 	
     while( 1 )
 	{
