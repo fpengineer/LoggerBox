@@ -54,9 +54,9 @@ QueueHandle_t xQueue_MeasureX_Rx;
     
     
 /*******************************************************************/
-//void vApplicationIdleHook( void )
-//{
-//}
+void vApplicationIdleHook( void )
+{
+}
 /*******************************************************************/
 void vApplicationMallocFailedHook( void )
 {
@@ -90,7 +90,11 @@ int main(void) {
 //    xQueue_MeasureX_Rx = xQueueCreate( 5, sizeof( int ) );
 
 
-
+    // run hardware tasks
+    // wait for boot of hardware tasks
+    // run measure planner
+    
+    
 #if 1       // Hardware boot task
     if( pdTRUE != xTaskCreate(  vTask_HwBoot,
                                 "Task - Hardware boot",
