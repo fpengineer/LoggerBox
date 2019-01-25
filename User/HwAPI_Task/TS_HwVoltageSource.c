@@ -31,6 +31,12 @@
 #include "AD56x0.h"
 #include "delay.h"
 
+TaskHandle_t xTask_HwVoltageSource;
+QueueHandle_t xQueue_HwVoltageSource_Rx;
+//QueueHandle_t xQueue_HwVoltageSource_Tx;
+HwAPI_BootStatus_t bootStatus_HwVoltageSource = HW_TASK_BOOT_IDLE;
+
+
 // Declare private functions
 static void InitVoltageSourceHardware( void );
 void SetSourceValue( NSource_t nSource, ValueAD56x0_t valueDAC );
@@ -58,7 +64,7 @@ void vTask_HwVoltageSource( void *pvParameters )
                 SetSourceValue( NSOURCE_3, 0 );
                 SetSourceValue( NSOURCE_4, 0 );
 				
-                bootState_HwVoltageSource = TASK_BOOT_PENDING;
+                bootStatus_HwVoltageSource = HW_TASK_BOOT_PENDING;
                 break;
             }
 

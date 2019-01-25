@@ -68,6 +68,14 @@
 #define DAC4_CS_0()       GPIO_ResetBits( NSOURCE4_CS_PORT, NSOURCE4_CS_PIN )
 
 /* Exported types ------------------------------------------------------------*/
+enum stateHwVoltageSource {
+    HW_VOLTAGE_SOURCE_INIT,
+    HW_VOLTAGE_SOURCE_SET,
+    HW_VOLTAGE_SOURCE_CLEAR,
+    HW_VOLTAGE_SOURCE_CLEAR_ALL,
+    HW_VOLTAGE_SOURCE_IDLE
+};
+
 typedef enum {
     NSOURCE_1 = 0,
     NSOURCE_2,
@@ -83,6 +91,11 @@ typedef struct {
 } CalibrationData_t;
 #endif
 
+typedef struct {
+    enum stateHwVoltageSource stateHwVoltageSource;
+    NSource_t nSource;
+    ValueAD56x0_t valueDAC;
+} HwVoltageSourceQueueData_t;
 
 
 
@@ -91,6 +104,9 @@ HwAPI_Status_t HwAPI_VoltageSource_Set( NSource_t nSource, float value );
 HwAPI_Status_t HwAPI_VoltageSource_Clear( NSource_t nSource );
 HwAPI_Status_t HwAPI_VoltageSource_ClearAll( void );
 
+void vTask_HwVoltageSource( void *pvParameters );
+void HwAPI_VoltageSource_Run( void );
+HwAPI_BootStatus_t HwAPI_VoltageSource_GetBootStatus( void );
 
 
 #endif /* _HWAPI_SOURCE_H_*/

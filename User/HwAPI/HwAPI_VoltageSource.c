@@ -42,6 +42,7 @@ static const CalibrationData_t calibrationData[] = {
 //
 HwAPI_Status_t HwAPI_VoltageSource_Set( NSource_t nSource, float value )
 {
+    extern QueueHandle_t xQueue_HwVoltageSource_Rx;
     HwVoltageSourceQueueData_t hwVoltageSourceQueueData;
     
     hwVoltageSourceQueueData.stateHwVoltageSource = HW_VOLTAGE_SOURCE_SET;
@@ -59,6 +60,7 @@ HwAPI_Status_t HwAPI_VoltageSource_Set( NSource_t nSource, float value )
 //
 HwAPI_Status_t HwAPI_VoltageSource_Clear( NSource_t nSource )
 {
+    extern QueueHandle_t xQueue_HwVoltageSource_Rx;
     HwVoltageSourceQueueData_t hwVoltageSourceQueueData;
 
     hwVoltageSourceQueueData.stateHwVoltageSource = HW_VOLTAGE_SOURCE_CLEAR;
@@ -73,6 +75,7 @@ HwAPI_Status_t HwAPI_VoltageSource_Clear( NSource_t nSource )
 //
 HwAPI_Status_t HwAPI_VoltageSource_ClearAll( void )
 {
+    extern QueueHandle_t xQueue_HwVoltageSource_Rx;
     HwVoltageSourceQueueData_t hwVoltageSourceQueueData;
 
     hwVoltageSourceQueueData.stateHwVoltageSource = HW_VOLTAGE_SOURCE_CLEAR_ALL;
@@ -80,4 +83,34 @@ HwAPI_Status_t HwAPI_VoltageSource_ClearAll( void )
 
 	return HW_API_OK;
 }
+
+
+//
+void HwAPI_VoltageSource_Run( void )
+{
+    extern TaskHandle_t xTask_HwVoltageSource;
+    extern QueueHandle_t xQueue_HwVoltageSource_Rx;
+//    extern QueueHandle_t xQueue_HwVoltageSource_Tx;
+    
+    xQueue_HwVoltageSource_Rx = xQueueCreate( 5, sizeof( HwVoltageSourceQueueData_t ) );
+//    xQueue_HwVoltageSource_Tx = xQueueCreate( 5, sizeof( HwVoltageSourceQueueData_t ) );
+
+	if( pdTRUE != xTaskCreate(  vTask_HwVoltageSource,
+                                "Task - HwVoltageSource",
+                                configMINIMAL_STACK_SIZE,
+                                NULL,
+                                tskIDLE_PRIORITY + 1,
+                                &xTask_HwVoltageSource ) ) { /* some error action */ }	
+}
+
+
+//
+HwAPI_BootStatus_t HwAPI_VoltageSource_GetBootStatus( void )
+{
+    extern HwAPI_BootStatus_t bootStatus_HwVoltageSource;
+    
+    return bootStatus_HwVoltageSource;
+}
+
+
 /* End of file */
