@@ -14,7 +14,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#include "HwAPI Def.h"
+#include "HwAPI.h"
 
 // SD card detect port/pin defines
 #define SDCARD_DETECT_PORT          GPIOA

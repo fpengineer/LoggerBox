@@ -14,7 +14,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#include "HwAPI Def.h"
+#include "HwAPI.h"
 
 // Run button detect port/pin defines
 #define RUN_BUTTON_PORT          GPIOC

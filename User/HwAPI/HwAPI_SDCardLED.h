@@ -12,7 +12,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#include "HwAPI Def.h"
+#include "HwAPI.h"
 
 
 // SD card LED port/pin defines
