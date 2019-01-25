@@ -27,8 +27,8 @@
 #include "semphr.h"
 
 // Include application
-#include "TS_task.h"
-#include "TS_HwTask.h"
+#include "HwAPI.h"
+#include "TS_Task.h"
 #include "TS_queue.h"
 #include "ClockOutMCO.h"
 
@@ -53,6 +53,72 @@ QueueHandle_t xQueue_MeasureX_Rx;
     
     
     
+
+int main(void) {
+    SystemInit();
+
+	TM_DISCO_LedInit();
+    TM_DELAY_Init();
+
+//    OutputMCO();
+    
+    xQueue_MeasurePlanner_Rx = xQueueCreate( 5, sizeof( int ) );
+//    xQueue_MeasureX_Rx = xQueueCreate( 5, sizeof( int ) );
+
+
+    vTaskStartScheduler();
+
+    // run hardware tasks
+    if ( HwAPI_Terminal_Run() == HW_TASK_BOOT_RUN )
+    {
+        HwAPI_Terminal_SendMessage( "HwTerminal task run\n" );
+        
+        // Strictly follow boot sequence!!!
+        if ( HwAPI_SystemTime_Run() == HW_TASK_BOOT_RUN &&
+             HwAPI_StatusLED_Run() == HW_TASK_BOOT_RUN &&
+             HwAPI_SDCardLED_Run() == HW_TASK_BOOT_RUN &&
+             HwAPI_FatFs_Run() == HW_TASK_BOOT_RUN &&
+             HwAPI_SDCardDetect_Run() == HW_TASK_BOOT_RUN &&
+             HwAPI_Relay_Run() == HW_TASK_BOOT_RUN &&
+             HwAPI_VoltageSource_Run() == HW_TASK_BOOT_RUN &&
+             HwAPI_DAQ_ADC_Run() == HW_TASK_BOOT_RUN &&
+             HwAPI_DAQ_Frequency_Run() == HW_TASK_BOOT_RUN &&
+             HwAPI_RunButton_Run() == HW_TASK_BOOT_RUN )
+        {
+    // run measure planner
+#if 1       // MeasurePlanner
+            if( pdTRUE != xTaskCreate(  vTask_MeasurePlanner,
+                                        "Task - Measure Planner",
+                                        configMINIMAL_STACK_SIZE,
+                                        NULL,
+                                        tskIDLE_PRIORITY + 1,
+                                        &xTask_MeasurePlanner )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
+#endif
+                                
+            HwAPI_Terminal_SendMessage( "***********   LoggerBox   UF113.887   " SYSTEM_VERSION "   ***********\n" );
+        }
+    }
+    else
+    {
+        HwAPI_Terminal_SendMessage( "HwTerminal task boot error\n" );
+    }
+
+	while ( 1 )
+    {
+
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
 /*******************************************************************/
 void vApplicationIdleHook( void )
 {
@@ -75,50 +141,3 @@ void vApplicationTickHook( void )
 {
 }
 /*******************************************************************/    
-
-int main(void) {
-    extern BootState_t bootState_HwBoot;
-	
-    SystemInit();
-
-	TM_DISCO_LedInit();
-    TM_DELAY_Init();
-
-//    OutputMCO();
-    
-    xQueue_MeasurePlanner_Rx = xQueueCreate( 5, sizeof( int ) );
-//    xQueue_MeasureX_Rx = xQueueCreate( 5, sizeof( int ) );
-
-
-    // run hardware tasks
-    // wait for boot of hardware tasks
-    // run measure planner
-    
-    
-#if 1       // Hardware boot task
-    if( pdTRUE != xTaskCreate(  vTask_HwBoot,
-                                "Task - Hardware boot",
-                                configMINIMAL_STACK_SIZE,
-                                NULL,
-                                tskIDLE_PRIORITY + 1,
-                                &xTask_HwBoot )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
-#endif
-    vTaskStartScheduler();
-                                
-    while ( bootState_HwBoot != TASK_BOOT_RUN ){;}
-#if 1       // MeasurePlanner
-    if( pdTRUE != xTaskCreate(  vTask_MeasurePlanner,
-                                "Task - Measure Planner",
-                                configMINIMAL_STACK_SIZE,
-                                NULL,
-                                tskIDLE_PRIORITY + 1,
-                                &xTask_MeasurePlanner )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
-#endif
-                                
-    HwAPI_Terminal_SendMessage( "***********   LoggerBox   UF113.887   " SYSTEM_VERSION "   ***********\n" );
-
-
-	while (1) {
-
-	}
-}
