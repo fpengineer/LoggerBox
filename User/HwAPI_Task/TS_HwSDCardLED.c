@@ -24,8 +24,11 @@
 #include "stm32f4xx_gpio.h"
 
 #include "HwAPI.h"
-#include "TS_HwQueue.h"
-#include "TS_task.h"
+
+
+TaskHandle_t xTask_HwSDCardLED;
+QueueHandle_t xQueue_HwSDCardLED_Rx;
+HwAPI_BootStatus_t bootStatus_HwSDCardLED = HW_TASK_BOOT_IDLE;
 
 // Declare private functions
 static void InitSDCardLEDHardware( void );
@@ -50,7 +53,7 @@ void vTask_HwSDCardLED( void *pvParameters )
 				InitSDCardLEDHardware();
 				SDCardLED_Off();
 				
-                bootState_HwSDCardLED = TASK_BOOT_PENDING;
+                bootStatus_HwSDCardLED = HW_TASK_BOOT_PENDING;
                 break;
             }
 

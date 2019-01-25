@@ -29,7 +29,18 @@
 
 
 /* Exported types ------------------------------------------------------------*/
+enum stateHwSDCardLED {
+    HW_SDCARD_LED_INIT,
+    HW_SDCARD_LED_ON,
+    HW_SDCARD_LED_OFF,
+    HW_SDCARD_LED_FLASH,
+    HW_SDCARD_LED_IDLE
+};
 
+typedef struct {
+    enum stateHwSDCardLED stateHwSDCardLED;
+    uint16_t delay_ms;
+} HwSDCardLEDQueueData_t;
 
 
 /* Exported functions --------------------------------------------------------*/
@@ -37,6 +48,9 @@ HwAPI_Status_t HwAPI_SDCardLED_On( void );
 HwAPI_Status_t HwAPI_SDCardLED_Off( void );
 HwAPI_Status_t HwAPI_SDCardLED_Flash( uint16_t delay_ms );
 
+void vTask_HwSDCardLED( void *pvParameters );
+void HwAPI_SDCardLED_Run( void );
+HwAPI_BootStatus_t HwAPI_SDCardLED_GetBootStatus( void );
 
 
 #endif /* _HWAPI_SDCARD_LED_H_*/

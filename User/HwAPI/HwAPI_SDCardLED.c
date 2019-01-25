@@ -25,6 +25,7 @@
 //
 HwAPI_Status_t HwAPI_SDCardLED_On( void )
 {
+    extern QueueHandle_t xQueue_HwSDCardLED_Rx;
     HwSDCardLEDQueueData_t hwSDCardLEDQueueData;
 
     hwSDCardLEDQueueData.stateHwSDCardLED = HW_SDCARD_LED_ON;
@@ -38,6 +39,7 @@ HwAPI_Status_t HwAPI_SDCardLED_On( void )
 //
 HwAPI_Status_t HwAPI_SDCardLED_Off( void )
 {
+    extern QueueHandle_t xQueue_HwSDCardLED_Rx;
     HwSDCardLEDQueueData_t hwSDCardLEDQueueData;
 
     hwSDCardLEDQueueData.stateHwSDCardLED = HW_SDCARD_LED_OFF;
@@ -51,6 +53,7 @@ HwAPI_Status_t HwAPI_SDCardLED_Off( void )
 //
 HwAPI_Status_t HwAPI_SDCardLED_Flash( uint16_t delay_ms )
 {
+    extern QueueHandle_t xQueue_HwSDCardLED_Rx;
     HwSDCardLEDQueueData_t hwSDCardLEDQueueData;
 
     hwSDCardLEDQueueData.stateHwSDCardLED = HW_SDCARD_LED_FLASH;
@@ -60,4 +63,32 @@ HwAPI_Status_t HwAPI_SDCardLED_Flash( uint16_t delay_ms )
 
 	return HW_API_OK;
 }
+
+
+//
+void HwAPI_SDCardLED_Run( void )
+{
+    extern TaskHandle_t xTask_HwSDCardLED;
+    extern QueueHandle_t xQueue_HwSDCardLED_Rx;
+    
+    xQueue_HwSDCardLED_Rx = xQueueCreate( 5, sizeof( HwSDCardLEDQueueData_t ) );
+
+	if( pdTRUE != xTaskCreate(  vTask_HwSDCardLED,
+                                "Task - HwSDCardLED",
+                                configMINIMAL_STACK_SIZE,
+                                NULL,
+                                tskIDLE_PRIORITY + 1,
+                                &xTask_HwSDCardLED ) ) { /* some error action */ }	
+}
+
+
+//
+HwAPI_BootStatus_t HwAPI_SDCardLED_GetBootStatus( void )
+{
+    extern HwAPI_BootStatus_t bootStatus_HwSDCardLED;
+    
+    return bootStatus_HwSDCardLED;
+}
+
+
 /* End of file */
