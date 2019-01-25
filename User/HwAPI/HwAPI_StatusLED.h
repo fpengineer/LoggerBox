@@ -29,7 +29,18 @@
 
 
 /* Exported types ------------------------------------------------------------*/
+enum stateHwStatusLED {
+    HW_STATUS_LED_INIT,
+    HW_STATUS_LED_ON,
+    HW_STATUS_LED_OFF,
+    HW_STATUS_LED_FLASH,
+    HW_STATUS_LED_IDLE
+};
 
+typedef struct {
+    enum stateHwStatusLED stateHwStatusLED;
+    uint16_t delay_ms;
+} HwStatusLEDQueueData_t;
 
 
 /* Exported functions --------------------------------------------------------*/
@@ -37,6 +48,9 @@ HwAPI_Status_t HwAPI_StatusLED_On( void );
 HwAPI_Status_t HwAPI_StatusLED_Off( void );
 HwAPI_Status_t HwAPI_StatusLED_Flash( uint16_t delay_ms );
 
+void vTask_HwStatusLED( void *pvParameters );
+void HwAPI_StatusLED_Run( void );
+HwAPI_BootStatus_t HwAPI_StatusLED_GetBootStatus( void );
 
 
 #endif /* _HWAPI_STATUS_LED_H_*/
