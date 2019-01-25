@@ -23,8 +23,6 @@
 #include "tm_stm32f4_rtc.h"
 
 #include "HwAPI.h"
-#include "TS_HwQueue.h"
-#include "TS_task.h"
 
 TaskHandle_t xTask_HwSystemTime;
 QueueHandle_t xQueue_HwSystemTime_Rx;
