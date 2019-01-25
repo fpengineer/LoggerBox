@@ -25,8 +25,6 @@
 #include "stm32f4xx_spi.h"
 
 #include "HwAPI.h"
-#include "TS_HwQueue.h"
-#include "TS_task.h"
 
 #include "AD56x0.h"
 #include "delay.h"
