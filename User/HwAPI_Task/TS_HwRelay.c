@@ -25,10 +25,14 @@
 #include "stm32f4xx_spi.h"
 
 #include "HwAPI.h"
-#include "TS_HwQueue.h"
-#include "TS_task.h"
 
 #include "delay.h"
+
+TaskHandle_t xTask_HwRelay;
+QueueHandle_t xQueue_HwRelay_Rx;
+QueueHandle_t xQueue_HwRelay_Tx;
+HwAPI_BootStatus_t bootStatus_HwRelay = HW_TASK_BOOT_IDLE;
+
 
 // Declare private functions
 static void InitRelayHardware( void );
@@ -56,7 +60,7 @@ void vTask_HwRelay( void *pvParameters )
 				InitRelayHardware();
 				RelayClearAll();
 				
-                bootState_HwRelay = TASK_BOOT_PENDING;
+                bootStatus_HwRelay = HW_TASK_BOOT_PENDING;
                 break;
             }
 

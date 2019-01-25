@@ -14,7 +14,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#include "HwAPI Def.h"
+#include "HwAPI.h"
 
 
 // Relay port/pin defines
@@ -64,6 +64,14 @@
 
 
 /* Exported types ------------------------------------------------------------*/
+enum stateHwRelay {
+    HW_RELAY_INIT,
+    HW_RELAY_SET,
+    HW_RELAY_CLEAR,
+    HW_RELAY_CLEAR_ALL,
+    HW_RELAY_IDLE
+};
+
 typedef enum {
     NRELAY_K1 = 0,
     NRELAY_K2,
@@ -74,6 +82,10 @@ typedef enum {
     NRELAY_K7
 } NRelay_t;
 
+typedef struct {
+    enum stateHwRelay stateHwRelay;
+    NRelay_t nRelay;
+} HwRelayQueueData_t;
 
 
 
@@ -83,6 +95,9 @@ HwAPI_Status_t HwAPI_Relay_Set( NRelay_t nRelay );
 HwAPI_Status_t HwAPI_Relay_Clear( NRelay_t nRelay );
 HwAPI_Status_t HwAPI_Relay_ClearAll( void );
 
+void vTask_HwRelay( void *pvParameters );
+void HwAPI_Relay_Run( void );
+HwAPI_BootStatus_t HwAPI_Relay_GetBootStatus( void );
 
 
 #endif /* _HWAPI_RELAY_H_*/
