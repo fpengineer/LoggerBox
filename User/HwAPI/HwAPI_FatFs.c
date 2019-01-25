@@ -29,6 +29,8 @@ static void SetSDCardLED( FatFsStatus_t fatFsStatus );
 //
 FatFsStatus_t HwAPI_FatFs_INI_GetKeyInt( char *nameSection, char *nameKey, char *fileName, int32_t *data )
 {
+    extern QueueHandle_t xQueue_HwFatFs_Rx;
+    extern QueueHandle_t xQueue_HwFatFs_Tx;
     HwFatFsQueueData_t hwFatFsQueueData;
    
     hwFatFsQueueData.stateHwFatFs = HW_FATFS_GET_KEY_INI;
@@ -50,6 +52,8 @@ FatFsStatus_t HwAPI_FatFs_INI_GetKeyInt( char *nameSection, char *nameKey, char 
 //
 FatFsStatus_t HwAPI_FatFs_INI_GetKeyFloat( char *nameSection, char *nameKey, char *fileName, float *data )
 {
+    extern QueueHandle_t xQueue_HwFatFs_Rx;
+    extern QueueHandle_t xQueue_HwFatFs_Tx;
     HwFatFsQueueData_t hwFatFsQueueData;
    
     hwFatFsQueueData.stateHwFatFs = HW_FATFS_GET_KEY_INI;
@@ -71,6 +75,8 @@ FatFsStatus_t HwAPI_FatFs_INI_GetKeyFloat( char *nameSection, char *nameKey, cha
 //
 FatFsStatus_t HwAPI_FatFs_INI_GetKeyString( char *nameSection, char *nameKey, char *fileName, char *data )
 {
+    extern QueueHandle_t xQueue_HwFatFs_Rx;
+    extern QueueHandle_t xQueue_HwFatFs_Tx;
     HwFatFsQueueData_t hwFatFsQueueData;
    
     hwFatFsQueueData.stateHwFatFs = HW_FATFS_GET_KEY_INI;
@@ -90,6 +96,8 @@ FatFsStatus_t HwAPI_FatFs_INI_GetKeyString( char *nameSection, char *nameKey, ch
 //
 FatFsStatus_t HwAPI_FatFs_INI_PutKeyInt( char *nameSection, char *nameKey, char *fileName, int32_t data )
 {
+    extern QueueHandle_t xQueue_HwFatFs_Rx;
+    extern QueueHandle_t xQueue_HwFatFs_Tx;
     HwFatFsQueueData_t hwFatFsQueueData;
    
     hwFatFsQueueData.stateHwFatFs = HW_FATFS_PUT_KEY_INI;
@@ -110,6 +118,8 @@ FatFsStatus_t HwAPI_FatFs_INI_PutKeyInt( char *nameSection, char *nameKey, char 
 //
 FatFsStatus_t HwAPI_FatFs_INI_PutKeyFloat( char *nameSection, char *nameKey, char *fileName, float data )
 {
+    extern QueueHandle_t xQueue_HwFatFs_Rx;
+    extern QueueHandle_t xQueue_HwFatFs_Tx;
     HwFatFsQueueData_t hwFatFsQueueData;
    
     hwFatFsQueueData.stateHwFatFs = HW_FATFS_PUT_KEY_INI;
@@ -130,6 +140,8 @@ FatFsStatus_t HwAPI_FatFs_INI_PutKeyFloat( char *nameSection, char *nameKey, cha
 //
 FatFsStatus_t HwAPI_FatFs_INI_PutKeyString( char *nameSection, char *nameKey, char *fileName, char *data )
 {
+    extern QueueHandle_t xQueue_HwFatFs_Rx;
+    extern QueueHandle_t xQueue_HwFatFs_Tx;
     HwFatFsQueueData_t hwFatFsQueueData;
    
     hwFatFsQueueData.stateHwFatFs = HW_FATFS_PUT_KEY_INI;
@@ -150,6 +162,8 @@ FatFsStatus_t HwAPI_FatFs_INI_PutKeyString( char *nameSection, char *nameKey, ch
 //
 FatFsStatus_t HwAPI_FatFs_CreateFile( char *fileName )
 {
+    extern QueueHandle_t xQueue_HwFatFs_Rx;
+    extern QueueHandle_t xQueue_HwFatFs_Tx;
     HwFatFsQueueData_t hwFatFsQueueData;
    
     hwFatFsQueueData.stateHwFatFs = HW_FATFS_CREATE_FILE;
@@ -166,6 +180,8 @@ FatFsStatus_t HwAPI_FatFs_CreateFile( char *fileName )
 //
 FatFsStatus_t HwAPI_FatFs_CheckFileEXIST( char *fileName )
 {
+    extern QueueHandle_t xQueue_HwFatFs_Rx;
+    extern QueueHandle_t xQueue_HwFatFs_Tx;
     HwFatFsQueueData_t hwFatFsQueueData;
    
     hwFatFsQueueData.stateHwFatFs = HW_FATFS_CHECK_FILE_EXIST;
@@ -182,6 +198,8 @@ FatFsStatus_t HwAPI_FatFs_CheckFileEXIST( char *fileName )
 //
 FatFsStatus_t HwAPI_FatFs_OpenFile( char *fileName )
 {
+    extern QueueHandle_t xQueue_HwFatFs_Rx;
+    extern QueueHandle_t xQueue_HwFatFs_Tx;
     HwFatFsQueueData_t hwFatFsQueueData;
    
     hwFatFsQueueData.stateHwFatFs = HW_FATFS_OPEN_FILE;
@@ -198,6 +216,8 @@ FatFsStatus_t HwAPI_FatFs_OpenFile( char *fileName )
 //
 FatFsStatus_t HwAPI_FatFs_CloseFile( char *fileName )
 {
+    extern QueueHandle_t xQueue_HwFatFs_Rx;
+    extern QueueHandle_t xQueue_HwFatFs_Tx;
     HwFatFsQueueData_t hwFatFsQueueData;
    
     hwFatFsQueueData.stateHwFatFs = HW_FATFS_CLOSE_FILE;
@@ -214,6 +234,8 @@ FatFsStatus_t HwAPI_FatFs_CloseFile( char *fileName )
 //
 FatFsStatus_t HwAPI_FatFs_WriteTextFile( char *fileName, char *textData )
 {
+    extern QueueHandle_t xQueue_HwFatFs_Rx;
+    extern QueueHandle_t xQueue_HwFatFs_Tx;
     HwFatFsQueueData_t hwFatFsQueueData;
    
     hwFatFsQueueData.stateHwFatFs = HW_FATFS_CLOSE_FILE;
@@ -231,6 +253,8 @@ FatFsStatus_t HwAPI_FatFs_WriteTextFile( char *fileName, char *textData )
 //
 void HwAPI_FatFs_InitSDCard( void )
 {
+    extern QueueHandle_t xQueue_HwFatFs_Rx;
+    extern QueueHandle_t xQueue_HwFatFs_Tx;
     HwFatFsQueueData_t hwFatFsQueueData;
    
     hwFatFsQueueData.stateHwFatFs = HW_FATFS_INIT_SD_CARD;
@@ -245,6 +269,8 @@ void HwAPI_FatFs_InitSDCard( void )
 //
 void HwAPI_FatFs_DeinitSDCard( void )
 {
+    extern QueueHandle_t xQueue_HwFatFs_Rx;
+    extern QueueHandle_t xQueue_HwFatFs_Tx;
     HwFatFsQueueData_t hwFatFsQueueData;
    
     hwFatFsQueueData.stateHwFatFs = HW_FATFS_DEINIT_SD_CARD;
@@ -254,6 +280,38 @@ void HwAPI_FatFs_DeinitSDCard( void )
 
     SetSDCardLED( hwFatFsQueueData.fatFsStatus );
 }
+
+
+//
+void HwAPI_FatFs_Run( void )
+{
+    extern TaskHandle_t xTask_HwFatFs;
+    extern QueueHandle_t xQueue_HwFatFs_Rx;
+    extern QueueHandle_t xQueue_HwFatFs_Tx;
+    
+    xQueue_HwFatFs_Rx = xQueueCreate( 5, sizeof( HwFatFsQueueData_t ) );
+    xQueue_HwFatFs_Tx = xQueueCreate( 5, sizeof( HwFatFsQueueData_t ) );
+
+	if( pdTRUE != xTaskCreate(  vTask_HwFatFs,
+                                "Task - HwFatFs",
+                                configMINIMAL_STACK_SIZE,
+                                NULL,
+                                tskIDLE_PRIORITY + 1,
+                                &xTask_HwFatFs ) ) { /* some error action */ }	
+}
+
+
+//
+HwAPI_BootStatus_t HwAPI_FatFs_GetBootStatus( void )
+{
+    extern HwAPI_BootStatus_t bootStatus_HwFatFs;
+    
+    return bootStatus_HwFatFs;
+}
+
+
+
+
 
 
 //*************************************************

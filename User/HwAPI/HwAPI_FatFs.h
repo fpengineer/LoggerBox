@@ -47,6 +47,21 @@
 #define VOLUME_NAME   "0"
 
 /* Exported types ------------------------------------------------------------*/
+enum stateHwFatFs { 
+    HW_FATFS_INIT,
+    HW_FATFS_GET_STATUS,
+    HW_FATFS_INIT_SD_CARD,
+    HW_FATFS_DEINIT_SD_CARD,
+    HW_FATFS_CREATE_FILE,
+    HW_FATFS_CHECK_FILE_EXIST,
+    HW_FATFS_OPEN_FILE,
+    HW_FATFS_CLOSE_FILE,
+    HW_FATFS_WRITE_FILE,
+    HW_FATFS_GET_KEY_INI,
+    HW_FATFS_PUT_KEY_INI,
+    HW_FATFS_IDLE 
+};
+
 typedef enum {
     FATFS_OK,
     FATFS_ERROR,
@@ -56,12 +71,10 @@ typedef enum {
     FATFS_ERROR_FILE_NOT_FOUND
 } FatFsStatus_t;
 
-
 typedef enum {
     FATFS_ENABLE,
     FATFS_DISABLE
 } FatFsEnable_t;
-
 
 enum KeyType {
   INI_KEY_INT,
@@ -77,6 +90,18 @@ typedef struct {
     char *stringValue;
     enum KeyType keyType;
 } INIInfoData_t;
+
+typedef struct {
+    enum stateHwFatFs stateHwFatFs;
+    FatFsStatus_t fatFsStatus;
+    FatFsEnable_t fatFsEnable;
+//    SDCardStatus_t sdCardStatus;
+
+    char *textBuffer;
+    char *fileName;
+    uint8_t fileIndex;
+    INIInfoData_t iniInfoData;
+} HwFatFsQueueData_t;
 
 
 
@@ -98,7 +123,9 @@ FatFsStatus_t HwAPI_FatFs_WriteTextFile( char *fileName, char *textData );
 void HwAPI_FatFs_InitSDCard( void );
 void HwAPI_FatFs_DeinitSDCard( void );
 
-
+void vTask_HwFatFs( void *pvParameters );
+void HwAPI_FatFs_Run( void );
+HwAPI_BootStatus_t HwAPI_FatFs_GetBootStatus( void );
 
 #endif /* _HWAPI_FATFS_H_*/
 /* End of file */

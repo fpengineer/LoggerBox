@@ -29,6 +29,12 @@
 
 #include "minIni.h"
 
+TaskHandle_t xTask_HwFatFs;
+QueueHandle_t xQueue_HwFatFs_Rx;
+QueueHandle_t xQueue_HwFatFs_Tx;
+HwAPI_BootStatus_t bootStatus_HwFatFs = HW_TASK_BOOT_IDLE;
+
+
 // Declare private functions
 static FatFsStatus_t CheckFileExist( char *fileName );
 static FatFsStatus_t CheckSectionINI( char *sectionName, char *fileName );
@@ -40,7 +46,6 @@ static FatFsStatus_t CheckKeyINI( char *keyName, char *sectionName, char *fileNa
 
 
 
-//TaskHandle_t xTask_DebugLedBlinker;
 static char *stringResult [20] = {
 	"FR_OK",				/* (0) Succeeded */
 	"FR_DISK_ERR",			/* (1) A hard error occurred in the low level disk I/O layer */
@@ -100,7 +105,7 @@ void vTask_HwFatFs( void *pvParameters )
                 f_mount( &FatFs, "0:", 1 );
                 f_mount( 0, "0:", 1 );
 
-                bootState_HwFatFs = TASK_BOOT_PENDING;
+                bootStatus_HwFatFs = HW_TASK_BOOT_PENDING;
                 break;
             }
 
