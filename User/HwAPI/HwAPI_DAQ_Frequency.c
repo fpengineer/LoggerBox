@@ -27,6 +27,8 @@ static const CalibrationData_t calibrationData = { FREQ_CALIBRATION_SLOPE, FREQ_
 //
 HwAPI_Status_t HwAPI_DAQ_Frequency_GetSingle( NChannelFreq_t nChannel, FreqPWMData_t *valueFreq )
 {
+    extern QueueHandle_t xQueue_HwDAQ_Frequency_Rx;
+    extern QueueHandle_t xQueue_HwDAQ_Frequency_Tx;
     HwDAQ_FrequencyQueueData_t hwDAQ_FrequencyQueueData;
         
     hwDAQ_FrequencyQueueData.stateHwDAQ_Frequency = HW_DAQ_FREQUENCY_GET_SINGLE;
@@ -45,6 +47,8 @@ HwAPI_Status_t HwAPI_DAQ_Frequency_GetSingle( NChannelFreq_t nChannel, FreqPWMDa
 //
 HwAPI_Status_t HwAPI_DAQ_Frequency_GetAveraged( NChannelFreq_t nChannel, FreqPWMData_t *valueFreq, int32_t numberAverages )
 {
+    extern QueueHandle_t xQueue_HwDAQ_Frequency_Rx;
+    extern QueueHandle_t xQueue_HwDAQ_Frequency_Tx;
     HwDAQ_FrequencyQueueData_t hwDAQ_FrequencyQueueData;
         
     hwDAQ_FrequencyQueueData.stateHwDAQ_Frequency = HW_DAQ_FREQUENCY_GET_AVERAGED;
@@ -60,4 +64,33 @@ HwAPI_Status_t HwAPI_DAQ_Frequency_GetAveraged( NChannelFreq_t nChannel, FreqPWM
 	return HW_API_OK;
 }
     
+
+//
+void HwAPI_DAQ_Frequency_Run( void )
+{
+    extern TaskHandle_t xTask_HwDAQ_Frequency;
+    extern QueueHandle_t xQueue_HwDAQ_Frequency_Rx;
+    extern QueueHandle_t xQueue_HwDAQ_Frequency_Tx;
+    
+    xQueue_HwDAQ_Frequency_Rx = xQueueCreate( 5, sizeof( HwDAQ_FrequencyQueueData_t ) );
+    xQueue_HwDAQ_Frequency_Tx = xQueueCreate( 5, sizeof( HwDAQ_FrequencyQueueData_t ) );
+
+	if( pdTRUE != xTaskCreate(  vTask_HwDAQ_Frequency,
+                                "Task - HwDAQ_Frequency",
+                                configMINIMAL_STACK_SIZE,
+                                NULL,
+                                tskIDLE_PRIORITY + 1,
+                                &xTask_HwDAQ_Frequency ) ) { /* some error action */ }	
+}
+
+
+//
+HwAPI_BootStatus_t HwAPI_DAQ_Frequency_GetBootStatus( void )
+{
+    extern HwAPI_BootStatus_t bootStatus_HwDAQ_Frequency;
+    
+    return bootStatus_HwDAQ_Frequency;
+}
+
+
 /* End of file */

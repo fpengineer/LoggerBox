@@ -26,10 +26,14 @@
 #include "stm32f4xx_spi.h"
 
 #include "HwAPI.h"
-#include "TS_HwQueue.h"
-#include "TS_task.h"
 
 #include "delay.h"
+
+TaskHandle_t xTask_HwDAQ_Frequency;
+QueueHandle_t xQueue_HwDAQ_Frequency_Rx;
+QueueHandle_t xQueue_HwDAQ_Frequency_Tx;
+HwAPI_BootStatus_t bootStatus_HwDAQ_Frequency = HW_TASK_BOOT_IDLE;
+
 
 // Declare private functions
 static void InitDAQ_FrequencyHardware( void );
@@ -56,7 +60,7 @@ void vTask_HwDAQ_Frequency( void *pvParameters )
             {
                 InitDAQ_FrequencyHardware();
 
-                bootState_HwDAQ_Frequency = TASK_BOOT_PENDING;
+                bootStatus_HwDAQ_Frequency = HW_TASK_BOOT_PENDING;
                 break;
             }
 

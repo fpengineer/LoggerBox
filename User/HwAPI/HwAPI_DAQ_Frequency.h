@@ -47,6 +47,13 @@
 
 
 /* Exported types ------------------------------------------------------------*/
+enum stateHwDAQ_Frequency {
+    HW_DAQ_FREQUENCY_INIT,
+    HW_DAQ_FREQUENCY_GET_SINGLE,
+    HW_DAQ_FREQUENCY_GET_AVERAGED,
+    HW_DAQ_FREQUENCY_IDLE
+};
+
 // Select IC
 typedef enum {
     FREQ_CHANNEL_1 = 0,
@@ -76,11 +83,21 @@ typedef struct {
 } CalibrationData_t;
 #endif
 
+typedef struct {
+    enum stateHwDAQ_Frequency stateHwDAQ_Frequency;
+    NChannelFreq_t nChannelFrequency;
+    FreqPWMData_t freqPWMData;
+    int32_t numberAverages;
+} HwDAQ_FrequencyQueueData_t;
+
 
 /* Exported functions --------------------------------------------------------*/
 HwAPI_Status_t HwAPI_DAQ_Frequency_GetSingle( NChannelFreq_t nChannel, FreqPWMData_t *valueFreq );
 HwAPI_Status_t HwAPI_DAQ_Frequency_GetAveraged( NChannelFreq_t nChannel, FreqPWMData_t *valueFreq, int32_t numberAverages );
 
+void vTask_HwDAQ_Frequency( void *pvParameters );
+void HwAPI_DAQ_Frequency_Run( void );
+HwAPI_BootStatus_t HwAPI_DAQ_Frequency_GetBootStatus( void );
 
 
 #endif /* _HWAPI_DAQ_FREQUENCY_H_*/
