@@ -33,6 +33,7 @@
 
 
 /* Exported functions --------------------------------------------------------*/
+void vTask_HwBoot( void *pvParameters );
 
 
 #endif /* _HW_API_H_ */
