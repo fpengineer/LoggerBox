@@ -95,7 +95,7 @@ HwAPI_BootStatus_t HwAPI_DAQ_ADC_Run( void )
     extern TaskHandle_t xTask_HwDAQ_ADC;
     extern QueueHandle_t xQueue_HwDAQ_ADC_Rx;
     extern QueueHandle_t xQueue_HwDAQ_ADC_Tx;
-    extern HwAPI_BootStatus_t bootStatus_HwDAQ_ADC;
+    extern volatile HwAPI_BootStatus_t bootStatus_HwDAQ_ADC;
     
     xQueue_HwDAQ_ADC_Rx = xQueueCreate( 5, sizeof( HwDAQ_ADCQueueData_t ) );
     xQueue_HwDAQ_ADC_Tx = xQueueCreate( 5, sizeof( HwDAQ_ADCQueueData_t ) );

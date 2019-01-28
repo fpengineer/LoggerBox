@@ -33,7 +33,7 @@
 TaskHandle_t xTask_HwDAQ_ADC;
 QueueHandle_t xQueue_HwDAQ_ADC_Rx;
 QueueHandle_t xQueue_HwDAQ_ADC_Tx;
-HwAPI_BootStatus_t bootStatus_HwDAQ_ADC = HW_TASK_BOOT_IDLE;
+volatile HwAPI_BootStatus_t bootStatus_HwDAQ_ADC = HW_TASK_BOOT_IDLE;
 
 
 // Declare private functions
