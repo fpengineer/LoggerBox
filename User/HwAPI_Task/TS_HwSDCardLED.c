@@ -28,7 +28,7 @@
 
 TaskHandle_t xTask_HwSDCardLED;
 QueueHandle_t xQueue_HwSDCardLED_Rx;
-HwAPI_BootStatus_t bootStatus_HwSDCardLED = HW_TASK_BOOT_IDLE;
+volatile HwAPI_BootStatus_t bootStatus_HwSDCardLED = HW_TASK_BOOT_IDLE;
 
 // Declare private functions
 static void InitSDCardLEDHardware( void );
