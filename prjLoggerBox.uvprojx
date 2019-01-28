@@ -783,16 +783,6 @@
           <GroupName>HwAPI_Task</GroupName>
           <Files>
             <File>
-              <FileName>TS_HwTask.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\User\HwAPI_Task\TS_HwTask.h</FilePath>
-            </File>
-            <File>
-              <FileName>TS_HwQueue.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\User\HwAPI_Task\TS_HwQueue.h</FilePath>
-            </File>
-            <File>
               <FileName>TS_HwBoot.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\HwAPI_Task\TS_HwBoot.c</FilePath>
