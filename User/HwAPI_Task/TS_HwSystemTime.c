@@ -27,7 +27,7 @@
 TaskHandle_t xTask_HwSystemTime;
 QueueHandle_t xQueue_HwSystemTime_Rx;
 QueueHandle_t xQueue_HwSystemTime_Tx;
-HwAPI_BootStatus_t bootStatus_HwSystemTime = HW_TASK_BOOT_IDLE;
+volatile HwAPI_BootStatus_t bootStatus_HwSystemTime = HW_TASK_BOOT_IDLE;
 
 
 //static char tempString[150] = {""}; 

@@ -126,7 +126,7 @@ HwAPI_BootStatus_t HwAPI_SystemTime_Run( void )
     extern TaskHandle_t xTask_HwSystemTime;
     extern QueueHandle_t xQueue_HwSystemTime_Rx;
     extern QueueHandle_t xQueue_HwSystemTime_Tx;
-    extern HwAPI_BootStatus_t bootStatus_HwSystemTime;
+    extern volatile HwAPI_BootStatus_t bootStatus_HwSystemTime;
     
     xQueue_HwSystemTime_Rx = xQueueCreate( 5, sizeof( HwSystemTimeQueueData_t ) );
     xQueue_HwSystemTime_Tx = xQueueCreate( 5, sizeof( HwSystemTimeQueueData_t ) );
