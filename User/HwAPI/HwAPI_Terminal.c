@@ -23,6 +23,8 @@
 void HwAPI_Terminal_SendMessage( char *message )
 {
     extern QueueHandle_t xQueue_HwTerminal_Rx;
+    
+    while ( uxQueueSpacesAvailable( xQueue_HwTerminal_Rx ) == 0 ){;};
     xQueueSend( xQueue_HwTerminal_Rx, message, NULL );
 }
 
