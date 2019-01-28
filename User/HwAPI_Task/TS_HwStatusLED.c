@@ -28,7 +28,7 @@
 
 TaskHandle_t xTask_HwStatusLED;
 QueueHandle_t xQueue_HwStatusLED_Rx;
-HwAPI_BootStatus_t bootStatus_HwStatusLED = HW_TASK_BOOT_IDLE;
+volatile HwAPI_BootStatus_t bootStatus_HwStatusLED = HW_TASK_BOOT_IDLE;
 
 // Declare private functions
 static void InitStatusLEDHardware( void );

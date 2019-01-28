@@ -68,7 +68,7 @@ HwAPI_BootStatus_t HwAPI_StatusLED_Run( void )
 {
     extern TaskHandle_t xTask_HwStatusLED;
     extern QueueHandle_t xQueue_HwStatusLED_Rx;
-    extern HwAPI_BootStatus_t bootStatus_HwStatusLED;
+    extern volatile HwAPI_BootStatus_t bootStatus_HwStatusLED;
     
     xQueue_HwStatusLED_Rx = xQueueCreate( 5, sizeof( HwStatusLEDQueueData_t ) );
 
