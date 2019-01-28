@@ -29,7 +29,7 @@
 TaskHandle_t xTask_HwSDCardDetect;
 QueueHandle_t xQueue_HwSDCardDetect_Rx;
 QueueHandle_t xQueue_HwSDCardDetect_Tx;
-HwAPI_BootStatus_t bootStatus_HwSDCardDetect = HW_TASK_BOOT_IDLE;
+volatile HwAPI_BootStatus_t bootStatus_HwSDCardDetect = HW_TASK_BOOT_IDLE;
 
 
 // Declare private functions

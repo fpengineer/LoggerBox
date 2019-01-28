@@ -41,7 +41,7 @@ HwAPI_BootStatus_t HwAPI_SDCardDetect_Run( void )
     extern TaskHandle_t xTask_HwSDCardDetect;
     extern QueueHandle_t xQueue_HwSDCardDetect_Rx;
     extern QueueHandle_t xQueue_HwSDCardDetect_Tx;
-    extern HwAPI_BootStatus_t bootStatus_HwSDCardDetect;
+    extern volatile HwAPI_BootStatus_t bootStatus_HwSDCardDetect;
     
     xQueue_HwSDCardDetect_Rx = xQueueCreate( 5, sizeof( HwSDCardDetectQueueData_t ) );
     xQueue_HwSDCardDetect_Tx = xQueueCreate( 5, sizeof( HwSDCardDetectQueueData_t ) );
@@ -67,7 +67,7 @@ HwAPI_BootStatus_t HwAPI_SDCardDetect_Run( void )
 //
 HwAPI_BootStatus_t HwAPI_SDCardDetect_GetBootStatus( void )
 {
-    extern HwAPI_BootStatus_t bootStatus_HwSDCardDetect;
+    extern volatile HwAPI_BootStatus_t bootStatus_HwSDCardDetect;
     
     return bootStatus_HwSDCardDetect;
 }
