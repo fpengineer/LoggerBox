@@ -89,7 +89,7 @@ HwAPI_BootStatus_t HwAPI_VoltageSource_Run( void )
     extern TaskHandle_t xTask_HwVoltageSource;
     extern QueueHandle_t xQueue_HwVoltageSource_Rx;
 //    extern QueueHandle_t xQueue_HwVoltageSource_Tx;
-    extern HwAPI_BootStatus_t bootStatus_HwVoltageSource;
+    extern volatile HwAPI_BootStatus_t bootStatus_HwVoltageSource;
     
     xQueue_HwVoltageSource_Rx = xQueueCreate( 5, sizeof( HwVoltageSourceQueueData_t ) );
 //    xQueue_HwVoltageSource_Tx = xQueueCreate( 5, sizeof( HwVoltageSourceQueueData_t ) );

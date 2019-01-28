@@ -32,7 +32,7 @@
 TaskHandle_t xTask_HwVoltageSource;
 QueueHandle_t xQueue_HwVoltageSource_Rx;
 //QueueHandle_t xQueue_HwVoltageSource_Tx;
-HwAPI_BootStatus_t bootStatus_HwVoltageSource = HW_TASK_BOOT_IDLE;
+volatile HwAPI_BootStatus_t bootStatus_HwVoltageSource = HW_TASK_BOOT_IDLE;
 
 
 // Declare private functions
