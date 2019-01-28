@@ -69,7 +69,7 @@ HwAPI_BootStatus_t HwAPI_DAQ_Frequency_Run( void )
     extern TaskHandle_t xTask_HwDAQ_Frequency;
     extern QueueHandle_t xQueue_HwDAQ_Frequency_Rx;
     extern QueueHandle_t xQueue_HwDAQ_Frequency_Tx;
-    extern HwAPI_BootStatus_t bootStatus_HwDAQ_Frequency;
+    extern volatile HwAPI_BootStatus_t bootStatus_HwDAQ_Frequency;
     
     xQueue_HwDAQ_Frequency_Rx = xQueueCreate( 5, sizeof( HwDAQ_FrequencyQueueData_t ) );
     xQueue_HwDAQ_Frequency_Tx = xQueueCreate( 5, sizeof( HwDAQ_FrequencyQueueData_t ) );

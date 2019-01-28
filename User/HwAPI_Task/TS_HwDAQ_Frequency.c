@@ -32,7 +32,7 @@
 TaskHandle_t xTask_HwDAQ_Frequency;
 QueueHandle_t xQueue_HwDAQ_Frequency_Rx;
 QueueHandle_t xQueue_HwDAQ_Frequency_Tx;
-HwAPI_BootStatus_t bootStatus_HwDAQ_Frequency = HW_TASK_BOOT_IDLE;
+volatile HwAPI_BootStatus_t bootStatus_HwDAQ_Frequency = HW_TASK_BOOT_IDLE;
 
 
 // Declare private functions
