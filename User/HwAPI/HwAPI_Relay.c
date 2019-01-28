@@ -73,7 +73,7 @@ HwAPI_BootStatus_t HwAPI_Relay_Run( void )
 {
     extern TaskHandle_t xTask_HwRelay;
     extern QueueHandle_t xQueue_HwRelay_Rx;
-    extern HwAPI_BootStatus_t bootStatus_HwRelay;
+    extern volatile HwAPI_BootStatus_t bootStatus_HwRelay;
     
     xQueue_HwRelay_Rx = xQueueCreate( 5, sizeof( HwRelayQueueData_t ) );
 
