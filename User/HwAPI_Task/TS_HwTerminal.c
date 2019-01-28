@@ -25,7 +25,7 @@
 
 TaskHandle_t xTask_HwTerminal;
 QueueHandle_t xQueue_HwTerminal_Rx;
-HwAPI_BootStatus_t bootStatus_HwTerminal = HW_TASK_BOOT_IDLE;
+volatile HwAPI_BootStatus_t bootStatus_HwTerminal = HW_TASK_BOOT_IDLE;
 
 static char tempString[500] = {""}; 
     

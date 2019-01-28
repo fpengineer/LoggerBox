@@ -32,9 +32,9 @@ HwAPI_BootStatus_t HwAPI_Terminal_Run( void )
 {
     extern TaskHandle_t xTask_HwTerminal;
     extern QueueHandle_t xQueue_HwTerminal_Rx;
-    extern HwAPI_BootStatus_t bootStatus_HwTerminal;
-    
-    xQueue_HwTerminal_Rx = xQueueCreate( 5, sizeof( char[ TERMINAL_BUFFER ] ) );
+    extern volatile HwAPI_BootStatus_t bootStatus_HwTerminal;
+
+    xQueue_HwTerminal_Rx = xQueueCreate( 10, sizeof( char[ TERMINAL_BUFFER ] ) );
 
 	if( pdTRUE != xTaskCreate(  vTask_HwTerminal,
                                 "Task - HwTerminal",
