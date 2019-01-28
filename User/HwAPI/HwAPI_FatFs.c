@@ -286,7 +286,7 @@ HwAPI_BootStatus_t HwAPI_FatFs_Run( void )
     extern TaskHandle_t xTask_HwFatFs;
     extern QueueHandle_t xQueue_HwFatFs_Rx;
     extern QueueHandle_t xQueue_HwFatFs_Tx;
-    extern HwAPI_BootStatus_t bootStatus_HwFatFs;
+    extern volatile HwAPI_BootStatus_t bootStatus_HwFatFs;
     
     xQueue_HwFatFs_Rx = xQueueCreate( 5, sizeof( HwFatFsQueueData_t ) );
     xQueue_HwFatFs_Tx = xQueueCreate( 5, sizeof( HwFatFsQueueData_t ) );

@@ -30,7 +30,7 @@
 TaskHandle_t xTask_HwFatFs;
 QueueHandle_t xQueue_HwFatFs_Rx;
 QueueHandle_t xQueue_HwFatFs_Tx;
-HwAPI_BootStatus_t bootStatus_HwFatFs = HW_TASK_BOOT_IDLE;
+volatile HwAPI_BootStatus_t bootStatus_HwFatFs = HW_TASK_BOOT_IDLE;
 
 
 // Declare private functions
