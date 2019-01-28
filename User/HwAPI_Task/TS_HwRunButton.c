@@ -30,7 +30,7 @@
 TaskHandle_t xTask_HwRunButton;
 QueueHandle_t xQueue_HwRunButton_Rx;
 QueueHandle_t xQueue_HwRunButton_Tx;
-HwAPI_BootStatus_t bootStatus_HwRunButton = HW_TASK_BOOT_IDLE;
+volatile HwAPI_BootStatus_t bootStatus_HwRunButton = HW_TASK_BOOT_IDLE;
 
 
 // Declare private functions

@@ -42,7 +42,7 @@ HwAPI_BootStatus_t HwAPI_RunButton_Run( void )
     extern TaskHandle_t xTask_HwRunButton;
     extern QueueHandle_t xQueue_HwRunButton_Rx;
     extern QueueHandle_t xQueue_HwRunButton_Tx;
-    extern HwAPI_BootStatus_t bootStatus_HwRunButton;
+    extern volatile HwAPI_BootStatus_t bootStatus_HwRunButton;
     
     xQueue_HwRunButton_Rx = xQueueCreate( 5, sizeof( HwRunButtonQueueData_t ) );
     xQueue_HwRunButton_Tx = xQueueCreate( 5, sizeof( HwRunButtonQueueData_t ) );
