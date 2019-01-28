@@ -238,7 +238,7 @@ void SetSourceValue( NSource_t nSource, ValueAD56x0_t valueDAC )
     SPI_I2S_SendData( SPI3, ( uint16_t )valueDAC & 0x00ff );
 //    delay_us( 5 );
     while( SPI_I2S_GetFlagStatus( SPI3, SPI_I2S_FLAG_BSY ) == SET ){;}
-    while( SPI_I2S_GetFlagStatus( SPI2, SPI_I2S_FLAG_RXNE ) == RESET ){;}
+    while( SPI_I2S_GetFlagStatus( SPI3, SPI_I2S_FLAG_RXNE ) == RESET ){;}
 //    delay_us( 5 );
 
 #elif defined( ad5660 )
@@ -252,7 +252,7 @@ void SetSourceValue( NSource_t nSource, ValueAD56x0_t valueDAC )
     SPI_I2S_SendData( SPI3, ( uint16_t )valueDAC & 0x00ff );
 //    delay_us( 5 );
     while( SPI_I2S_GetFlagStatus( SPI3, SPI_I2S_FLAG_BSY ) == SET ){;}
-    while( SPI_I2S_GetFlagStatus( SPI2, SPI_I2S_FLAG_RXNE ) == RESET ){;}
+    while( SPI_I2S_GetFlagStatus( SPI3, SPI_I2S_FLAG_RXNE ) == RESET ){;}
 //    delay_us( 5 );
 #endif        
     
