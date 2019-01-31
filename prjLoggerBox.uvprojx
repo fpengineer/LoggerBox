@@ -723,14 +723,19 @@
               <FilePath>.\User\HwAPI\HwAPI Config.h</FilePath>
             </File>
             <File>
-              <FileName>HwAPI_SystemTime.c</FileName>
+              <FileName>HwAPI_Boot.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\User\HwAPI\HwAPI_SystemTime.c</FilePath>
+              <FilePath>.\User\HwAPI\HwAPI_Boot.c</FilePath>
             </File>
             <File>
               <FileName>HwAPI_Terminal.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\HwAPI\HwAPI_Terminal.c</FilePath>
+            </File>
+            <File>
+              <FileName>HwAPI_SystemTime.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\HwAPI\HwAPI_SystemTime.c</FilePath>
             </File>
             <File>
               <FileName>HwAPI_FatFs.c</FileName>
@@ -788,6 +793,36 @@
               <FilePath>.\User\HwAPI_Task\TS_HwBoot.c</FilePath>
             </File>
             <File>
+              <FileName>TS_HwTerminal.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\HwAPI_Task\TS_HwTerminal.c</FilePath>
+            </File>
+            <File>
+              <FileName>TS_HwSystemTime.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\HwAPI_Task\TS_HwSystemTime.c</FilePath>
+            </File>
+            <File>
+              <FileName>TS_HwFatFs.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\HwAPI_Task\TS_HwFatFs.c</FilePath>
+            </File>
+            <File>
+              <FileName>TS_HwSDCardDetect.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\HwAPI_Task\TS_HwSDCardDetect.c</FilePath>
+            </File>
+            <File>
+              <FileName>TS_HwVoltageSource.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\HwAPI_Task\TS_HwVoltageSource.c</FilePath>
+            </File>
+            <File>
+              <FileName>TS_HwRelay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\HwAPI_Task\TS_HwRelay.c</FilePath>
+            </File>
+            <File>
               <FileName>TS_HwDAQ_ADC.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\HwAPI_Task\TS_HwDAQ_ADC.c</FilePath>
@@ -798,24 +833,9 @@
               <FilePath>.\User\HwAPI_Task\TS_HwDAQ_Frequency.c</FilePath>
             </File>
             <File>
-              <FileName>TS_HwFatFs.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\HwAPI_Task\TS_HwFatFs.c</FilePath>
-            </File>
-            <File>
-              <FileName>TS_HwRelay.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\HwAPI_Task\TS_HwRelay.c</FilePath>
-            </File>
-            <File>
               <FileName>TS_HwRunButton.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\HwAPI_Task\TS_HwRunButton.c</FilePath>
-            </File>
-            <File>
-              <FileName>TS_HwSDCardDetect.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\HwAPI_Task\TS_HwSDCardDetect.c</FilePath>
             </File>
             <File>
               <FileName>TS_HwSDCardLED.c</FileName>
@@ -826,21 +846,6 @@
               <FileName>TS_HwStatusLED.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\HwAPI_Task\TS_HwStatusLED.c</FilePath>
-            </File>
-            <File>
-              <FileName>TS_HwSystemTime.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\HwAPI_Task\TS_HwSystemTime.c</FilePath>
-            </File>
-            <File>
-              <FileName>TS_HwTerminal.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\HwAPI_Task\TS_HwTerminal.c</FilePath>
-            </File>
-            <File>
-              <FileName>TS_HwVoltageSource.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\HwAPI_Task\TS_HwVoltageSource.c</FilePath>
             </File>
           </Files>
         </Group>
