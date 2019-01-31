@@ -14,15 +14,11 @@
 
 #include "FreeRTOS.h"
 #include "task.h"
+#include "timers.h"
 #include "queue.h"
 
-/* Include core modules */
 #include "stm32f4xx.h"
-/* Include my libraries here */
 #include "defines.h"
-#include "tm_stm32f4_disco.h"
-#include "tm_stm32f4_delay.h"
-#include "tm_stm32f4_exti.h"
 
 #include "HwAPI.h"
 
@@ -34,16 +30,9 @@ volatile HwAPI_BootStatus_t bootStatus_HwSDCardDetect = HW_TASK_BOOT_IDLE;
 
 // Declare private functions
 static void InitGPIO_SDCardDetect( void );
-/* Create 2 callback functions for custom timers */
-static void ContactBounceTimer_Task(void* UserParameters);
 
-
-
+// Declare private variables
 //static char tempString[450] = {""}; 
-
-
-/* Pointers to custom timers */
-static TM_DELAY_Timer_t* CustomTimer;
 
 void vTask_HwSDCardDetect( void *pvParameters )
 {
@@ -53,7 +42,7 @@ void vTask_HwSDCardDetect( void *pvParameters )
     hwSDCardDetectQueueData.stateHwSDCardDetect = HW_SDCARD_DETECT_INIT;            
     xQueueSend( xQueue_HwSDCardDetect_Rx, &hwSDCardDetectQueueData, NULL ); 
     
-    while (1)
+    while ( 1 )
     {
         xQueueReceive( xQueue_HwSDCardDetect_Rx, &hwSDCardDetectQueueData, portMAX_DELAY );
         switch ( hwSDCardDetectQueueData.stateHwSDCardDetect )
@@ -63,7 +52,7 @@ void vTask_HwSDCardDetect( void *pvParameters )
                 // Init gpio for sd card detction signal
                 InitGPIO_SDCardDetect();
 
-                if ( !TM_GPIO_GetInputPinValue( SDCARD_DETECT_PORT, SDCARD_DETECT_PIN ) )
+                if ( !GPIO_ReadInputDataBit( SDCARD_DETECT_PORT, SDCARD_DETECT_PIN ) )
                 {
                     sdCardDetectStatus = SD_CARD_INSERT;
                     HwAPI_FatFs_InitSDCard();
@@ -83,6 +72,7 @@ void vTask_HwSDCardDetect( void *pvParameters )
             case HW_SDCARD_DETECT_INSERT:
             {
                 sdCardDetectStatus = SD_CARD_INSERT;
+                //HwAPI_Terminal_SendMessage( "SD card inserted\n" );
                 HwAPI_FatFs_InitSDCard();
                 break;
             }
@@ -90,6 +80,7 @@ void vTask_HwSDCardDetect( void *pvParameters )
             case HW_SDCARD_DETECT_REMOVE:
             {
                 sdCardDetectStatus = SD_CARD_REMOVE;
+                //HwAPI_Terminal_SendMessage( "SD card removed\n" );
                 HwAPI_FatFs_DeinitSDCard();
                 break;
             }
@@ -106,7 +97,10 @@ void vTask_HwSDCardDetect( void *pvParameters )
 
 
 
-
+static TimerHandle_t xProtectTimer;
+static void SDCardDetectTimerCallback( TimerHandle_t xTimer );
+static EXTI_InitTypeDef EXTI_cfg;
+static volatile uint8_t flagTimerRun = 0;
 
 //*************************************************
 //
@@ -117,54 +111,90 @@ void vTask_HwSDCardDetect( void *pvParameters )
 //*************************************************
 static void InitGPIO_SDCardDetect( void )
 {
-	CustomTimer = TM_DELAY_TimerCreate( 70, 0, 0, ContactBounceTimer_Task, NULL );
+    GPIO_InitTypeDef GPIO_cfg;
 
-    TM_EXTI_Attach( SDCARD_DETECT_PORT,
-                    SDCARD_DETECT_PIN, 
-                    TM_EXTI_Trigger_Rising_Falling );
+    RCC_AHB1PeriphClockCmd( RCC_AHB1Periph_GPIOA, ENABLE );
+    RCC_APB2PeriphClockCmd( RCC_APB2Periph_SYSCFG,ENABLE );
+    
+    GPIO_StructInit( &GPIO_cfg );
+    GPIO_cfg.GPIO_Pin = SDCARD_DETECT_PIN;
+    GPIO_cfg.GPIO_Mode = GPIO_Mode_IN;
+    GPIO_cfg.GPIO_PuPd = GPIO_PuPd_NOPULL;
+    GPIO_Init( SDCARD_DETECT_PORT, &GPIO_cfg );
 
-    if ( !TM_GPIO_GetInputPinValue( SDCARD_DETECT_PORT, SDCARD_DETECT_PIN ) )
+    SYSCFG_EXTILineConfig( EXTI_PortSourceGPIOA, EXTI_PinSource0 ); 
+    
+    EXTI_StructInit( &EXTI_cfg );
+    EXTI_cfg.EXTI_Mode = EXTI_Mode_Interrupt;
+    if ( IS_GET_EXTI_LINE( SDCARD_DETECT_PIN ) )
     {
-        TM_DISCO_LedOn( LED_GREEN );
+        EXTI_cfg.EXTI_Line = SDCARD_DETECT_PIN;
     }
+    else
+    {
+        // Error!
+        // Pin number is out of range
+        // Some error action
+    }
+
+    if ( !GPIO_ReadInputDataBit( SDCARD_DETECT_PORT, SDCARD_DETECT_PIN ) )
+    {
+        EXTI_cfg.EXTI_Trigger = EXTI_Trigger_Rising;
+    }
+    else
+    {
+        EXTI_cfg.EXTI_Trigger = EXTI_Trigger_Falling;
+    }
+    EXTI_cfg.EXTI_LineCmd = ENABLE;
+    EXTI_Init( &EXTI_cfg );
+
+    NVIC_SetPriority( EXTI0_IRQn, 15 );
+    NVIC_EnableIRQ( EXTI0_IRQn );
+
+    // Create bounce protection timer
+    xProtectTimer = xTimerCreate( "SD card detect timer",
+                                  pdMS_TO_TICKS( 150 ),     // delay in ms to reduce contact bounce
+                                  pdFALSE,                  // one-shot mode (disable autoreload)
+                                  NULL,                     // TimerID not needed
+                                  SDCardDetectTimerCallback );
 }
 
 
 // Interrupt handler for sd card detection pin 
 void EXTI0_IRQHandler( void )
 {
-	/* Check status */
-	if ( EXTI->PR & ( EXTI_PR_PR0 ) )
+    // Run protect timer
+    if ( !flagTimerRun )
     {
-		/* Clear bit */
-		EXTI->PR = EXTI_PR_PR0;
-	}
-
-    TM_DELAY_TimerStart( CustomTimer );
-
+        xTimerStartFromISR( xProtectTimer, NULL );
+        flagTimerRun = 1;
+    }
+    EXTI_ClearITPendingBit( SDCARD_DETECT_PIN );
 }
 
 
-/* Called when Custom TIMER2 reaches zero */
-static void ContactBounceTimer_Task( void* UserParameters )
+//
+static void SDCardDetectTimerCallback( TimerHandle_t xTimer )
 {
     HwSDCardDetectQueueData_t hwSDCardDetectQueueData;
 
-    if ( !TM_GPIO_GetInputPinValue( SDCARD_DETECT_PORT, SDCARD_DETECT_PIN ) )
+    if ( !GPIO_ReadInputDataBit( SDCARD_DETECT_PORT, SDCARD_DETECT_PIN ) )
     {
-        TM_DISCO_LedOn( LED_GREEN );
-        
         hwSDCardDetectQueueData.stateHwSDCardDetect = HW_SDCARD_DETECT_INSERT;            
-        xQueueSendFromISR( xQueue_HwSDCardDetect_Rx, &hwSDCardDetectQueueData, NULL ); // Need to test!!!!!!
+        xQueueSend( xQueue_HwSDCardDetect_Rx, &hwSDCardDetectQueueData, NULL );
+        
+        EXTI_cfg.EXTI_Trigger = EXTI_Trigger_Rising;
+        EXTI_Init( &EXTI_cfg );
     }
     else
     {
-        TM_DISCO_LedOff( LED_GREEN );
-
         hwSDCardDetectQueueData.stateHwSDCardDetect = HW_SDCARD_DETECT_REMOVE;            
-        xQueueSendFromISR( xQueue_HwSDCardDetect_Rx, &hwSDCardDetectQueueData, NULL ); // Need to test!!!!!!!
+        xQueueSend( xQueue_HwSDCardDetect_Rx, &hwSDCardDetectQueueData, NULL );
+        
+        EXTI_cfg.EXTI_Trigger = EXTI_Trigger_Falling;
+        EXTI_Init( &EXTI_cfg );
     }
+
+    flagTimerRun = 0;
 }
-    
-    
 /* End of file */
