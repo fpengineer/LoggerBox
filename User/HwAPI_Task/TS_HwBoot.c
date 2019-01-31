@@ -23,7 +23,7 @@
 
 #define	ERROR_ACTION( CODE,POS )		do{}while( 0 )
 
-
+HwBootData_t hwBootData = { HW_BOOT_IDLE, "" }; 
 
 
 // Declare private functions
@@ -33,13 +33,12 @@ static char tempString[ 100 ] = {""};
 
 void vTask_HwBoot( void *pvParameters )
 {
-//int32_t i = 0;
-    #if 1
+#if 1
     // run hardware tasks
     if ( HwAPI_Terminal_Run() == HW_TASK_BOOT_RUN )
     {
+        hwBootData.hwBootStatus = HW_BOOT_IN_PROGRESS;
         HwAPI_Terminal_SendMessage( "HwTerminal task run\n" );
-
         sprintf( tempString, "free mem: %dB\n", xPortGetFreeHeapSize() );
         HwAPI_Terminal_SendMessage( tempString );
         
@@ -47,141 +46,162 @@ void vTask_HwBoot( void *pvParameters )
 //        vTaskDelay(500);
         if ( HwAPI_SystemTime_Run() == HW_TASK_BOOT_RUN )
         {
+            hwBootData.hwBootStatus = HW_BOOT_IN_PROGRESS;
             HwAPI_Terminal_SendMessage( "HwSystemTime task run\n" );
+            sprintf( tempString, "free mem: %dB\n", xPortGetFreeHeapSize() );
+            HwAPI_Terminal_SendMessage( tempString );
         }
         else
         {
+            hwBootData.hwBootStatus = HW_BOOT_ERROR;
             HwAPI_Terminal_SendMessage( "HwSystemTime task boot error\n" );
+            break;
         }
-        sprintf( tempString, "free mem: %dB\n", xPortGetFreeHeapSize() );
-        HwAPI_Terminal_SendMessage( tempString );
 #endif
 #if 0   // HwStatusLED
 //        vTaskDelay(500);
         if ( HwAPI_StatusLED_Run() == HW_TASK_BOOT_RUN )
         {
+            hwBootData.hwBootStatus = HW_BOOT_IN_PROGRESS;
             HwAPI_Terminal_SendMessage( "HwStatusLED task run\n" );
+            sprintf( tempString, "free mem: %dB\n", xPortGetFreeHeapSize() );
+            HwAPI_Terminal_SendMessage( tempString );
         }
         else
         {
+            hwBootData.hwBootStatus = HW_BOOT_ERROR;
             HwAPI_Terminal_SendMessage( "HwStatusLED task boot error\n" );
+            break;
         }
-        sprintf( tempString, "free mem: %dB\n", xPortGetFreeHeapSize() );
-        HwAPI_Terminal_SendMessage( tempString );
 #endif
 #if 0   // HwSDCardLED
 //        vTaskDelay(500);
         if ( HwAPI_SDCardLED_Run() == HW_TASK_BOOT_RUN )
         {
+            hwBootData.hwBootStatus = HW_BOOT_IN_PROGRESS;
             HwAPI_Terminal_SendMessage( "HwSDCardLED task run\n" );
+            sprintf( tempString, "free mem: %dB\n", xPortGetFreeHeapSize() );
+            HwAPI_Terminal_SendMessage( tempString );
         }
         else
         {
+            hwBootData.hwBootStatus = HW_BOOT_ERROR;
             HwAPI_Terminal_SendMessage( "HwSDCardLED task boot error\n" );
+            break;
         }
-        sprintf( tempString, "free mem: %dB\n", xPortGetFreeHeapSize() );
-        HwAPI_Terminal_SendMessage( tempString );
 #endif
 #if 0   // HwFatFs
 //        vTaskDelay(500);
         if ( HwAPI_FatFs_Run() == HW_TASK_BOOT_RUN )
         {
+            hwBootData.hwBootStatus = HW_BOOT_IN_PROGRESS;
             HwAPI_Terminal_SendMessage( "HwFatFs task run\n" );
+            sprintf( tempString, "free mem: %dB\n", xPortGetFreeHeapSize() );
+            HwAPI_Terminal_SendMessage( tempString );
         }
         else
         {
+            hwBootData.hwBootStatus = HW_BOOT_ERROR;
             HwAPI_Terminal_SendMessage( "HwFatFs task boot error\n" );
+            break;
         }
-        sprintf( tempString, "free mem: %dB\n", xPortGetFreeHeapSize() );
-        HwAPI_Terminal_SendMessage( tempString );
-
-/*
-        for ( i = 0; i < 10; i++ )
-        {
-            sprintf( tempString, "message %d\n", i );
-            HwAPI_Terminal_SendMessage( tempString );
-        }
-*/
 #endif
-#if 0
-        // HwSDCardDetect
+#if 0   // HwSDCardDetect
 //        vTaskDelay(500);
         if ( HwAPI_SDCardDetect_Run() == HW_TASK_BOOT_RUN )
         {
+            hwBootData.hwBootStatus = HW_BOOT_IN_PROGRESS;
             HwAPI_Terminal_SendMessage( "HwSDCardDetect task run\n" );
+            sprintf( tempString, "free mem: %dB\n", xPortGetFreeHeapSize() );
+            HwAPI_Terminal_SendMessage( tempString );
         }
         else
         {
+            hwBootData.hwBootStatus = HW_BOOT_ERROR;
             HwAPI_Terminal_SendMessage( "HwSDCardDetect task boot error\n" );
+            break;
         }
-        sprintf( tempString, "free mem: %dB\n", xPortGetFreeHeapSize() );
-        HwAPI_Terminal_SendMessage( tempString );
-//TM_DISCO_LedOn( LED_GREEN );
 #endif
 #if 0   // HwRelay
 //        vTaskDelay(500);
         if ( HwAPI_Relay_Run() == HW_TASK_BOOT_RUN )
         {
+            hwBootData.hwBootStatus = HW_BOOT_IN_PROGRESS;
             HwAPI_Terminal_SendMessage( "HwRelay task run\n" );
+            sprintf( tempString, "free mem: %dB\n", xPortGetFreeHeapSize() );
+            HwAPI_Terminal_SendMessage( tempString );
         }
         else
         {
+            hwBootData.hwBootStatus = HW_BOOT_ERROR;
             HwAPI_Terminal_SendMessage( "HwRelay task boot error\n" );
+            break;
         }
-        sprintf( tempString, "free mem: %dB\n", xPortGetFreeHeapSize() );
-        HwAPI_Terminal_SendMessage( tempString );
 #endif
 #if 0   // HwVoltageSource
 //        vTaskDelay(500);
         if ( HwAPI_VoltageSource_Run() == HW_TASK_BOOT_RUN )
         {
+            hwBootData.hwBootStatus = HW_BOOT_IN_PROGRESS;
             HwAPI_Terminal_SendMessage( "HwVoltageSource task run\n" );
+            sprintf( tempString, "free mem: %dB\n", xPortGetFreeHeapSize() );
+            HwAPI_Terminal_SendMessage( tempString );
         }
         else
         {
+            hwBootData.hwBootStatus = HW_BOOT_ERROR;
             HwAPI_Terminal_SendMessage( "HwVoltageSource task boot error\n" );
+            break;
         }
-        sprintf( tempString, "free mem: %dB\n", xPortGetFreeHeapSize() );
-        HwAPI_Terminal_SendMessage( tempString );
 #endif
 #if 0   // HwDAQ_ADC
 //        vTaskDelay(500);
         if ( HwAPI_DAQ_ADC_Run() == HW_TASK_BOOT_RUN )
         {
+            hwBootData.hwBootStatus = HW_BOOT_IN_PROGRESS;
             HwAPI_Terminal_SendMessage( "HwDAQ_ADC task run\n" );
+            sprintf( tempString, "free mem: %dB\n", xPortGetFreeHeapSize() );
+            HwAPI_Terminal_SendMessage( tempString );
         }
         else
         {
+            hwBootData.hwBootStatus = HW_BOOT_ERROR;
             HwAPI_Terminal_SendMessage( "HwDAQ_ADC task boot error\n" );
         }
-        sprintf( tempString, "free mem: %dB\n", xPortGetFreeHeapSize() );
-        HwAPI_Terminal_SendMessage( tempString );
 #endif
 #if 0   // HwDAQ_Frequency
 //        vTaskDelay(500);
         if ( HwAPI_DAQ_Frequency_Run() == HW_TASK_BOOT_RUN )
         {
+            hwBootData.hwBootStatus = HW_BOOT_IN_PROGRESS;
             HwAPI_Terminal_SendMessage( "HwDAQ_Frequency task run\n" );
+            sprintf( tempString, "free mem: %dB\n", xPortGetFreeHeapSize() );
+            HwAPI_Terminal_SendMessage( tempString );
         }
         else
         {
+            hwBootData.hwBootStatus = HW_BOOT_ERROR;
             HwAPI_Terminal_SendMessage( "HwDAQ_Frequency task boot error\n" );
+            break;
         }
-        sprintf( tempString, "free mem: %dB\n", xPortGetFreeHeapSize() );
-        HwAPI_Terminal_SendMessage( tempString );
 #endif
 #if 0   // HwRunButton
 //        vTaskDelay(500);
         if ( HwAPI_RunButton_Run() == HW_TASK_BOOT_RUN )
         {
+            hwBootData.hwBootStatus = HW_BOOT_IN_PROGRESS;
             HwAPI_Terminal_SendMessage( "HwRunButton task run\n" );
+            sprintf( tempString, "free mem: %dB\n", xPortGetFreeHeapSize() );
+            HwAPI_Terminal_SendMessage( tempString );
         }
         else
         {
+            hwBootData.hwBootStatus = HW_BOOT_ERROR;
             HwAPI_Terminal_SendMessage( "HwRunButton task boot error\n" );
+            break;
         }
-        sprintf( tempString, "free mem: %dB\n", xPortGetFreeHeapSize() );
-        HwAPI_Terminal_SendMessage( tempString );
+
+        hwBootData.hwBootStatus = HW_BOOT_SUCCESS;
 #endif
 /*        
         // Strictly follow boot sequence!!!
@@ -213,6 +233,7 @@ void vTask_HwBoot( void *pvParameters )
     }
     else
     {
+        hwBootData.hwBootStatus = HW_BOOT_ERROR;
         HwAPI_Terminal_SendMessage( "HwTerminal task boot error\n" );
     }
 #endif
