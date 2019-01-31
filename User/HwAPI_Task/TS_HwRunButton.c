@@ -8,24 +8,19 @@
     Overview: Task - Hw Run button
 
 *******************************************************************************************************/
-#include "FreeRTOS.h"
-#include "task.h"
-#include "queue.h"
-
-/* Include core modules */
-#include "stm32f4xx.h"
-/* Include my libraries here */
-#include "defines.h"
-#include "tm_stm32f4_disco.h"
-#include "tm_stm32f4_delay.h"
-#include "tm_stm32f4_exti.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#include "HwAPI.h"
+#include "FreeRTOS.h"
+#include "task.h"
+#include "timers.h"
+#include "queue.h"
 
+#include "stm32f4xx.h"
+#include "defines.h"
+
+#include "HwAPI.h"
 
 TaskHandle_t xTask_HwRunButton;
 QueueHandle_t xQueue_HwRunButton_Rx;
@@ -35,16 +30,9 @@ volatile HwAPI_BootStatus_t bootStatus_HwRunButton = HW_TASK_BOOT_IDLE;
 
 // Declare private functions
 static void InitGPIO_RunButton( void );
-/* Create callback function for custom timer */
-static void ContactBounceTimer_Task(void* UserParameters);
 
-
-
+// Declare private variables
 //static char tempString[450] = {""}; 
-
-
-/* Pointers to custom timers */
-static TM_DELAY_Timer_t* CustomTimer;
 
 
 void vTask_HwRunButton( void *pvParameters )
@@ -82,6 +70,7 @@ void vTask_HwRunButton( void *pvParameters )
             case HW_RUN_BUTTON_PRESSED:
             {
                 runButtonStatus = RUN_BUTTON_PRESSED;
+                //HwAPI_Terminal_SendMessage( "Run button pressed\n" );
                 break;
             }
 
@@ -97,6 +86,9 @@ void vTask_HwRunButton( void *pvParameters )
 }
 
 
+static TimerHandle_t xProtectTimer;
+static void RunButtonTimerCallback( TimerHandle_t xProtectTimer );
+static volatile uint8_t flagTimerRun = 0;
 
 //*************************************************
 //
@@ -107,42 +99,72 @@ void vTask_HwRunButton( void *pvParameters )
 //*************************************************
 static void InitGPIO_RunButton( void )
 {
-	CustomTimer = TM_DELAY_TimerCreate( 70, 0, 0, ContactBounceTimer_Task, NULL );
+    GPIO_InitTypeDef GPIO_cfg;
+    EXTI_InitTypeDef EXTI_cfg;
 
-    TM_EXTI_Attach( RUN_BUTTON_PORT,
-                    RUN_BUTTON_PIN, 
-                    TM_EXTI_Trigger_Falling );
+    RCC_AHB1PeriphClockCmd( RCC_AHB1Periph_GPIOC, ENABLE );
+    RCC_APB2PeriphClockCmd( RCC_APB2Periph_SYSCFG,ENABLE );
+    
+    GPIO_StructInit( &GPIO_cfg );
+    GPIO_cfg.GPIO_Pin = RUN_BUTTON_PIN;
+    GPIO_cfg.GPIO_Mode = GPIO_Mode_IN;
+    GPIO_cfg.GPIO_PuPd = GPIO_PuPd_NOPULL;
+    GPIO_Init( RUN_BUTTON_PORT, &GPIO_cfg );
+
+    SYSCFG_EXTILineConfig( EXTI_PortSourceGPIOC, EXTI_PinSource3 ); 
+    
+    EXTI_StructInit( &EXTI_cfg );
+    EXTI_cfg.EXTI_Mode = EXTI_Mode_Interrupt;
+    if ( IS_GET_EXTI_LINE( RUN_BUTTON_PIN ) )
+    {
+        EXTI_cfg.EXTI_Line = RUN_BUTTON_PIN;
+    }
+    else
+    {
+        // Error!
+        // Pin number is out of range
+        // Some error action
+    }
+    EXTI_cfg.EXTI_Trigger = EXTI_Trigger_Falling;
+    EXTI_cfg.EXTI_LineCmd = ENABLE;
+    EXTI_Init( &EXTI_cfg );
+
+    NVIC_SetPriority( EXTI3_IRQn, 15 );
+    NVIC_EnableIRQ( EXTI3_IRQn );
+
+    // Create bounce protection timer
+    xProtectTimer = xTimerCreate( "Run button timer",
+                                  pdMS_TO_TICKS( 80 ),     // delay in ms to reduce contact bounce
+                                  pdFALSE,                  // one-shot mode (disable autoreload)
+                                  NULL,                     // TimerID not needed
+                                  RunButtonTimerCallback );
 }
 
 
-// Interrupt handler for sd card detection pin 
+// Interrupt handler for run button pin 
 void EXTI3_IRQHandler( void )
 {
-	/* Check status */
-	if ( EXTI->PR & ( EXTI_PR_PR3 ) )
+    // Run protect timer
+    if ( !flagTimerRun )
     {
-		/* Clear bit */
-		EXTI->PR = EXTI_PR_PR3;
-	}
-
-    TM_DELAY_TimerStart( CustomTimer );
-
+        xTimerStartFromISR( xProtectTimer, NULL );
+        flagTimerRun = 1;
+    }
+    EXTI_ClearITPendingBit( RUN_BUTTON_PIN );
 }
 
 
-/* Called when Custom TIMER2 reaches zero */
-static void ContactBounceTimer_Task( void* UserParameters )
+//
+static void RunButtonTimerCallback( TimerHandle_t xProtectTimer )
 {
     HwRunButtonQueueData_t hwRunButtonQueueData;
 
-    if ( !TM_GPIO_GetInputPinValue( RUN_BUTTON_PORT, RUN_BUTTON_PIN ) )
+    if ( !GPIO_ReadInputDataBit( RUN_BUTTON_PORT, RUN_BUTTON_PIN ) )
     {
-        TM_DISCO_LedToggle( LED_RED );
-        
         hwRunButtonQueueData.stateHwRunButton = HW_RUN_BUTTON_PRESSED;            
-        xQueueSendFromISR( xQueue_HwRunButton_Rx, &hwRunButtonQueueData, NULL ); // Need to test!!!!!!
+        xQueueSend( xQueue_HwRunButton_Rx, &hwRunButtonQueueData, NULL );
     }
+
+    flagTimerRun = 0;
 }
-    
-    
 /* End of file */
