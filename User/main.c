@@ -59,7 +59,7 @@ int main(void) {
 #if 1  // Hardware boot
     if( pdTRUE != xTaskCreate(  vTask_HwBoot,
                                 "Task - Hardware boot",
-                                configMINIMAL_STACK_SIZE + 5000,
+                                configMINIMAL_STACK_SIZE + 5000, // check if additional stack needed
                                 NULL,
                                 tskIDLE_PRIORITY + 1,
                                 &xTask_HwBoot ) ) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
