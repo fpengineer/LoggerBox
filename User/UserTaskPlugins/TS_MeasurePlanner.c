@@ -25,13 +25,24 @@
 
 #include "defines.h"
 
-//static char tempString[250] = {""}; 
+typedef enum {
+    MEASURE_STOP,
+    MEASURE_RUN
+} MeasureStatus_t;
 
+// Declare private functions
+
+// Declare private variables
+//static char tempString[450] = {""}; 
+static MeasureStatus_t measureStatus = MEASURE_STOP
+    
 void vTask_MeasurePlanner( void *pvParameters )
 {
     extern QueueHandle_t xQueue_MeasurePlanner_Rx;
     MeasurePlannerQueueData_t measurePlannerQueueData;
 
+    HwBootData_t hwBootData = { HW_BOOT_IDLE, "" };
+    
     while ( 1 )
 	{
         xQueueReceive( xQueue_MeasurePlanner_Rx, &measurePlannerQueueData, portMAX_DELAY );
@@ -40,7 +51,21 @@ void vTask_MeasurePlanner( void *pvParameters )
         {
             case MEASURE_PLANNER_INIT:
                 {
+                    while ( hwBootData.hwBootStatus == HW_BOOT_IN_PROGRESS ||
+                            hwBootData.hwBootStatus == HW_BOOT_IDLE )
+                    {
+                        hwBootData = HwAPI_Boot_GetStatus();
+                    }
                     
+                    if ( hwBootData.hwBootStatus == HW_BOOT_SUCCESS )
+                    {
+                        // Start measure plugin loader
+                    }
+                    else
+                    {
+                        // Error!
+                        // Hardware boot failed
+                    }
                 }
                 break;
                 
