@@ -16,13 +16,9 @@
 #include "task.h"
 #include "queue.h"
 
-/* Include core modules */
 #include "stm32f4xx.h"
-/* Include my libraries here */
+
 #include "defines.h"
-#include "stm32f4xx_rcc.h"
-#include "stm32f4xx_gpio.h"
-#include "stm32f4xx_spi.h"
 
 #include "HwAPI.h"
 
