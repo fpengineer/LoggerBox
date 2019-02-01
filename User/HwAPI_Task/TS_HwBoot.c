@@ -55,7 +55,6 @@ void vTask_HwBoot( void *pvParameters )
         {
             hwBootData.hwBootStatus = HW_BOOT_ERROR;
             HwAPI_Terminal_SendMessage( "HwSystemTime task boot error\n" );
-            break;
         }
 #endif
 #if 0   // HwStatusLED
@@ -71,7 +70,6 @@ void vTask_HwBoot( void *pvParameters )
         {
             hwBootData.hwBootStatus = HW_BOOT_ERROR;
             HwAPI_Terminal_SendMessage( "HwStatusLED task boot error\n" );
-            break;
         }
 #endif
 #if 0   // HwSDCardLED
@@ -87,7 +85,6 @@ void vTask_HwBoot( void *pvParameters )
         {
             hwBootData.hwBootStatus = HW_BOOT_ERROR;
             HwAPI_Terminal_SendMessage( "HwSDCardLED task boot error\n" );
-            break;
         }
 #endif
 #if 0   // HwFatFs
@@ -103,7 +100,6 @@ void vTask_HwBoot( void *pvParameters )
         {
             hwBootData.hwBootStatus = HW_BOOT_ERROR;
             HwAPI_Terminal_SendMessage( "HwFatFs task boot error\n" );
-            break;
         }
 #endif
 #if 0   // HwSDCardDetect
@@ -119,7 +115,6 @@ void vTask_HwBoot( void *pvParameters )
         {
             hwBootData.hwBootStatus = HW_BOOT_ERROR;
             HwAPI_Terminal_SendMessage( "HwSDCardDetect task boot error\n" );
-            break;
         }
 #endif
 #if 0   // HwRelay
@@ -135,7 +130,6 @@ void vTask_HwBoot( void *pvParameters )
         {
             hwBootData.hwBootStatus = HW_BOOT_ERROR;
             HwAPI_Terminal_SendMessage( "HwRelay task boot error\n" );
-            break;
         }
 #endif
 #if 0   // HwVoltageSource
@@ -151,7 +145,6 @@ void vTask_HwBoot( void *pvParameters )
         {
             hwBootData.hwBootStatus = HW_BOOT_ERROR;
             HwAPI_Terminal_SendMessage( "HwVoltageSource task boot error\n" );
-            break;
         }
 #endif
 #if 0   // HwDAQ_ADC
@@ -182,54 +175,23 @@ void vTask_HwBoot( void *pvParameters )
         {
             hwBootData.hwBootStatus = HW_BOOT_ERROR;
             HwAPI_Terminal_SendMessage( "HwDAQ_Frequency task boot error\n" );
-            break;
         }
 #endif
-#if 0   // HwRunButton
+#if 1   // HwRunButton
 //        vTaskDelay(500);
         if ( HwAPI_RunButton_Run() == HW_TASK_BOOT_RUN )
         {
-            hwBootData.hwBootStatus = HW_BOOT_IN_PROGRESS;
+            hwBootData.hwBootStatus = HW_BOOT_SUCCESS;
             HwAPI_Terminal_SendMessage( "HwRunButton task run\n" );
             sprintf( tempString, "free mem: %dB\n", xPortGetFreeHeapSize() );
             HwAPI_Terminal_SendMessage( tempString );
+            HwAPI_Terminal_SendMessage( "***********   LoggerBox   UF113.887   " SYSTEM_VERSION "   ***********\n" );
         }
         else
         {
             hwBootData.hwBootStatus = HW_BOOT_ERROR;
             HwAPI_Terminal_SendMessage( "HwRunButton task boot error\n" );
-            break;
         }
-
-        hwBootData.hwBootStatus = HW_BOOT_SUCCESS;
-#endif
-/*        
-        // Strictly follow boot sequence!!!
-
-        if ( HwAPI_SystemTime_Run() == HW_TASK_BOOT_RUN &&
-             HwAPI_StatusLED_Run() == HW_TASK_BOOT_RUN &&
-             HwAPI_SDCardLED_Run() == HW_TASK_BOOT_RUN &&
-             HwAPI_FatFs_Run() == HW_TASK_BOOT_RUN &&
-             HwAPI_SDCardDetect_Run() == HW_TASK_BOOT_RUN &&
-             HwAPI_Relay_Run() == HW_TASK_BOOT_RUN &&
-             HwAPI_VoltageSource_Run() == HW_TASK_BOOT_RUN &&
-             HwAPI_DAQ_ADC_Run() == HW_TASK_BOOT_RUN &&
-             HwAPI_DAQ_Frequency_Run() == HW_TASK_BOOT_RUN &&
-             HwAPI_RunButton_Run() == HW_TASK_BOOT_RUN )
-        {
-#if 1       // MeasurePlanner
-            if( pdTRUE != xTaskCreate(  vTask_MeasurePlanner,
-                                        "Task - Measure Planner",
-                                        configMINIMAL_STACK_SIZE,
-                                        NULL,
-                                        tskIDLE_PRIORITY + 1,
-                                        &xTask_MeasurePlanner )) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
-#endif
-                                
-            HwAPI_Terminal_SendMessage( "***********   LoggerBox   UF113.887   " SYSTEM_VERSION "   ***********\n" );
-        }
-*/
-
     }
     else
     {
@@ -237,7 +199,7 @@ void vTask_HwBoot( void *pvParameters )
         HwAPI_Terminal_SendMessage( "HwTerminal task boot error\n" );
     }
 #endif
-
+#endif
 
     while ( 1 )
     {
