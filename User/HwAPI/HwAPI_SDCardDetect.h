@@ -44,6 +44,7 @@ typedef struct {
 
 /* Exported functions --------------------------------------------------------*/
 SDCardDetectStatus_t HwAPI_SDCardDetect_GetStatus( void );
+__weak void SDCardDetect_Event( SDCardDetectStatus_t sdCardDetectStatus );     // Define handler in needed task for SD card events
 
 void vTask_HwSDCardDetect( void *pvParameters );
 HwAPI_BootStatus_t HwAPI_SDCardDetect_Run( void );
