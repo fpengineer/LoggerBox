@@ -74,4 +74,26 @@ void vTask_MeasurePlanner( void *pvParameters )
         }
     }
 }
+
+
+void SDCardDetect_Event( SDCardDetectStatus_t sdCardDetectStatus )
+{
+    switch ( sdCardDetectStatus )
+    {
+        case SD_CARD_INSERT:
+        {    
+            // Run sd card insert handler
+            break;
+        }
+    
+        case SD_CARD_REMOVE:
+        {
+            break;
+    	}
+        
+        default:
+            break;
+    }
+    
+}
 /* End of file */
