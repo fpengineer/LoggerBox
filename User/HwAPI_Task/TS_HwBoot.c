@@ -192,13 +192,13 @@ void vTask_HwBoot( void *pvParameters )
             hwBootData.hwBootStatus = HW_BOOT_ERROR;
             HwAPI_Terminal_SendMessage( "HwRunButton task boot error\n" );
         }
+#endif
     }
     else
     {
         hwBootData.hwBootStatus = HW_BOOT_ERROR;
         HwAPI_Terminal_SendMessage( "HwTerminal task boot error\n" );
     }
-#endif
 #endif
 
     while ( 1 )
