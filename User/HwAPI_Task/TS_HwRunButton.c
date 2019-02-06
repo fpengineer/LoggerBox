@@ -70,6 +70,7 @@ void vTask_HwRunButton( void *pvParameters )
             case HW_RUN_BUTTON_PRESSED:
             {
                 runButtonStatus = RUN_BUTTON_PRESSED;
+                RunButton_Event();
                 //HwAPI_Terminal_SendMessage( "Run button pressed\n" );
                 break;
             }
