@@ -87,11 +87,11 @@ void HwAPI_SystemTime_ProcessConfig( int32_t *flagUpdateSystemTime, char *timeSt
         // disable system time enable flag in "config.ini" file
         *flagUpdateSystemTime = UPDATE_SYSTEM_TIME_DISABLE;
         HwAPI_FatFs_INI_PutKeyInt( "SystemTime", "UpdateSystemTime", "config.ini", *flagUpdateSystemTime );
-        *flagUpdateSystemTime = UPDATE_SYSTEM_TIME_ENABLE;
+        *flagUpdateSystemTime = UPDATE_SYSTEM_TIME_ENABLE; // Flag to indidcate that the system time have been updated
     }
     else
     {
-        *flagUpdateSystemTime = UPDATE_SYSTEM_TIME_DISABLE;
+        *flagUpdateSystemTime = UPDATE_SYSTEM_TIME_DISABLE; // Flag to indicate that the system time did not updated
     }
 
     // get current system time from TS_HwSystemTime
@@ -99,7 +99,7 @@ void HwAPI_SystemTime_ProcessConfig( int32_t *flagUpdateSystemTime, char *timeSt
     xQueueSend( xQueue_HwSystemTime_Rx, &hwSystemTimeQueueData, NULL );
     xQueueReceive( xQueue_HwSystemTime_Tx, &hwSystemTimeQueueData, portMAX_DELAY );
 
-    // convert received system time to string
+    // Return current system time value
     sprintf( timeString, "%02d.%02d.%04d %02d:%02d:%02d",
                         hwSystemTimeQueueData.datatime.date,
                         hwSystemTimeQueueData.datatime.month,
