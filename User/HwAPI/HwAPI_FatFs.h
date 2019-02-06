@@ -123,6 +123,8 @@ FatFsStatus_t HwAPI_FatFs_WriteTextFile( char *fileName, char *textData );
 void HwAPI_FatFs_InitSDCard( void );
 void HwAPI_FatFs_DeinitSDCard( void );
 
+FatFsStatus_t HwAPI_FatFs_GetStatus( void );
+
 void vTask_HwFatFs( void *pvParameters );
 HwAPI_BootStatus_t HwAPI_FatFs_Run( void );
 

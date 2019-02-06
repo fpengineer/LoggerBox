@@ -281,6 +281,22 @@ void HwAPI_FatFs_DeinitSDCard( void )
 
 
 //
+FatFsStatus_t HwAPI_FatFs_GetStatus( void )
+{
+    extern QueueHandle_t xQueue_HwFatFs_Rx;
+    extern QueueHandle_t xQueue_HwFatFs_Tx;
+    HwFatFsQueueData_t hwFatFsQueueData;
+   
+    hwFatFsQueueData.stateHwFatFs = HW_FATFS_GET_STATUS;
+        
+    xQueueSend( xQueue_HwFatFs_Rx, &hwFatFsQueueData, NULL );
+    xQueueReceive( xQueue_HwFatFs_Tx, &hwFatFsQueueData, portMAX_DELAY );
+
+    return hwFatFsQueueData.fatFsStatus;
+}
+
+
+//
 HwAPI_BootStatus_t HwAPI_FatFs_Run( void )
 {
     extern TaskHandle_t xTask_HwFatFs;
@@ -307,7 +323,6 @@ HwAPI_BootStatus_t HwAPI_FatFs_Run( void )
     
     return bootStatus_HwFatFs;
 }
-
 
 
 //*************************************************
