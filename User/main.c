@@ -36,11 +36,11 @@
    
 // Plugin task
 TaskHandle_t xTask_HwBoot;
-//TaskHandle_t xTask_MeasurePlanner;
+TaskHandle_t xTask_MeasurePlanner;
 //TaskHandle_t xTask_MeasureX;
 
 // Plugin queue
-QueueHandle_t xQueue_MeasurePlanner_Rx;
+//QueueHandle_t xQueue_MeasurePlanner_Rx;
 //QueueHandle_t xQueue_MeasureX_Rx;
 
 int main(void) {
@@ -65,13 +65,13 @@ int main(void) {
                                 &xTask_HwBoot ) ) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
 #endif
     
-#if 0  // Measure planner
-    if( pdTRUE != xTaskCreate(  vTask_HwMeasurePlanner,
+#if 1  // Measure planner
+    if( pdTRUE != xTaskCreate(  vTask_MeasurePlanner,
                                 "Task - Measure Planner",
                                 configMINIMAL_STACK_SIZE + 5000,
                                 NULL,
                                 tskIDLE_PRIORITY + 1,
-                                &xTask_HwMeasurePlanner ) ) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
+                                &xTask_MeasurePlanner ) ) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
 #endif
     
     vTaskStartScheduler();
