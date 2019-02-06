@@ -42,6 +42,7 @@ typedef struct {
 
 /* Exported functions --------------------------------------------------------*/
 RunButtonStatus_t HwAPI_RunButton_GetStatus( void );
+__weak void RunButton_Event( void );     // Define handler in needed task for run button detect
 
 void vTask_HwRunButton( void *pvParameters );
 HwAPI_BootStatus_t HwAPI_RunButton_Run( void );
