@@ -176,7 +176,7 @@ FatFsStatus_t HwAPI_FatFs_CreateFile( char *fileName )
 
 
 //
-FatFsStatus_t HwAPI_FatFs_CheckFileEXIST( char *fileName )
+FatFsStatus_t HwAPI_FatFs_CheckFileExist( char *fileName )
 {
     extern QueueHandle_t xQueue_HwFatFs_Rx;
     extern QueueHandle_t xQueue_HwFatFs_Tx;
