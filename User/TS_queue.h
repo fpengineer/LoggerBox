@@ -28,11 +28,11 @@ typedef struct {
 
 
 
-/*
+
 typedef struct {
-    enum stateMeasureX stateMeasureX;
-} MeasureXQueueData_t;
-*/
+    enum stateMeasurePlugin stateMeasurePlugin;
+} MeasurePluginQueueData_t;
+
 
 
 #endif /* _TS_QUEUE_H_ */
