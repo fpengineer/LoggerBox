@@ -36,12 +36,10 @@
    
 // Plugin task
 TaskHandle_t xTask_HwBoot;
-TaskHandle_t xTask_MeasurePlanner;
+extern TaskHandle_t xTask_MeasurePlanner;
 //TaskHandle_t xTask_MeasureX;
 
 // Plugin queue
-//QueueHandle_t xQueue_MeasurePlanner_Rx;
-//QueueHandle_t xQueue_MeasureX_Rx;
 
 int main(void) {
     SystemInit();
@@ -51,9 +49,6 @@ int main(void) {
 
 //    OutputMCO();
     
-//    xQueue_MeasurePlanner_Rx = xQueueCreate( 5, sizeof( int ) );
-//    xQueue_MeasureX_Rx = xQueueCreate( 5, sizeof( int ) );
-
     TM_DISCO_LedOn( LED_RED );
 
 #if 1  // Hardware boot
