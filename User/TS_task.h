@@ -30,12 +30,12 @@ enum stateMeasurePlanner {
     MEASURE_PLANNER_IDLE
 };
 
-enum stateMeasureX {
-    MEASURE_X_INIT,
-    MEASURE_X_RUN,
-    MEASURE_X_TACT,
-    MEASURE_X_STOP,
-    MEASURE_X_IDLE
+enum stateMeasurePlugin {
+    MEASURE_PLUGIN_INIT,
+    MEASURE_PLUGIN_RUN,
+    MEASURE_PLUGIN_TACT,
+    MEASURE_PLUGIN_STOP,
+    MEASURE_PLUGIN_IDLE
 };
 
 
@@ -44,7 +44,7 @@ enum stateMeasureX {
 
 
 // Task list
-void vTask_HwBoot( void *pvParameters );
+//void vTask_HwBoot( void *pvParameters );
 void vTask_MeasurePlanner( void *pvParameters );
 //void vTask_MeasureX( void *pvParameters );
 
