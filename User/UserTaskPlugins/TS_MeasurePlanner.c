@@ -280,7 +280,7 @@ static void LoadMeasurePlugin( void )
                     HwAPI_Terminal_SendMessage( tempString );
      
                     // Check if plugin exist
-                    for ( i = 0; i < sizeof( pluginsList ) / sizeof( pluginsList[ 0 ] ); i++ )
+                    for ( i = 0; i < GetSizeof_pluginsList() / GetSizeof_pluginsListElement(); i++ )
                     {
                         if ( strcmp( pluginsList[ i ], pluginName ) == 0 )
                         {
@@ -437,7 +437,7 @@ static void SendPluginsList( void )
     int32_t i = 0;
     
     HwAPI_Terminal_SendMessage( "List of supported ICs:\n" );
-    for ( i = 0; i < sizeof( pluginsList )/sizeof( pluginsList[ 0 ] ); i++ )
+    for ( i = 0; i < GetSizeof_pluginsList() / GetSizeof_pluginsListElement(); i++ )
     {
         sprintf( tempString, "%s\n", pluginsList[ i ] );
         HwAPI_Terminal_SendMessage( tempString );
