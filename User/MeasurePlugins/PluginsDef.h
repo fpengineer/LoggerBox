@@ -18,7 +18,8 @@
 
 
 /* Exported functions --------------------------------------------------------*/
-
+int32_t GetSizeof_pluginsList( void );
+int32_t GetSizeof_pluginsListElement( void );
 
 #endif /* _PLUGINS_DEF_H_ */
 /* End of file */
