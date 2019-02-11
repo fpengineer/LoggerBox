@@ -24,6 +24,7 @@
 #include "HwAPI.h"
 
 #include "defines.h"
+#include "Pluginsdef.h"
 
 #define	ERROR_ACTION( CODE,POS )		do{}while( 0 )
 
@@ -39,7 +40,7 @@ QueueHandle_t xQueue_MeasurePlanner_Rx;
 QueueHandle_t xQueue_MeasurePlugin_Rx;
 QueueHandle_t xQueue_MeasurePlugin_Tx;
 
-extern const char *pluginsList[ 20 ];
+extern const char *pluginsList[];
 
 // Declare private functions
 static void LoadMeasurePlugin( void );
