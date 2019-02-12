@@ -99,7 +99,7 @@ void vTask_HwSDCardDetect( void *pvParameters )
 
 
 
-static TimerHandle_t xProtectTimer;
+static volatile TimerHandle_t xProtectTimer;
 static void SDCardDetectTimerCallback( TimerHandle_t xTimer );
 static EXTI_InitTypeDef EXTI_cfg;
 static volatile uint8_t flagTimerRun = 0;
