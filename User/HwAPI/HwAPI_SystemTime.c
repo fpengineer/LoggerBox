@@ -68,7 +68,6 @@ void HwAPI_SystemTime_ProcessConfig( int32_t *flagUpdateSystemTime, char *timeSt
     HwAPI_FatFs_INI_GetKeyInt( "SystemTime", "UpdateSystemTime", "config.ini", flagUpdateSystemTime );
     HwAPI_FatFs_INI_GetKeyString( "SystemTime", "SystemTimeString", "config.ini", stringSystemTime );
 
-
     // check system time update enable flag
     if ( *flagUpdateSystemTime == UPDATE_SYSTEM_TIME_ENABLE )
     {
@@ -107,7 +106,6 @@ void HwAPI_SystemTime_ProcessConfig( int32_t *flagUpdateSystemTime, char *timeSt
                         hwSystemTimeQueueData.datatime.hours,
                         hwSystemTimeQueueData.datatime.minutes,
                         hwSystemTimeQueueData.datatime.seconds );
-
 }
 
 
