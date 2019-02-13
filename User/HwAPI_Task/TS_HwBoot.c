@@ -246,7 +246,7 @@ void vTask_HwBoot( void *pvParameters )
 #endif
     }
 #endif
-    
+
     if ( hwBootStatus_Terminal == HW_BOOT_SUCCESS &&
          hwBootStatus_SystemTime == HW_BOOT_SUCCESS &&
          hwBootStatus_StatusLED == HW_BOOT_SUCCESS &&
@@ -285,7 +285,7 @@ void vTask_HwBoot( void *pvParameters )
     {
         hwBootData.hwBootStatus = HW_BOOT_IDLE;
 #ifdef HWAPI_BOOT_DEBUG_INFO
-        HwAPI_Terminal_SendMessage( "HwBoot tast result: HW_BOOT_IDLE \n" );
+        HwAPI_Terminal_SendMessage( "HwBoot task result: HW_BOOT_IDLE \n" );
 #endif
     }
 
