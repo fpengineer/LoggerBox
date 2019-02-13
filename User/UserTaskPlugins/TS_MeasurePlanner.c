@@ -41,6 +41,7 @@ QueueHandle_t xQueue_MeasurePlugin_Rx;
 QueueHandle_t xQueue_MeasurePlugin_Tx;
 
 extern const char *pluginsList[];
+extern void (*pluginsPointerList[])( void *pvParameters );
 
 // Declare private functions
 static void LoadMeasurePlugin( void );
@@ -79,25 +80,41 @@ void vTask_MeasurePlanner( void *pvParameters )
             case MEASURE_PLANNER_INIT:
             {
                 // Wait for HwBoot result
-                while ( hwBootData.hwBootStatus == HW_BOOT_IN_PROGRESS ||
-                        hwBootData.hwBootStatus == HW_BOOT_IDLE )
+                do
                 {
                     hwBootData = HwAPI_Boot_GetStatus();
-                }
+                } while ( hwBootData.hwBootStatus == HW_BOOT_IN_PROGRESS ||
+                          hwBootData.hwBootStatus == HW_BOOT_IDLE );
                     
+                HwAPI_Terminal_SendMessage( "TS_MeasurePlanner started.\n" );
+
                 if ( hwBootData.hwBootStatus == HW_BOOT_SUCCESS )
                 {
                     // Start measure plugin loader
-                    // Send to terminal list of plugins - created by a programmer *pluginsList[]
+                    HwAPI_Terminal_SendMessage( "***********   LoggerBox   UF113.887   " SYSTEM_VERSION "   ***********\n" );
+                    
+                    // Send to terminal list of plugins - created by a programmer in the *pluginsList[]
                     SendPluginsList();
                         
-                    // Get FatFs status
-                    if ( HwAPI_FatFs_GetStatus() == FATFS_OK )
+                    // Check FatFs status to load plugins
+                    switch ( HwAPI_FatFs_GetStatus() )
                     {
-                        // Load measure plugin
-                        LoadMeasurePlugin();
+                        case FATFS_OK:
+                        {
+                            // Load measure plugin
+                            HwAPI_Terminal_SendMessage( "Load measure plugins.\n" );
+                            LoadMeasurePlugin();
+                            break;
+                        }
+                        
+                        case FATFS_ERROR_NO_SD_CARD:
+                        {
+                            HwAPI_Terminal_SendMessage( "SD card not inserted! Please insert SD card.\n" );
+                        }
+
+                        default:
+                            break;
                     }
-                    break;
                 }
                 else
                 {
@@ -106,13 +123,16 @@ void vTask_MeasurePlanner( void *pvParameters )
                     HwAPI_Terminal_SendMessage( "Error!\n"
                                                 "Hardware boot failed. Please restart the system.\n" );
                 }
-                
+                break;
             }
-                
+            
             case MEASURE_PLANNER_SD_CARD_INSERT:
             {
                 measureStatus = MEASURE_STOP;
+                HwAPI_Terminal_SendMessage( "MeasurePlanner. SD card inserted.\n" );
 
+                HwAPI_FatFs_InitSDCard();
+                
                 // Check SD card initialization
                 if ( HwAPI_FatFs_GetStatus() == FATFS_OK )
                 {
@@ -125,7 +145,10 @@ void vTask_MeasurePlanner( void *pvParameters )
             case MEASURE_PLANNER_SD_CARD_REMOVE:
             {
                 measureStatus = MEASURE_STOP;
-                
+                HwAPI_Terminal_SendMessage( "MeasurePlanner. SD card removed.\n" );
+
+                HwAPI_FatFs_DeinitSDCard();
+
                 // Send stop command to measure plugin
                 StopMeasurePlugin();
                 
@@ -139,29 +162,33 @@ void vTask_MeasurePlanner( void *pvParameters )
 
             case MEASURE_PLANNER_RUN_BUTTON_PRESSED:
             {
-                switch ( measureStatus )
+                //HwAPI_Terminal_SendMessage( "MeasurePlanner. MEASURE_PLANNER_RUN_BUTTON_PRESSED\n" );
+                if ( HwAPI_FatFs_GetStatus() == FATFS_OK )
                 {
-                    case MEASURE_STOP:
-                    {    
-                        measureStatus = MEASURE_RUN;
-                        // Send run command to measure plugin
-                        RunMeasurePlugin();
-                        break;
-                    }
-    
-                    case MEASURE_RUN:
+                    switch ( measureStatus )
                     {
-                        measureStatus = MEASURE_STOP;
-                        // Send stop command to measure plugin
-                        StopMeasurePlugin();
+                        case MEASURE_STOP:
+                        {    
+                            measureStatus = MEASURE_RUN;
+                            // Send run command to measure plugin
+                            RunMeasurePlugin();
+                            break;
+                        }
+    
+                        case MEASURE_RUN:
+                        {
+                            measureStatus = MEASURE_STOP;
+                            // Send stop command to measure plugin
+                            StopMeasurePlugin();
 
-                        // Set system to default state
-                        SetSystemDefault();
-                        break;
-                    }
+                            // Set system to default state
+                            SetSystemDefault();
+                            break;
+                        }
         
-                    default:
-                        break;
+                        default:
+                            break;
+                    }
                 }
                 break;
             }
@@ -200,8 +227,9 @@ void vTask_MeasurePlanner( void *pvParameters )
 // SD card event callback
 void SDCardDetect_Event( SDCardDetectStatus_t sdCardDetectStatus )
 {
-    QueueHandle_t xQueue_MeasurePlanner_Rx;
     MeasurePlannerQueueData_t measurePlannerQueueData;
+
+    //HwAPI_Terminal_SendMessage( "MeasurePlanner SD card event callback.\n" );
 
     switch ( sdCardDetectStatus )
     {
@@ -228,11 +256,13 @@ void SDCardDetect_Event( SDCardDetectStatus_t sdCardDetectStatus )
 // Run button event callback
 void RunButton_Event( void )
 {
-    QueueHandle_t xQueue_MeasurePlanner_Rx;
     MeasurePlannerQueueData_t measurePlannerQueueData;
     
+    //HwAPI_Terminal_SendMessage( "MeasurePlanner. Run button event\n" );
+
     measurePlannerQueueData.stateMeasurePlanner = MEASURE_PLANNER_RUN_BUTTON_PRESSED;            
     xQueueSend( xQueue_MeasurePlanner_Rx, &measurePlannerQueueData, NULL ); 
+
 }
 
 
@@ -249,23 +279,25 @@ static void LoadMeasurePlugin( void )
     int32_t i = 0;                
     int32_t flagUpdateSystemTime = 0;
     FatFsStatus_t fatFsStatus = FATFS_OK;
-                    
+    char timeString[ 30 ] = "";
+   
     // Check if config.ini exist
     fatFsStatus = HwAPI_FatFs_CheckFileExist( "config.ini" );
+        
     switch ( fatFsStatus )
     {
         case FATFS_OK:
         {
             // Check system time settings
-            HwAPI_SystemTime_ProcessConfig( &flagUpdateSystemTime, tempString );
+            HwAPI_SystemTime_ProcessConfig( &flagUpdateSystemTime, timeString );
             if ( flagUpdateSystemTime == UPDATE_SYSTEM_TIME_ENABLE )
             {
-                sprintf( tempString, "System time updated: %s\n", tempString );
+                sprintf( tempString, "System time updated: %s\n", timeString );
                 HwAPI_Terminal_SendMessage( tempString );
             }
             else
             {
-                sprintf( tempString, "System time: %s\n", tempString );
+                sprintf( tempString, "System time: %s\n", timeString );
                 HwAPI_Terminal_SendMessage( tempString );
             }
      
@@ -294,7 +326,6 @@ static void LoadMeasurePlugin( void )
                                 case FATFS_OK:
                                 {
                                     // Load selected plugin
-                                    /*
                                     if( pdTRUE != xTaskCreate(  pluginsPointerList[ i ],
                                                                 "Task - Measure Plugin",
                                                                 configMINIMAL_STACK_SIZE + 5000,
@@ -302,9 +333,9 @@ static void LoadMeasurePlugin( void )
                                                                 tskIDLE_PRIORITY + 1,
                                                                 &xTask_MeasurePlugin ) ) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
 
-                                    xQueue_MeasurePlugin_Rx = xQueueCreate( 5, sizeof( MeasurePlannerQueueData_t ) );
-                                    xQueue_MeasurePlugin_Tx = xQueueCreate( 5, sizeof( MeasurePlannerQueueData_t ) );
-                                    */
+                                    xQueue_MeasurePlugin_Rx = xQueueCreate( 5, sizeof( MeasurePluginQueueData_t ) );
+                                    xQueue_MeasurePlugin_Tx = xQueueCreate( 5, sizeof( MeasurePluginQueueData_t ) );
+                                    
                                     break;
                                 }
        
@@ -398,11 +429,11 @@ static void UnloadMeasurePlugin( void )
 //*************************************************
 static void RunMeasurePlugin( void )
 {
-    extern QueueHandle_t xQueue_MeasurePlugin_Rx;
+//    extern QueueHandle_t xQueue_MeasurePlugin_Rx;
     MeasurePluginQueueData_t measurePluginQueueData;
     
     measurePluginQueueData.stateMeasurePlugin = MEASURE_PLUGIN_RUN;
-    xQueueSend( xQueue_MeasurePlanner_Rx, &measurePluginQueueData, NULL ); 
+    xQueueSend( xQueue_MeasurePlugin_Rx, &measurePluginQueueData, NULL ); 
 }
 
 
@@ -416,11 +447,11 @@ static void RunMeasurePlugin( void )
 //*************************************************
 static void StopMeasurePlugin( void )
 {
-    extern QueueHandle_t xQueue_MeasurePlugin_Rx;
+//    extern QueueHandle_t xQueue_MeasurePlugin_Rx;
     MeasurePluginQueueData_t measurePluginQueueData;
     
     measurePluginQueueData.stateMeasurePlugin = MEASURE_PLUGIN_STOP;
-    xQueueSend( xQueue_MeasurePlanner_Rx, &measurePluginQueueData, NULL ); 
+    xQueueSendToFront( xQueue_MeasurePlugin_Rx, &measurePluginQueueData, NULL ); 
 }
 
 
