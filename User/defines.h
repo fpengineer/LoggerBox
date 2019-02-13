@@ -50,7 +50,7 @@
 
 
 
-#define TERMINAL_BUFFER     800
+#define TERMINAL_BUFFER_SIZE     800
 
 #define SYSTEM_VERSION      "V0.1"
 
