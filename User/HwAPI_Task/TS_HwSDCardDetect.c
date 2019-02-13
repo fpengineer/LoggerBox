@@ -72,8 +72,8 @@ void vTask_HwSDCardDetect( void *pvParameters )
             case HW_SDCARD_DETECT_INSERT:
             {
                 sdCardDetectStatus = SD_CARD_INSERT;
-                //HwAPI_Terminal_SendMessage( "SD card inserted\n" );
-                HwAPI_FatFs_InitSDCard();
+                //HwAPI_Terminal_SendMessage( "vTask_HwSDCardDetect. SD card inserted\n" );
+                //HwAPI_FatFs_InitSDCard();
                 SDCardDetect_Event( sdCardDetectStatus );
                 break;
             }
@@ -81,8 +81,8 @@ void vTask_HwSDCardDetect( void *pvParameters )
             case HW_SDCARD_DETECT_REMOVE:
             {
                 sdCardDetectStatus = SD_CARD_REMOVE;
-                //HwAPI_Terminal_SendMessage( "SD card removed\n" );
-                HwAPI_FatFs_DeinitSDCard();
+                //HwAPI_Terminal_SendMessage( "vTask_HwSDCardDetect. SD card removed\n" );
+                //HwAPI_FatFs_DeinitSDCard();
                 SDCardDetect_Event( sdCardDetectStatus );
                 break;
             }
