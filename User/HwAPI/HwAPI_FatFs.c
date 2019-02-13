@@ -184,7 +184,7 @@ FatFsStatus_t HwAPI_FatFs_CheckFileExist( char *fileName )
    
     hwFatFsQueueData.stateHwFatFs = HW_FATFS_CHECK_FILE_EXIST;
     hwFatFsQueueData.fileName = fileName;
-        
+    
     xQueueSend( xQueue_HwFatFs_Rx, &hwFatFsQueueData, NULL );
     xQueueReceive( xQueue_HwFatFs_Tx, &hwFatFsQueueData, portMAX_DELAY );
 

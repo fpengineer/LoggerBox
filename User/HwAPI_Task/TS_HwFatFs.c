@@ -40,10 +40,6 @@ static FatFsStatus_t CheckKeyINI( char *keyName, char *sectionName, char *fileNa
 
 
 
-
-
-
-
 static char *stringResult [20] = {
 	"FR_OK",				/* (0) Succeeded */
 	"FR_DISK_ERR",			/* (1) A hard error occurred in the low level disk I/O layer */
@@ -67,7 +63,7 @@ static char *stringResult [20] = {
 	"FR_INVALID_PARAMETER"	/* (19) Given parameter is invalid */
 };
 /* Fatfs object */
-static FATFS FatFs;
+static FATFS fatFs;
 /* File object */
 static FIL fileObjectSet[ MAX_FILES_TO_OPEN ];
 //static FIL fileConfig;
@@ -81,6 +77,7 @@ static char tempString[450] = {""};
 static char filePath[80] = {""}; 
 
 
+
 void vTask_HwFatFs( void *pvParameters )
 {
     HwFatFsQueueData_t hwFatFsQueueData;
@@ -88,11 +85,10 @@ void vTask_HwFatFs( void *pvParameters )
     FatFsStatus_t fatFsStatus = FATFS_ERROR_NO_SD_CARD;
     FatFsEnable_t fatFsEnable = FATFS_DISABLE;
     
-
     hwFatFsQueueData.stateHwFatFs = HW_FATFS_INIT;            
     xQueueSend( xQueue_HwFatFs_Rx, &hwFatFsQueueData, NULL ); 
 
-    while (1)
+    while ( 1 )
     {
         xQueueReceive( xQueue_HwFatFs_Rx, &hwFatFsQueueData, portMAX_DELAY );
         switch ( hwFatFsQueueData.stateHwFatFs )
@@ -100,7 +96,7 @@ void vTask_HwFatFs( void *pvParameters )
             case HW_FATFS_INIT:
             {
                 // Init FatFs module
-                f_mount( &FatFs, "0:", 1 );
+                f_mount( &fatFs, "0:", 1 );
                 f_mount( 0, "0:", 1 );
 
                 bootStatus_HwFatFs = HW_TASK_BOOT_PENDING;
@@ -117,11 +113,9 @@ void vTask_HwFatFs( void *pvParameters )
             
             case HW_FATFS_INIT_SD_CARD:
             {    
-                HwAPI_Terminal_SendMessage( "TS_HwFatFs: Initialize SD Card\n" );
 
                 f_mount( 0, "0:", 1 ); // Unmount drive
-                result = f_mount( &FatFs, "0:", 1 );
-                sprintf( tempString, "f_mount = %s\n", stringResult[ result ] );
+                result = f_mount( &fatFs, "0:", 1 );
                 HwAPI_Terminal_SendMessage( tempString );
 
                 switch ( result )
@@ -198,7 +192,6 @@ void vTask_HwFatFs( void *pvParameters )
                 {
                     sprintf( filePath, "0:/%s", hwFatFsQueueData.fileName );
                     result = f_stat( filePath, NULL );
-                    
                     switch ( result )
                     {
                         case FR_OK:
@@ -543,7 +536,6 @@ static FatFsStatus_t CheckKeyINI( char *keyName, char *sectionName, char *fileNa
 
     return FATFS_OK;
 }
-
 
 
 
