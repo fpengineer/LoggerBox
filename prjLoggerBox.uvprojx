@@ -663,11 +663,6 @@
               <FilePath>.\User\FreeRTOS\event_groups.c</FilePath>
             </File>
             <File>
-              <FileName>heap_1.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\FreeRTOS\heap_1.c</FilePath>
-            </File>
-            <File>
               <FileName>list.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\FreeRTOS\list.c</FilePath>
@@ -701,6 +696,11 @@
               <FileName>FreeRTOSConfig.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\User\FreeRTOSConfig.h</FilePath>
+            </File>
+            <File>
+              <FileName>heap_2.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\FreeRTOS\heap_2.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -901,6 +901,11 @@
               <FileName>PluginsList.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\MeasurePlugins\PluginsList.c</FilePath>
+            </File>
+            <File>
+              <FileName>PluginsPointerList.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\MeasurePlugins\PluginsPointerList.c</FilePath>
             </File>
             <File>
               <FileName>plgPlugin1_V1_0.c</FileName>
