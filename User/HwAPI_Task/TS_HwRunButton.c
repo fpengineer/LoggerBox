@@ -70,8 +70,8 @@ void vTask_HwRunButton( void *pvParameters )
             case HW_RUN_BUTTON_PRESSED:
             {
                 runButtonStatus = RUN_BUTTON_PRESSED;
+                //HwAPI_Terminal_SendMessage( "TS_HwRunButton. Run button pressed\n" );
                 RunButton_Event();
-                //HwAPI_Terminal_SendMessage( "Run button pressed\n" );
                 break;
             }
 
@@ -159,6 +159,8 @@ void EXTI3_IRQHandler( void )
 static void RunButtonTimerCallback( TimerHandle_t xProtectTimer )
 {
     HwRunButtonQueueData_t hwRunButtonQueueData;
+
+    //HwAPI_Terminal_SendMessage( "TS_HwRunButton. Run button timer callback" );
 
     if ( !GPIO_ReadInputDataBit( RUN_BUTTON_PORT, RUN_BUTTON_PIN ) )
     {
