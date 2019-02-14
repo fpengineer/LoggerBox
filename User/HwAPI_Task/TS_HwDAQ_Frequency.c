@@ -74,6 +74,13 @@ void vTask_HwDAQ_Frequency( void *pvParameters )
 				break;
             }
 
+            case HW_DAQ_FREQUENCY_STOP:
+            {
+                xQueueReset( xQueue_HwDAQ_Frequency_Rx ); 
+                xQueueReset( xQueue_HwDAQ_Frequency_Tx ); 
+				break;
+            }
+
             case HW_DAQ_FREQUENCY_IDLE:
 			{
 
