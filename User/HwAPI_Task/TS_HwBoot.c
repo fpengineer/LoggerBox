@@ -29,7 +29,9 @@ HwBootData_t hwBootData = { HW_BOOT_IDLE, "" };
 // Declare private functions
 
 // Declare private variables
+#ifdef HWAPI_BOOT_DEBUG_INFO
 static char tempString[ 100 ] = {""};
+#endif
 
 void vTask_HwBoot( void *pvParameters )
 {
