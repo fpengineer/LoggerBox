@@ -491,6 +491,16 @@ static void SendPluginsList( void )
 //*************************************************
 static void SetSystemDefault( void )
 {
-
+    // Clear relays
+    HwAPI_Relay_ClearAll();
+    
+    // Clear voltage source
+    HwAPI_VoltageSource_ClearAll();
+    
+    // Stop DAQ ADC measure and clear tx queue
+    HwAPI_DAQ_ADC_Stop();
+    
+    // Stop DAQ Frequency measure and clear tx queue
+    HwAPI_DAQ_Frequency_Stop();
 }
 /* End of file */
