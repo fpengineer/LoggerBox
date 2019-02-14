@@ -198,24 +198,6 @@ void vTask_MeasurePlanner( void *pvParameters )
                 break;
             }
 
-            case MEASURE_PLANNER_GET_TYPE:
-            {
-                  
-                break;
-            }
-
-            case MEASURE_PLANNER_RUN_MEASURE_TASK:
-            {
-                    
-                break;
-            }
-                
-            case MEASURE_PLANNER_STOP_MEASURE_TASK:
-            {
-                    
-                break;
-            }
-                
             case MEASURE_PLANNER_IDLE:
             {
                     
