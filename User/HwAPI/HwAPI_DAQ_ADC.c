@@ -90,6 +90,20 @@ HwAPI_Status_t HwAPI_DAQ_ADC_GetAveraged( float *valueADC, float range, int32_t 
 }
 
 //
+HwAPI_Status_t HwAPI_DAQ_ADC_Stop( void )
+{
+    extern QueueHandle_t xQueue_HwDAQ_ADC_Rx;
+    extern QueueHandle_t xQueue_HwDAQ_ADC_Tx;
+    HwDAQ_ADCQueueData_t hwDAQ_ADCQueueData;
+        
+    hwDAQ_ADCQueueData.stateHwDAQ_ADC = HW_DAQ_ADC_STOP;
+
+    xQueueSendToFront( xQueue_HwDAQ_ADC_Rx, &hwDAQ_ADCQueueData, NULL );
+    
+	return HW_API_OK;
+}
+
+//
 HwAPI_BootStatus_t HwAPI_DAQ_ADC_Run( void )
 {
     extern TaskHandle_t xTask_HwDAQ_ADC;
