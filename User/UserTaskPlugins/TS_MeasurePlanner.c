@@ -115,6 +115,7 @@ void vTask_MeasurePlanner( void *pvParameters )
                         default:
                             break;
                     }
+                    HwAPI_StatusLED_On();
                 }
                 else
                 {
@@ -122,6 +123,7 @@ void vTask_MeasurePlanner( void *pvParameters )
                     // Hardware boot failed
                     HwAPI_Terminal_SendMessage( "Error!\n"
                                                 "Hardware boot failed. Please restart the system.\n" );
+                    HwAPI_StatusLED_Flash( STATUS_LED_FLASH_FAST );
                 }
                 break;
             }
@@ -172,6 +174,7 @@ void vTask_MeasurePlanner( void *pvParameters )
                             measureStatus = MEASURE_RUN;
                             // Send run command to measure plugin
                             RunMeasurePlugin();
+                            HwAPI_StatusLED_Flash( STATUS_LED_FLASH_SLOW );
                             break;
                         }
     
@@ -183,6 +186,8 @@ void vTask_MeasurePlanner( void *pvParameters )
 
                             // Set system to default state
                             SetSystemDefault();
+                            
+                            HwAPI_StatusLED_On();
                             break;
                         }
         
