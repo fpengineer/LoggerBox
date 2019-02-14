@@ -63,68 +63,6 @@ void HwAPI_SystemTime_Get( char *timeString )
 
 
 //
-void HwAPI_SystemTime_ProcessConfig( int32_t *flagUpdateSystemTime, char *timeString )
-{
-    extern QueueHandle_t xQueue_HwSystemTime_Rx;
-    extern QueueHandle_t xQueue_HwSystemTime_Tx;
-    HwSystemTimeQueueData_t hwSystemTimeQueueData;
-    char stringSystemTime[ 30 ] = "";
-    
-    // read config values for time from "config.ini" file
-    HwAPI_FatFs_INI_GetKeyInt( "SystemTime", "UpdateSystemTime", "config.ini", flagUpdateSystemTime );
-    HwAPI_FatFs_INI_GetKeyString( "SystemTime", "SystemTimeString", "config.ini", stringSystemTime );
-
-    // check system time update enable flag
-    if ( *flagUpdateSystemTime == UPDATE_SYSTEM_TIME_ENABLE )
-    {
-        // update system time with new value
-        hwSystemTimeQueueData.datatime.day = 1;
-        hwSystemTimeQueueData.datatime.date = atoi( stringSystemTime );
-        hwSystemTimeQueueData.datatime.month = atoi( stringSystemTime + 3 );
-        hwSystemTimeQueueData.datatime.year = atoi( stringSystemTime + 6 ) - 2000;
-        hwSystemTimeQueueData.datatime.hours = atoi( stringSystemTime + 10 );
-        hwSystemTimeQueueData.datatime.minutes = atoi( stringSystemTime + 14 );
-        hwSystemTimeQueueData.datatime.seconds = atoi( stringSystemTime + 17 );
-
-        hwSystemTimeQueueData.stateHwSystemTime = HW_SYSTEM_TIME_SET;
-        xQueueSend( xQueue_HwSystemTime_Rx, &hwSystemTimeQueueData, NULL );
-                
-        // disable system time enable flag in "config.ini" file
-        *flagUpdateSystemTime = UPDATE_SYSTEM_TIME_DISABLE;
-        HwAPI_FatFs_INI_PutKeyInt( "SystemTime", "UpdateSystemTime", "config.ini", *flagUpdateSystemTime );
-        *flagUpdateSystemTime = UPDATE_SYSTEM_TIME_ENABLE; // Flag to indidcate that the system time have been updated
-    }
-    else
-    {
-        *flagUpdateSystemTime = UPDATE_SYSTEM_TIME_DISABLE; // Flag to indicate that the system time did not updated
-    }
-
-    // get current system time from TS_HwSystemTime
-    hwSystemTimeQueueData.stateHwSystemTime = HW_SYSTEM_TIME_GET;
-    xQueueSend( xQueue_HwSystemTime_Rx, &hwSystemTimeQueueData, NULL );
-    xQueueReceive( xQueue_HwSystemTime_Tx, &hwSystemTimeQueueData, portMAX_DELAY );
-
-    // Return current system time value
-    sprintf( timeString, "%02d.%02d.%04d %02d:%02d:%02d",
-                        hwSystemTimeQueueData.datatime.date,
-                        hwSystemTimeQueueData.datatime.month,
-                        hwSystemTimeQueueData.datatime.year + 2000,
-                        hwSystemTimeQueueData.datatime.hours,
-                        hwSystemTimeQueueData.datatime.minutes,
-                        hwSystemTimeQueueData.datatime.seconds );
-}
-
-
-
-//
-void HwAPI_SystemTime_SendToTerminal( char *timeString )
-{
-    
-    
-}
-
-
-//
 HwAPI_BootStatus_t HwAPI_SystemTime_Run( void )
 {
     extern TaskHandle_t xTask_HwSystemTime;

@@ -47,8 +47,6 @@ typedef struct {
 /* Exported functions --------------------------------------------------------*/
 void HwAPI_SystemTime_Set( char *timeString );
 void HwAPI_SystemTime_Get( char *timeString );
-void HwAPI_SystemTime_ProcessConfig( int32_t *flagUpdateSystemTime, char *timeString );
-void HwAPI_SystemTime_SendToTerminal( char *timeString );
 
 void vTask_HwSystemTime( void *pvParameters );
 HwAPI_BootStatus_t HwAPI_SystemTime_Run( void );
