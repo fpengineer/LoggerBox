@@ -95,6 +95,7 @@ typedef struct {
 /* Exported functions --------------------------------------------------------*/
 HwAPI_Status_t HwAPI_DAQ_Frequency_GetSingle( NChannelFreq_t nChannel, FreqPWMData_t *valueFreq );
 HwAPI_Status_t HwAPI_DAQ_Frequency_GetAveraged( NChannelFreq_t nChannel, FreqPWMData_t *valueFreq, int32_t numberAverages );
+HwAPI_Status_t HwAPI_DAQ_Frequency_Stop( void );
 
 void vTask_HwDAQ_Frequency( void *pvParameters );
 HwAPI_BootStatus_t HwAPI_DAQ_Frequency_Run( void );
