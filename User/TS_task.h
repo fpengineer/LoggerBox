@@ -27,6 +27,7 @@ enum stateMeasurePlanner {
     MEASURE_PLANNER_IDLE
 };
 
+
 enum stateMeasurePlugin {
     MEASURE_PLUGIN_INIT,
     MEASURE_PLUGIN_RUN,
