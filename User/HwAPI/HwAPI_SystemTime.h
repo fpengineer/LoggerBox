@@ -45,7 +45,7 @@ typedef struct {
 
 
 /* Exported functions --------------------------------------------------------*/
-void HwAPI_SystemTime_Set( TM_RTC_Time_t datatime );    // perhaps not needed
+void HwAPI_SystemTime_Set( char *timeString );
 void HwAPI_SystemTime_Get( char *timeString );
 void HwAPI_SystemTime_ProcessConfig( int32_t *flagUpdateSystemTime, char *timeString );
 void HwAPI_SystemTime_SendToTerminal( char *timeString );

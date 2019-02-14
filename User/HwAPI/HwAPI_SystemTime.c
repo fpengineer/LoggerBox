@@ -21,14 +21,20 @@
 
 
 //
-void HwAPI_SystemTime_Set( TM_RTC_Time_t datatime )
+void HwAPI_SystemTime_Set( char *timeString )
 {
     extern QueueHandle_t xQueue_HwSystemTime_Rx;
     HwSystemTimeQueueData_t hwSystemTimeQueueData;
-
+    
     // Send to TS_HwSystemTime new time value to set
     hwSystemTimeQueueData.stateHwSystemTime = HW_SYSTEM_TIME_SET;
-    hwSystemTimeQueueData.datatime = datatime;
+    hwSystemTimeQueueData.datatime.day = 1;
+    hwSystemTimeQueueData.datatime.date = atoi( timeString );
+    hwSystemTimeQueueData.datatime.month = atoi( timeString + 3 );
+    hwSystemTimeQueueData.datatime.year = atoi( timeString + 6 ) - 2000;
+    hwSystemTimeQueueData.datatime.hours = atoi( timeString + 10 );
+    hwSystemTimeQueueData.datatime.minutes = atoi( timeString + 14 );
+    hwSystemTimeQueueData.datatime.seconds = atoi( timeString + 17 );
     xQueueSend( xQueue_HwSystemTime_Rx, &hwSystemTimeQueueData, NULL );
 }
 
