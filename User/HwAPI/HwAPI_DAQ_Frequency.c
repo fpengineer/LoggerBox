@@ -62,6 +62,20 @@ HwAPI_Status_t HwAPI_DAQ_Frequency_GetAveraged( NChannelFreq_t nChannel, FreqPWM
 	return HW_API_OK;
 }
     
+//
+HwAPI_Status_t HwAPI_DAQ_Frequency_Stop( void )
+{
+    extern QueueHandle_t xQueue_HwDAQ_Frequency_Rx;
+    extern QueueHandle_t xQueue_HwDAQ_frequency_Tx;
+    HwDAQ_FrequencyQueueData_t hwDAQ_FrequencyQueueData;
+        
+    hwDAQ_FrequencyQueueData.stateHwDAQ_Frequency = HW_DAQ_FREQUENCY_STOP;
+
+    xQueueSendToFront( xQueue_HwDAQ_Frequency_Rx, &hwDAQ_FrequencyQueueData, NULL );
+    
+	return HW_API_OK;
+}
+
 
 //
 HwAPI_BootStatus_t HwAPI_DAQ_Frequency_Run( void )
