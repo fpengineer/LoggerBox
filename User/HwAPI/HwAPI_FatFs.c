@@ -21,6 +21,7 @@
 
 // Declare private functions
 static void SetSDCardLED( FatFsStatus_t fatFsStatus );
+static void INIActionErrorMessage( FatFsStatus_t fatFsStatus, char *nameSection, char *nameKey, char *fileName );
 
 
 
@@ -30,7 +31,7 @@ FatFsStatus_t HwAPI_FatFs_INI_GetKeyInt( char *nameSection, char *nameKey, char 
     extern QueueHandle_t xQueue_HwFatFs_Rx;
     extern QueueHandle_t xQueue_HwFatFs_Tx;
     HwFatFsQueueData_t hwFatFsQueueData;
-   
+    
     hwFatFsQueueData.stateHwFatFs = HW_FATFS_GET_KEY_INI;
     hwFatFsQueueData.fileName = fileName;
     hwFatFsQueueData.iniInfoData.keyName = nameKey;
@@ -40,8 +41,12 @@ FatFsStatus_t HwAPI_FatFs_INI_GetKeyInt( char *nameSection, char *nameKey, char 
     xQueueSend( xQueue_HwFatFs_Rx, &hwFatFsQueueData, NULL );
     xQueueReceive( xQueue_HwFatFs_Tx, &hwFatFsQueueData, portMAX_DELAY );
 
-    *data = hwFatFsQueueData.iniInfoData.intValue;
-
+    if ( hwFatFsQueueData.fatFsStatus == FATFS_OK )
+    {
+        *data = hwFatFsQueueData.iniInfoData.intValue;
+    }
+    
+    INIActionErrorMessage( hwFatFsQueueData.fatFsStatus, nameSection, nameKey, fileName );
     SetSDCardLED( hwFatFsQueueData.fatFsStatus );
     return hwFatFsQueueData.fatFsStatus;
 }
@@ -63,8 +68,12 @@ FatFsStatus_t HwAPI_FatFs_INI_GetKeyFloat( char *nameSection, char *nameKey, cha
     xQueueSend( xQueue_HwFatFs_Rx, &hwFatFsQueueData, NULL );
     xQueueReceive( xQueue_HwFatFs_Tx, &hwFatFsQueueData, portMAX_DELAY );
 
-    *data = hwFatFsQueueData.iniInfoData.floatValue;
-
+    if ( hwFatFsQueueData.fatFsStatus == FATFS_OK )
+    {
+        *data = hwFatFsQueueData.iniInfoData.floatValue;
+    }
+    
+    INIActionErrorMessage( hwFatFsQueueData.fatFsStatus, nameSection, nameKey, fileName );
     SetSDCardLED( hwFatFsQueueData.fatFsStatus );
     return hwFatFsQueueData.fatFsStatus;
 }
@@ -87,6 +96,7 @@ FatFsStatus_t HwAPI_FatFs_INI_GetKeyString( char *nameSection, char *nameKey, ch
     xQueueSend( xQueue_HwFatFs_Rx, &hwFatFsQueueData, NULL );
     xQueueReceive( xQueue_HwFatFs_Tx, &hwFatFsQueueData, portMAX_DELAY );
 
+    INIActionErrorMessage( hwFatFsQueueData.fatFsStatus, nameSection, nameKey, fileName );
     SetSDCardLED( hwFatFsQueueData.fatFsStatus );
     return hwFatFsQueueData.fatFsStatus;
 }
@@ -108,6 +118,7 @@ FatFsStatus_t HwAPI_FatFs_INI_PutKeyInt( char *nameSection, char *nameKey, char 
     xQueueSend( xQueue_HwFatFs_Rx, &hwFatFsQueueData, NULL );
     xQueueReceive( xQueue_HwFatFs_Tx, &hwFatFsQueueData, portMAX_DELAY );
 
+    INIActionErrorMessage( hwFatFsQueueData.fatFsStatus, nameSection, nameKey, fileName );
     SetSDCardLED( hwFatFsQueueData.fatFsStatus );
     return hwFatFsQueueData.fatFsStatus;
 }
@@ -130,6 +141,7 @@ FatFsStatus_t HwAPI_FatFs_INI_PutKeyFloat( char *nameSection, char *nameKey, cha
     xQueueSend( xQueue_HwFatFs_Rx, &hwFatFsQueueData, NULL );
     xQueueReceive( xQueue_HwFatFs_Tx, &hwFatFsQueueData, portMAX_DELAY );
 
+    INIActionErrorMessage( hwFatFsQueueData.fatFsStatus, nameSection, nameKey, fileName );
     SetSDCardLED( hwFatFsQueueData.fatFsStatus );
     return hwFatFsQueueData.fatFsStatus;
 }
@@ -152,6 +164,7 @@ FatFsStatus_t HwAPI_FatFs_INI_PutKeyString( char *nameSection, char *nameKey, ch
     xQueueSend( xQueue_HwFatFs_Rx, &hwFatFsQueueData, NULL );
     xQueueReceive( xQueue_HwFatFs_Tx, &hwFatFsQueueData, portMAX_DELAY );
 
+    INIActionErrorMessage( hwFatFsQueueData.fatFsStatus, nameSection, nameKey, fileName );
     SetSDCardLED( hwFatFsQueueData.fatFsStatus );
     return hwFatFsQueueData.fatFsStatus;
 }
@@ -363,6 +376,60 @@ static void SetSDCardLED( FatFsStatus_t fatFsStatus )
         default:
             break;
     }
+}
+
+
+//*************************************************
+//
+// Private function
+//
+// Process action result for the ini files
+//
+//*************************************************
+static void INIActionErrorMessage( FatFsStatus_t fatFsStatus, char *nameSection, char *nameKey, char *fileName )
+{
+    char tempString[ 100 ] = { "" };
+    
+    switch ( fatFsStatus )
+    {
+        case FATFS_ERROR_FILE_NOT_FOUND:
+        {    
+            snprintf( tempString,
+                      sizeof( tempString ),
+                      "Error! File '%s' not found!\n",
+                      fileName );
+            HwAPI_Terminal_SendMessage( tempString );
+            break;
+        }
+
+        case FATFS_ERROR_INI_SECTION_NOT_FOUND:
+        {    
+            snprintf( tempString, 
+                      sizeof( tempString ),
+                      "Error! Section [%s] not found in the '%s' file!\n",
+                      nameSection,
+                      fileName );
+            HwAPI_Terminal_SendMessage( tempString );
+            break;
+        }
+
+        case FATFS_ERROR_INI_KEY_NOT_FOUND:
+        {
+            snprintf( tempString, 
+                      sizeof( tempString ),
+                      "Error! Key '%s' not found in the section [%s] in the '%s' file!\n",
+                      nameKey,
+                      nameSection,
+                      fileName );
+            HwAPI_Terminal_SendMessage( tempString );
+            break;
+        }
+
+        default:
+            break;
+    }
+   
+    
 }
 
 /* End of file */
