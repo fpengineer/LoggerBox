@@ -151,6 +151,7 @@ typedef struct {
 HwAPI_Status_t HwAPI_DAQ_ADC_SelectInput( NChannelADC_t nChannel, NSourceADC_t nSource );
 HwAPI_Status_t HwAPI_DAQ_ADC_GetSingle( float *valueADC, float range );
 HwAPI_Status_t HwAPI_DAQ_ADC_GetAveraged( float *valueADC, float range, int32_t numberAverages );
+HwAPI_Status_t HwAPI_DAQ_ADC_Stop( void );
 
 void vTask_HwDAQ_ADC( void *pvParameters );
 HwAPI_BootStatus_t HwAPI_DAQ_ADC_Run( void );
