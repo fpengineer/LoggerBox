@@ -81,6 +81,13 @@ void vTask_HwDAQ_ADC( void *pvParameters )
 				break;
             }
 
+            case HW_DAQ_ADC_STOP:
+            {
+                xQueueReset( xQueue_HwDAQ_ADC_Rx ); 
+                xQueueReset( xQueue_HwDAQ_ADC_Tx ); 
+				break;
+            }
+
             case HW_DAQ_ADC_IDLE:
 			{
 
