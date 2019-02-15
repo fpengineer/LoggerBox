@@ -18,14 +18,14 @@
 
 
 // Standart ranges for channels
-#define CH1_RANGE_V     30.0f
-#define CH2_RANGE_V     30.0f
-#define CH3_RANGE_V     30.0f
-#define CH4_RANGE_V     30.0f
-#define CH5_RANGE_V     30.0f
-#define CH6_RANGE_V     30.0f
-#define CH7_RANGE_V     30.0f
-#define CH8_RANGE_V     30.0f
+#define SRC1_RANGE_V     30.0f
+#define SRC2_RANGE_V     30.0f
+#define SRC3_RANGE_V     30.0f
+#define SRC4_RANGE_V     30.0f
+#define SRC5_RANGE_V     30.0f
+#define SRC6_RANGE_V     30.0f
+#define SRC7_RANGE_V     30.0f
+#define SRC8_RANGE_V     30.0f
 
 
 // Calibration constants (not needed now)
