@@ -148,9 +148,6 @@ static void InitVoltageSourceHardware( void )
     GPIO_cfg.GPIO_OType = GPIO_OType_PP;
     GPIO_Init(GPIOE, &GPIO_cfg);
 
-
-
-
 // SPI3 SCK, MOSI, MISO
     GPIO_StructInit(&GPIO_cfg);
     GPIO_PinAFConfig(GPIOB, GPIO_PinSource4, GPIO_AF_SPI3);
@@ -229,27 +226,27 @@ void SetSourceValue( NSource_t nSource, ValueAD56x0_t valueDAC )
 #if defined( AD5620 ) || defined( AD5640 )
     while( SPI_I2S_GetFlagStatus( SPI3, SPI_I2S_FLAG_TXE ) == RESET ){;}
     SPI_I2S_SendData( SPI3, ( uint16_t )( valueDAC >> 8 ) & 0x00ff );
-//    delay_us( 5 );
+    delay_us( 5 );
     while( SPI_I2S_GetFlagStatus( SPI3, SPI_I2S_FLAG_BSY ) == SET ){;}
     SPI_I2S_SendData( SPI3, ( uint16_t )valueDAC & 0x00ff );
-//    delay_us( 5 );
+    delay_us( 5 );
     while( SPI_I2S_GetFlagStatus( SPI3, SPI_I2S_FLAG_BSY ) == SET ){;}
     while( SPI_I2S_GetFlagStatus( SPI3, SPI_I2S_FLAG_RXNE ) == RESET ){;}
-//    delay_us( 5 );
+    //delay_us( 15 );
 
 #elif defined( ad5660 )
     while( SPI_I2S_GetFlagStatus( SPI3, SPI_I2S_FLAG_TXE ) == RESET ){;}
     SPI_I2S_SendData( SPI3, ( uint16_t )( valueDAC >> 16 ) & 0x00ff );
-//    delay_us( 5 );
+    delay_us( 5 );
     while( SPI_I2S_GetFlagStatus( SPI3, SPI_I2S_FLAG_BSY ) == SET ){;}
     SPI_I2S_SendData( SPI3, ( uint16_t )( valueDAC >> 8 ) & 0x00ff );
-//    delay_us( 5 );
+    delay_us( 5 );
     while( SPI_I2S_GetFlagStatus( SPI3, SPI_I2S_FLAG_BSY ) == SET ){;}
     SPI_I2S_SendData( SPI3, ( uint16_t )valueDAC & 0x00ff );
-//    delay_us( 5 );
+    delay_us( 5 );
     while( SPI_I2S_GetFlagStatus( SPI3, SPI_I2S_FLAG_BSY ) == SET ){;}
     while( SPI_I2S_GetFlagStatus( SPI3, SPI_I2S_FLAG_RXNE ) == RESET ){;}
-//    delay_us( 5 );
+//    delay_us( 15 );
 #endif        
     
     switch ( nSource )
