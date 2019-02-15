@@ -117,44 +117,52 @@ static void InitDAQ_ADCHardware( void )
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOE, ENABLE);
 
 // MUX SOURCE A
-    GPIO_StructInit(&GPIO_cfg);
-    GPIO_cfg.GPIO_Pin = GPIO_Pin_7;
+    GPIO_StructInit( &GPIO_cfg );
+    GPIO_cfg.GPIO_Pin = MUX_SOURCE_A_PIN;
     GPIO_cfg.GPIO_Mode = GPIO_Mode_OUT;
     GPIO_cfg.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_cfg.GPIO_OType = GPIO_OType_PP;
-    GPIO_Init(GPIOE, &GPIO_cfg);
+    GPIO_Init( MUX_SOURCE_A_PORT, &GPIO_cfg );
 
 // MUX SOURCE B
-    GPIO_StructInit(&GPIO_cfg);
-    GPIO_cfg.GPIO_Pin = GPIO_Pin_10;
+    GPIO_StructInit( &GPIO_cfg );
+    GPIO_cfg.GPIO_Pin = MUX_SOURCE_B_PIN;
     GPIO_cfg.GPIO_Mode = GPIO_Mode_OUT;
     GPIO_cfg.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_cfg.GPIO_OType = GPIO_OType_PP;
-    GPIO_Init(GPIOE, &GPIO_cfg);
+    GPIO_Init( MUX_SOURCE_B_PORT, &GPIO_cfg );
+
+// MUX SOURCE E
+    GPIO_StructInit( &GPIO_cfg );
+    GPIO_cfg.GPIO_Pin = MUX_SOURCE_C_PIN;
+    GPIO_cfg.GPIO_Mode = GPIO_Mode_OUT;
+    GPIO_cfg.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_cfg.GPIO_OType = GPIO_OType_PP;
+    GPIO_Init( MUX_SOURCE_C_PORT, &GPIO_cfg );
 
 // MUX CHANNEL A
-    GPIO_StructInit(&GPIO_cfg);
-    GPIO_cfg.GPIO_Pin = GPIO_Pin_9;
+    GPIO_StructInit( &GPIO_cfg );
+    GPIO_cfg.GPIO_Pin = MUX_CHANNEL_A_PIN;
     GPIO_cfg.GPIO_Mode = GPIO_Mode_OUT;
     GPIO_cfg.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_cfg.GPIO_OType = GPIO_OType_PP;
-    GPIO_Init(GPIOE, &GPIO_cfg);
+    GPIO_Init( MUX_CHANNEL_A_PORT, &GPIO_cfg );
 
 // MUX CHANNEL B
-    GPIO_StructInit(&GPIO_cfg);
-    GPIO_cfg.GPIO_Pin = GPIO_Pin_12;
+    GPIO_StructInit( &GPIO_cfg );
+    GPIO_cfg.GPIO_Pin = MUX_CHANNEL_B_PIN;
     GPIO_cfg.GPIO_Mode = GPIO_Mode_OUT;
     GPIO_cfg.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_cfg.GPIO_OType = GPIO_OType_PP;
-    GPIO_Init(GPIOE, &GPIO_cfg);
+    GPIO_Init( MUX_CHANNEL_B_PORT, &GPIO_cfg );
 
 // ADC1 CS
     GPIO_StructInit(&GPIO_cfg);
-    GPIO_cfg.GPIO_Pin = GPIO_Pin_8;
+    GPIO_cfg.GPIO_Pin = ADC_CS_PIN;
     GPIO_cfg.GPIO_Mode = GPIO_Mode_OUT;
     GPIO_cfg.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_cfg.GPIO_OType = GPIO_OType_PP;
-    GPIO_Init(GPIOE, &GPIO_cfg);
+    GPIO_Init( ADC_CS_PORT, &GPIO_cfg );
 
    
 // SPI3 SCK, MOSI, MISO
