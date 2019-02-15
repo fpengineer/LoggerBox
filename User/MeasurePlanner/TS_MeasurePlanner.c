@@ -125,6 +125,7 @@ void vTask_MeasurePlanner( void *pvParameters )
                         default:
                             break;
                     }
+                    SetSystemDefault();
                     HwAPI_StatusLED_On();
                 }
                 else
