@@ -229,7 +229,6 @@ void SetSystemDefault( void )
 // Run measure plugin
 void RunMeasurePlugin( void )
 {
-//    extern QueueHandle_t xQueue_MeasurePlugin_Rx;
     MeasurePluginQueueData_t measurePluginQueueData;
     
     measurePluginQueueData.stateMeasurePlugin = MEASURE_PLUGIN_RUN;
@@ -240,7 +239,6 @@ void RunMeasurePlugin( void )
 // Stop measure plugin
 void StopMeasurePlugin( void )
 {
-//    extern QueueHandle_t xQueue_MeasurePlugin_Rx;
     MeasurePluginQueueData_t measurePluginQueueData;
     
     measurePluginQueueData.stateMeasurePlugin = MEASURE_PLUGIN_STOP;
