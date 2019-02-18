@@ -63,14 +63,14 @@
 
 
 // Source selection port/pin defines 
-#define MUX_SOURCE_A_PORT      GPIOE
-#define MUX_SOURCE_A_PIN       GPIO_Pin_7
+#define MUX_SOURCE_C_PORT      GPIOE
+#define MUX_SOURCE_C_PIN       GPIO_Pin_7
 
 #define MUX_SOURCE_B_PORT      GPIOE
 #define MUX_SOURCE_B_PIN       GPIO_Pin_10
 
-#define MUX_SOURCE_C_PORT      GPIOE
-#define MUX_SOURCE_C_PIN       GPIO_Pin_11
+#define MUX_SOURCE_A_PORT      GPIOE
+#define MUX_SOURCE_A_PIN       GPIO_Pin_11
 
 
 // Source selection macro 
