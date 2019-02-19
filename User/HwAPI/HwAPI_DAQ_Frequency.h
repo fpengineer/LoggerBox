@@ -21,14 +21,14 @@
 
 
 // Frequency input selection port/pin defines 
-#define MUX_FREQUENCY_A_PORT      GPIOA
-#define MUX_FREQUENCY_A_PIN       GPIO_Pin_13
+#define MUX_FREQUENCY_A_PORT      GPIOC
+#define MUX_FREQUENCY_A_PIN       GPIO_Pin_7
 
 #define MUX_FREQUENCY_B_PORT      GPIOC
 #define MUX_FREQUENCY_B_PIN       GPIO_Pin_9
 
-#define MUX_FREQUENCY_C_PORT      GPIOC
-#define MUX_FREQUENCY_C_PIN       GPIO_Pin_7
+#define MUX_FREQUENCY_C_PORT      GPIOA
+#define MUX_FREQUENCY_C_PIN       GPIO_Pin_13
 
 
 // Frequency input selection macro 
