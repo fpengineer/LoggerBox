@@ -43,10 +43,10 @@ extern void (*pluginsPointerList[])( void *pvParameters );
 // Read data from main config file
 int32_t ReadConfigFile( ConfigData_t *configData, char *fileName )
 {
-    char tempString[ 50 ] = { "" };
+    char tempString[ 150 ] = { "" };
 
     HwAPI_Terminal_SendMessage( "Read 'config.ini'.\n" );
-
+    
     if ( FATFS_OK == HwAPI_FatFs_INI_GetKeyInt( "SystemTime", "UpdateSystemTime", "config.ini", &configData->updateSystemTime ) &&
          FATFS_OK == HwAPI_FatFs_INI_GetKeyString( "SystemTime", "SystemTimeString", "config.ini", configData->systemTimeString ) &&
          FATFS_OK == HwAPI_FatFs_INI_GetKeyString( "SelectIC", "NameIC", "config.ini", configData->nameIC ) )
@@ -57,7 +57,7 @@ int32_t ReadConfigFile( ConfigData_t *configData, char *fileName )
                                                   configData->updateSystemTime,
                                                   configData->systemTimeString );
         HwAPI_Terminal_SendMessage( tempString );
-
+        
         HwAPI_Terminal_SendMessage( "\n[SelectIC]\n" );
         snprintf( tempString, sizeof( tempString ), "NameIC = %s\n\n", configData->nameIC );
         HwAPI_Terminal_SendMessage( tempString );
