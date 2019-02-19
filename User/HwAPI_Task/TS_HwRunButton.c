@@ -135,7 +135,7 @@ static void InitGPIO_RunButton( void )
 
     // Create bounce protection timer
     xProtectTimer = xTimerCreate( "Run button timer",
-                                  pdMS_TO_TICKS( 80 ),     // delay in ms to reduce contact bounce
+                                  pdMS_TO_TICKS( 120 ),     // delay in ms to reduce contact bounce
                                   pdFALSE,                  // one-shot mode (disable autoreload)
                                   NULL,                     // TimerID not needed
                                   RunButtonTimerCallback );
