@@ -247,18 +247,19 @@ FreqPWMData_t GetSingleFrequency( NChannelFreq_t nChannel )
     int32_t i = 0;
     uint16_t countPulseLow = 0;
     uint16_t countPulseHigh = 0;
-    
+        
     SelectInputFrequency( nChannel );
 
+    vTaskDelay( 1 ); // Important! Need to stable frequency after multiplexer
     taskENTER_CRITICAL();
     TIM_ClearFlag( TIM1, ( TIM_FLAG_CC1 | TIM_FLAG_CC2 ) );
-    while ( ( TIM_GetFlagStatus( TIM1, ( TIM_FLAG_CC1 | TIM_FLAG_CC2 ) ) == RESET ) && ( i < 50 ) )
+    while ( ( TIM_GetFlagStatus( TIM1, ( TIM_FLAG_CC1 | TIM_FLAG_CC2 ) ) == RESET ) && ( i < 500 ) )
     {
         i++;
     }
     taskEXIT_CRITICAL();
 
-    if ( i >= 50 )
+    if ( i >= 500 )
     {
         freqPWMData.pulseHigh_ns = -1.0f;
         freqPWMData.pulseLow_ns = -1.0f;
@@ -294,6 +295,7 @@ FreqPWMData_t GetAveragedFrequency( NChannelFreq_t nChannel, int32_t numberAvera
     
     SelectInputFrequency( nChannel );
 
+    vTaskDelay( 1 ); // Important! Need to stable frequency after multiplexer
     taskENTER_CRITICAL();
     for ( i = 0; i < numberAverages; i++ )
     {
