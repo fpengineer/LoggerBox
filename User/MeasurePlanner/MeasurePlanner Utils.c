@@ -219,6 +219,7 @@ void SetSystemDefault( void )
     HwAPI_VoltageSource_ClearAll();
     
     // Stop DAQ ADC measure and clear tx queue
+    HwAPI_DAQ_ADC_SelectInput( ADC_CHANNEL_1, ADC_SOURCE_1 );
     HwAPI_DAQ_ADC_Stop();
     
     // Stop DAQ Frequency measure and clear tx queue
