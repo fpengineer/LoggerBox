@@ -30,6 +30,7 @@ HwAPI_Status_t HwAPI_DAQ_Frequency_GetSingle( NChannelFreq_t nChannel, FreqPWMDa
     HwDAQ_FrequencyQueueData_t hwDAQ_FrequencyQueueData;
         
     hwDAQ_FrequencyQueueData.stateHwDAQ_Frequency = HW_DAQ_FREQUENCY_GET_SINGLE;
+    hwDAQ_FrequencyQueueData.nChannelFrequency = nChannel;
 
     xQueueSend( xQueue_HwDAQ_Frequency_Rx, &hwDAQ_FrequencyQueueData, NULL );
     xQueueReceive( xQueue_HwDAQ_Frequency_Tx, &hwDAQ_FrequencyQueueData, portMAX_DELAY );
@@ -50,6 +51,7 @@ HwAPI_Status_t HwAPI_DAQ_Frequency_GetAveraged( NChannelFreq_t nChannel, FreqPWM
     HwDAQ_FrequencyQueueData_t hwDAQ_FrequencyQueueData;
         
     hwDAQ_FrequencyQueueData.stateHwDAQ_Frequency = HW_DAQ_FREQUENCY_GET_AVERAGED;
+    hwDAQ_FrequencyQueueData.nChannelFrequency = nChannel;
     hwDAQ_FrequencyQueueData.numberAverages = numberAverages;
     
     xQueueSend( xQueue_HwDAQ_Frequency_Rx, &hwDAQ_FrequencyQueueData, NULL );
