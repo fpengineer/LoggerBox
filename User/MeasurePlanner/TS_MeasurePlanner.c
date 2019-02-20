@@ -24,7 +24,7 @@
 #include "HwAPI.h"
 
 #include "defines.h"
-#include "PluginsDef.h"
+#include "PluginsList.h"
 #include "MeasurePlanner Utils.h"
 
 
