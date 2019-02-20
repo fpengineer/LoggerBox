@@ -11,7 +11,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-#include "PluginsDef.h"
+#include "PluginsList.h"
 
 //void vTask_MeasureX( void *pvParameters );
 
