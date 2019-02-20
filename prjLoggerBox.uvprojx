@@ -908,6 +908,11 @@
               <FilePath>.\User\MeasurePlugins\PluginsDef.h</FilePath>
             </File>
             <File>
+              <FileName>PluginsList.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\User\MeasurePlugins\PluginsList.h</FilePath>
+            </File>
+            <File>
               <FileName>PluginsList.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\MeasurePlugins\PluginsList.c</FilePath>
