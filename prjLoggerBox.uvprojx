@@ -867,25 +867,15 @@
               <FileType>5</FileType>
               <FilePath>.\User\stm32f4xx_conf.h</FilePath>
             </File>
-            <File>
-              <FileName>TS_task.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\User\TS_task.h</FilePath>
-            </File>
-            <File>
-              <FileName>TS_queue.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\User\TS_queue.h</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
           <GroupName>MeasurePlanner</GroupName>
           <Files>
             <File>
-              <FileName>TS_MeasurePlanner.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\MeasurePlanner\TS_MeasurePlanner.c</FilePath>
+              <FileName>MeasurePlannerDef.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\User\MeasurePlanner\MeasurePlannerDef.h</FilePath>
             </File>
             <File>
               <FileName>MeasurePlanner Utils.h</FileName>
@@ -896,6 +886,16 @@
               <FileName>MeasurePlanner Utils.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\MeasurePlanner\MeasurePlanner Utils.c</FilePath>
+            </File>
+            <File>
+              <FileName>TS_MeasurePlanner.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\MeasurePlanner\TS_MeasurePlanner.c</FilePath>
+            </File>
+            <File>
+              <FileName>TS_MeasureX.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\MeasurePlanner\TS_MeasureX.c</FilePath>
             </File>
           </Files>
         </Group>
