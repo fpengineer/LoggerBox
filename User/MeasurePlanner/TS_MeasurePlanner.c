@@ -240,6 +240,8 @@ void vTask_MeasurePlanner( void *pvParameters )
                             SetSystemDefault();
 
                             HwAPI_StatusLED_On();
+
+                            HwAPI_Terminal_SendMessage( "MeasurePlanner. Stop measure.\n" );
                             break;
                         }
         
