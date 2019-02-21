@@ -256,8 +256,10 @@ void SDCardDetect_Event( SDCardDetectStatus_t sdCardDetectStatus )
 {
     MeasurePlannerQueueData_t measurePlannerQueueData;
 
-    //HwAPI_Terminal_SendMessage( "MeasurePlanner SD card event callback.\n" );
-
+#ifdef MEASURE_PLANNER_DEBUG_INFO    
+    HwAPI_Terminal_SendMessage( "MeasurePlanner SD card event callback.\n" );
+#endif
+    
     switch ( sdCardDetectStatus )
     {
         case SD_CARD_INSERT:
@@ -284,12 +286,13 @@ void SDCardDetect_Event( SDCardDetectStatus_t sdCardDetectStatus )
 void RunButton_Event( void )
 {
     MeasurePlannerQueueData_t measurePlannerQueueData;
-    
-    //HwAPI_Terminal_SendMessage( "MeasurePlanner. Run button event\n" );
+
+#ifdef MEASURE_PLANNER_DEBUG_INFO    
+    HwAPI_Terminal_SendMessage( "MeasurePlanner. Run button event\n" );
+#endif
 
     measurePlannerQueueData.stateMeasurePlanner = MEASURE_PLANNER_RUN_BUTTON_PRESSED;            
     xQueueSend( xQueue_MeasurePlanner_Rx, &measurePlannerQueueData, NULL ); 
-
 }
 
 /* End of file */
