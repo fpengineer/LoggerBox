@@ -20,6 +20,12 @@ typedef enum {
     CMD_PLUGIN_IDLE
 }PluginCommand_t;
 
+typedef struct {
+    int8_t error;
+    int32_t errorCode;
+    char message[ 150 ];
+}PluginResult_t;
+
 /* Exported functions --------------------------------------------------------*/
 
 
