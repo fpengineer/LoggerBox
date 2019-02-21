@@ -71,8 +71,19 @@ void vTask_MeasurePlanner( void *pvParameters )
                 {
                     flagPluginReady = 0;
 
-                    HwAPI_Terminal_SendMessage( "TS_HwBoot - OK.\n"
-                                                "TS_MeasurePlanner - OK.\n" );
+                    /* Run MeasureX task */
+                    xQueue_MeasureX_Rx = xQueueCreate( 5, sizeof( MeasureXQueueData_t ) );
+                    
+                    if( pdTRUE != xTaskCreate(  vTask_MeasureX,
+                                                "Task - MeasureX",
+                                                configMINIMAL_STACK_SIZE + 5000,
+                                                NULL,
+                                                tskIDLE_PRIORITY + 1,
+                                                &xTask_MeasureX ) ) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
+
+                    HwAPI_Terminal_SendMessage( "\nTS_HwBoot - OK.\n"
+                                                "TS_MeasurePlanner - OK.\n" 
+                                                "TS_MeasureX - OK.\n" );
                     
                     /* Start measure plugin loader */
                     HwAPI_Terminal_SendMessage( "***********   LoggerBox   UF113.887   " SYSTEM_VERSION "   ***********\n\n" );
