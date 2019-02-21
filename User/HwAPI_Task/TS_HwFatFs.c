@@ -128,8 +128,9 @@ void vTask_HwFatFs( void *pvParameters )
                     default:
                         fatFsStatus = FATFS_ERROR;
                         fatFsEnable = FATFS_DISABLE;
-                        sprintf( tempString, "TS_HwFatFs: HW_FATFS_INIT_SD_CARD Error!\n"
-                                             "f_mount = %s\n", stringResult[ result ] );
+                        snprintf( tempString, sizeof( tempString ), "TS_HwFatFs: HW_FATFS_INIT_SD_CARD Error!\n"
+                                                                    "f_mount = %s\n", 
+                                                                    stringResult[ result ] );
                         HwAPI_Terminal_SendMessage( tempString );
                         break;
                 }
@@ -160,7 +161,7 @@ void vTask_HwFatFs( void *pvParameters )
                 if ( fatFsEnable == FATFS_ENABLE )
                 {
                     f_close( &fileObjectSet[ hwFatFsQueueData.fileIndex ] );
-                    sprintf( filePath, "0:/%s", hwFatFsQueueData.fileName );
+                    snprintf( filePath, sizeof( filePath ), "0:/%s", hwFatFsQueueData.fileName );
                     result = f_open( &fileObjectSet[ hwFatFsQueueData.fileIndex ], filePath, FA_CREATE_ALWAYS | FA_WRITE | FA_READ );
 
                     
@@ -172,8 +173,8 @@ void vTask_HwFatFs( void *pvParameters )
                             break;
 
                         default:
-                            sprintf( tempString, "TS_HwFatFs: HW_FATFS_CREATE_FILE Error!\n"
-                                                 "f_open = %s\n", stringResult[ result ] );
+                            snprintf( tempString, sizeof( tempString ), "TS_HwFatFs: HW_FATFS_CREATE_FILE Error!\n"
+                                                                        "f_open = %s\n", stringResult[ result ] );
                             HwAPI_Terminal_SendMessage( tempString );
                             fatFsStatus = FATFS_ERROR;
                             break;
@@ -190,7 +191,7 @@ void vTask_HwFatFs( void *pvParameters )
             {    
                 if ( fatFsEnable == FATFS_ENABLE )
                 {
-                    sprintf( filePath, "0:/%s", hwFatFsQueueData.fileName );
+                    snprintf( filePath, sizeof( filePath ), "0:/%s", hwFatFsQueueData.fileName );
                     result = f_stat( filePath, NULL );
                     switch ( result )
                     {
@@ -203,8 +204,8 @@ void vTask_HwFatFs( void *pvParameters )
                             break;
                         
                         default:
-                            sprintf( tempString, "TS_HwFatFs: HW_FATFS_CHECK_FILE_EXIST Error!\n"
-                                                 "f_stat = %s\n", stringResult[ result ] );
+                            snprintf( tempString, sizeof( tempString ), "TS_HwFatFs: HW_FATFS_CHECK_FILE_EXIST Error!\n"
+                                                                        "f_stat = %s\n", stringResult[ result ] );
                             HwAPI_Terminal_SendMessage( tempString );
                             fatFsStatus = FATFS_ERROR;
                             break;
@@ -222,7 +223,7 @@ void vTask_HwFatFs( void *pvParameters )
                 if ( fatFsEnable == FATFS_ENABLE )
                 {
                     f_close( &fileObjectSet[ hwFatFsQueueData.fileIndex ] );
-                    sprintf( filePath, "0:/%s", hwFatFsQueueData.fileName );
+                    snprintf( filePath, sizeof( filePath ), "0:/%s", hwFatFsQueueData.fileName );
                     result = f_open( &fileObjectSet[ hwFatFsQueueData.fileIndex ], filePath, FA_OPEN_EXISTING | FA_WRITE | FA_READ );
                     
                     switch ( result )
@@ -237,8 +238,8 @@ void vTask_HwFatFs( void *pvParameters )
                             break;
 
                         default:
-                            sprintf( tempString, "TS_HwFatFs: HW_FATFS_OPEN_FILE Error!\n"
-                                                 "f_open = %s\n", stringResult[ result ] );
+                            snprintf( tempString, sizeof( tempString ), "TS_HwFatFs: HW_FATFS_OPEN_FILE Error!\n"
+                                                                        "f_open = %s\n", stringResult[ result ] );
                             HwAPI_Terminal_SendMessage( tempString );
                             fatFsStatus = FATFS_ERROR;
                             break;
@@ -264,8 +265,8 @@ void vTask_HwFatFs( void *pvParameters )
                             break;
 
                         default:
-                            sprintf( tempString, "TS_HwFatFs: HW_FATFS_CLOSE_FILE Error!\n"
-                                                 "f_close = %s\n", stringResult[ result ] );
+                            snprintf( tempString, sizeof( tempString ), "TS_HwFatFs: HW_FATFS_CLOSE_FILE Error!\n"
+                                                                        "f_close = %s\n", stringResult[ result ] );
                             HwAPI_Terminal_SendMessage( tempString );
                             fatFsStatus = FATFS_ERROR;
                             break;
@@ -305,7 +306,7 @@ void vTask_HwFatFs( void *pvParameters )
                                     break;
 
                                 default:
-                                    sprintf( tempString, "TS_HwFatFs: HW_FATFS_WRITE_FILE Error!\n"
+                                    snprintf( tempString, sizeof( tempString ), "TS_HwFatFs: HW_FATFS_WRITE_FILE Error!\n"
                                                          "f_puts = %s\n", stringResult[ result ] );
                                     HwAPI_Terminal_SendMessage( tempString );
                                     fatFsStatus = FATFS_ERROR;
@@ -315,8 +316,8 @@ void vTask_HwFatFs( void *pvParameters )
                             break;
 
                         default:
-                            sprintf( tempString, "TS_HwFatFs: HW_FATFS_WRITE_FILE Error!\n"
-                                                 "f_lseek = %s\n", stringResult[ result ] );
+                            snprintf( tempString, sizeof( tempString ), "TS_HwFatFs: HW_FATFS_WRITE_FILE Error!\n"
+                                                                        "f_lseek = %s\n", stringResult[ result ] );
                             HwAPI_Terminal_SendMessage( tempString );
                             fatFsStatus = FATFS_ERROR;
                             break;
@@ -463,7 +464,7 @@ static FatFsStatus_t CheckFileExist( char *fileName )
     FatFsStatus_t fatFsStatus = FATFS_OK;
     FRESULT fresult = FR_OK;
 
-    sprintf( filePath, "%s:/%s", VOLUME_NAME, fileName );
+    snprintf( filePath, sizeof( filePath ), "%s:/%s", VOLUME_NAME, fileName );
     fresult = f_stat( filePath, NULL );
     switch ( fresult )
     {
@@ -476,8 +477,8 @@ static FatFsStatus_t CheckFileExist( char *fileName )
             break;
                         
         default:
-            sprintf( tempString, "CheckFileExist() - Error!\n"
-                                 "f_stat( %s, NULL) = %s\n", filePath, stringResult[ fresult ] );
+            snprintf( tempString, sizeof( tempString ), "CheckFileExist() - Error!\n"
+                                                       "f_stat( %s, NULL) = %s\n", filePath, stringResult[ fresult ] );
             HwAPI_Terminal_SendMessage( tempString );
             fatFsStatus = FATFS_ERROR;
             break;
@@ -500,9 +501,10 @@ static FatFsStatus_t CheckSectionINI( char *sectionName, char *fileName )
     int32_t sectionIndex = 0;   
     char sectionNameBuffer[ MAX_INI_SECTION_NAME_LENGTH ] = {""};
 
-    sprintf( filePath, "%s:/%s", VOLUME_NAME, fileName );
+    snprintf( filePath, sizeof( filePath ), "%s:/%s", VOLUME_NAME, fileName );
 
     for ( sectionIndex = 0; ini_getsection( sectionIndex, sectionNameBuffer, MAX_INI_SECTION_NAME_LENGTH, filePath ) > 0; sectionIndex++ ){;}
+    
     if ( sectionIndex == 0 )
     {
         return FATFS_ERROR_INI_SECTION_NOT_FOUND;
@@ -526,7 +528,7 @@ static FatFsStatus_t CheckKeyINI( char *keyName, char *sectionName, char *fileNa
     int32_t keyIndex = 0;   
     char keyNameBuffer[ MAX_INI_SECTION_NAME_LENGTH ] = {""};
 
-    sprintf( filePath, "%s:/%s", VOLUME_NAME, fileName );
+    snprintf( filePath, sizeof( filePath ), "%s:/%s", VOLUME_NAME, fileName );
 
     for ( keyIndex = 0; ini_getkey( sectionName, keyIndex, keyNameBuffer, MAX_INI_KEY_NAME_LENGTH, filePath ) > 0; keyIndex++ ){;}
     if ( keyIndex == 0 )

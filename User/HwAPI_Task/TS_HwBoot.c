@@ -57,7 +57,7 @@ void vTask_HwBoot( void *pvParameters )
     {
         hwBootStatus_Terminal = HW_BOOT_SUCCESS;
 #ifdef HWAPI_BOOT_DEBUG_INFO
-        sprintf( tempString, "HwTerminal task run - free mem: %d B\n", xPortGetFreeHeapSize() );
+        snprintf( tempString, sizeof( tempString ), "HwTerminal task run - free mem: %d B\n", xPortGetFreeHeapSize() );
         HwAPI_Terminal_SendMessage( tempString );
 #endif
        
@@ -67,7 +67,7 @@ void vTask_HwBoot( void *pvParameters )
         {
             hwBootStatus_SystemTime = HW_BOOT_SUCCESS;
 #ifdef HWAPI_BOOT_DEBUG_INFO
-            sprintf( tempString, "HwSystemTime task run - free mem: %dB\n", xPortGetFreeHeapSize() );
+            snprintf( tempString, sizeof( tempString ), "HwSystemTime task run - free mem: %dB\n", xPortGetFreeHeapSize() );
             HwAPI_Terminal_SendMessage( tempString );
 #endif
         }
@@ -85,7 +85,7 @@ void vTask_HwBoot( void *pvParameters )
         {
             hwBootStatus_StatusLED = HW_BOOT_SUCCESS;
 #ifdef HWAPI_BOOT_DEBUG_INFO
-            sprintf( tempString, "HwStatusLED task run - free mem: %dB\n", xPortGetFreeHeapSize() );
+            snprintf( tempString, sizeof( tempString ), "HwStatusLED task run - free mem: %dB\n", xPortGetFreeHeapSize() );
             HwAPI_Terminal_SendMessage( tempString );
 #endif
         }
@@ -103,7 +103,7 @@ void vTask_HwBoot( void *pvParameters )
         {
             hwBootStatus_SDCardLED = HW_BOOT_SUCCESS;
 #ifdef HWAPI_BOOT_DEBUG_INFO
-            sprintf( tempString, "HwSDCardLED task run - free mem: %dB\n", xPortGetFreeHeapSize() );
+            snprintf( tempString, sizeof( tempString ), "HwSDCardLED task run - free mem: %dB\n", xPortGetFreeHeapSize() );
             HwAPI_Terminal_SendMessage( tempString );
 #endif
         }
@@ -121,7 +121,7 @@ void vTask_HwBoot( void *pvParameters )
         {
             hwBootStatus_FatFs = HW_BOOT_SUCCESS;
 #ifdef HWAPI_BOOT_DEBUG_INFO
-            sprintf( tempString, "HwFatFs task run - free mem: %dB\n", xPortGetFreeHeapSize() );
+            snprintf( tempString, sizeof( tempString ), "HwFatFs task run - free mem: %dB\n", xPortGetFreeHeapSize() );
             HwAPI_Terminal_SendMessage( tempString );
 #endif
         }
@@ -139,7 +139,7 @@ void vTask_HwBoot( void *pvParameters )
         {
             hwBootStatus_SDCardDetect = HW_BOOT_SUCCESS;
 #ifdef HWAPI_BOOT_DEBUG_INFO
-            sprintf( tempString, "HwSDCardDetect task run - free mem: %dB\n", xPortGetFreeHeapSize() );
+            snprintf( tempString, sizeof( tempString ), "HwSDCardDetect task run - free mem: %dB\n", xPortGetFreeHeapSize() );
             HwAPI_Terminal_SendMessage( tempString );
 #endif
         }
@@ -157,7 +157,7 @@ void vTask_HwBoot( void *pvParameters )
         {
             hwBootStatus_Relay = HW_BOOT_SUCCESS;
 #ifdef HWAPI_BOOT_DEBUG_INFO
-            sprintf( tempString, "HwRelay task run - free mem: %dB\n", xPortGetFreeHeapSize() );
+            snprintf( tempString, sizeof( tempString ), "HwRelay task run - free mem: %dB\n", xPortGetFreeHeapSize() );
             HwAPI_Terminal_SendMessage( tempString );
 #endif
         }
@@ -175,7 +175,7 @@ void vTask_HwBoot( void *pvParameters )
         {
             hwBootStatus_VoltageSource = HW_BOOT_SUCCESS;
 #ifdef HWAPI_BOOT_DEBUG_INFO
-            sprintf( tempString, "HwVoltageSource task run - free mem: %dB\n", xPortGetFreeHeapSize() );
+            snprintf( tempString, sizeof( tempString ), "HwVoltageSource task run - free mem: %dB\n", xPortGetFreeHeapSize() );
             HwAPI_Terminal_SendMessage( tempString );
 #endif
         }
@@ -193,7 +193,7 @@ void vTask_HwBoot( void *pvParameters )
         {
             hwBootStatus_DAQ_ADC = HW_BOOT_SUCCESS;
 #ifdef HWAPI_BOOT_DEBUG_INFO
-            sprintf( tempString, "HwDAQ_ADC task run - free mem: %dB\n", xPortGetFreeHeapSize() );
+            snprintf( tempString, sizeof( tempString ), "HwDAQ_ADC task run - free mem: %dB\n", xPortGetFreeHeapSize() );
             HwAPI_Terminal_SendMessage( tempString );
 #endif
         }
@@ -211,7 +211,7 @@ void vTask_HwBoot( void *pvParameters )
         {
             hwBootStatus_DAQ_Frequency = HW_BOOT_SUCCESS;
 #ifdef HWAPI_BOOT_DEBUG_INFO
-            sprintf( tempString, "HwDAQ_Frequency task run - free mem: %dB\n", xPortGetFreeHeapSize() );
+            snprintf( tempString, sizeof( tempString ), "HwDAQ_Frequency task run - free mem: %dB\n", xPortGetFreeHeapSize() );
             HwAPI_Terminal_SendMessage( tempString );
 #endif
         }
@@ -229,7 +229,7 @@ void vTask_HwBoot( void *pvParameters )
         {
             hwBootStatus_RunButton = HW_BOOT_SUCCESS;
 #ifdef HWAPI_BOOT_DEBUG_INFO
-            sprintf( tempString, "HwRunButton task run - free mem: %dB\n", xPortGetFreeHeapSize() );
+            snprintf( tempString, sizeof( tempString ), "HwRunButton task run - free mem: %dB\n", xPortGetFreeHeapSize() );
             HwAPI_Terminal_SendMessage( tempString );
 #endif
         }
