@@ -62,7 +62,7 @@ void vTask_MeasurePlanner( void *pvParameters )
         {
             case MEASURE_PLANNER_INIT:
             {
-                // Wait for HwBoot result
+                /* Wait for HwBoot result */
                 do
                 {
                     hwBootData = HwAPI_Boot_GetStatus();
@@ -76,38 +76,38 @@ void vTask_MeasurePlanner( void *pvParameters )
                     HwAPI_Terminal_SendMessage( "TS_HwBoot - OK.\n"
                                                 "TS_MeasurePlanner - OK.\n" );
                     
-                    // Start measure plugin loader
+                    /* Start measure plugin loader */
                     HwAPI_Terminal_SendMessage( "***********   LoggerBox   UF113.887   " SYSTEM_VERSION "   ***********\n\n" );
 
-                    // Get current system time
+                    /* Get current system time */
                     HwAPI_SystemTime_Get( configData.systemTimeString );
                     sprintf( tempString, "Current system time: %s\n\n", configData.systemTimeString );
                     HwAPI_Terminal_SendMessage( tempString );
                     
-                    // Send to terminal list of plugins - created by a programmer in the *pluginsList[]
+                    /* Send to terminal list of plugins created by a programmer in the *pluginsList[] */
                     SendPluginsList();
                         
-                    // Check FatFs status to load plugins
+                    /* Check FatFs status to load plugins */
                     switch ( HwAPI_FatFs_GetStatus() )
                     {
                         case FATFS_OK:
                         {
                             int32_t pluginIndex = 0;
                             
-                            // Read 'config.ini'
+                            /* Read 'config.ini' */
                             if ( ReadConfigFile( &configData, "config.ini" ) )
                             {
-                                // Process SystemTime settings
+                                /* Process SystemTime settings */
                                 ProcessSystemTimeConfig( configData.systemTimeString, configData.updateSystemTime );
                             
-                                // Find measure plugin
+                                /* Find measure plugin */
                                 pluginIndex = FindMeasurePlugin( configData.nameIC );
                                 if ( pluginIndex >= 0 )
                                 {
-                                    // Check measure plan file exist
+                                    /* Check measure plan file exist */
                                     if ( CheckMeasurePlanFile( configData.nameIC ) )
                                     {
-                                        // Load measure plugin
+                                        /* Load measure plugin */
                                         LoadMeasurePlugin( pluginIndex );
                                         flagPluginReady = 1;
                                     }
@@ -130,8 +130,8 @@ void vTask_MeasurePlanner( void *pvParameters )
                 }
                 else
                 {
-                    // Error!
-                    // Hardware boot failed
+                    /* Error!
+                       Hardware boot failed */
                     HwAPI_Terminal_SendMessage( "Error!\n"
                                                 "Hardware boot failed. Please restart the system.\n" );
                     HwAPI_StatusLED_Flash( STATUS_LED_FLASH_FAST );
@@ -148,25 +148,25 @@ void vTask_MeasurePlanner( void *pvParameters )
 
                 HwAPI_FatFs_InitSDCard();
                 
-                // Check SD card initialization
+                /* Check SD card initialization */
                 if ( HwAPI_FatFs_GetStatus() == FATFS_OK )
                 {
                     int32_t pluginIndex = 0;
                             
-                    // Read 'config.ini'
+                    /* Read 'config.ini' */
                     if ( ReadConfigFile( &configData, "config.ini" ) )
                     {
-                        // Process SystemTime settings
+                        /* Process SystemTime settings */
                         ProcessSystemTimeConfig( configData.systemTimeString, configData.updateSystemTime );
                             
-                        // Find measure plugin
+                        /* Find measure plugin */
                         pluginIndex = FindMeasurePlugin( configData.nameIC );
                         if ( pluginIndex >= 0 )
                         {
-                            // Check measure plan file exist
+                            /* Check measure plan file exist */
                             if ( CheckMeasurePlanFile( configData.nameIC ) )
                             {
-                                // Load measure plugin
+                                /* Load measure plugin */
                                 LoadMeasurePlugin( pluginIndex );
                                 flagPluginReady = 1;
                             }
@@ -186,15 +186,15 @@ void vTask_MeasurePlanner( void *pvParameters )
 
                 if ( flagPluginReady )
                 {
-                    // Send stop command to measure plugin
+                    /* Send stop command to MeasureX */
                     StopMeasurePlugin();
                 
-                    // Unload measure plugin
+                    /* Unload measure plugin */
                     UnloadMeasurePlugin();
                 }
                 flagPluginReady = 0;
 
-                // Set system to default state
+                /* Set system to default state */
                 SetSystemDefault();
                 HwAPI_StatusLED_On();
                 break;
@@ -211,9 +211,12 @@ void vTask_MeasurePlanner( void *pvParameters )
                         {       
                             measureStatus = MEASURE_RUN;
                                
-                            // Send run command to measure plugin
+                            /* Send run command to measure plugin */
                             RunMeasurePlugin();
+
                             HwAPI_StatusLED_Flash( STATUS_LED_FLASH_SLOW );
+
+                            HwAPI_Terminal_SendMessage( "MeasurePlanner. Run measure.\n" );
                             break;
                         }
     
@@ -221,10 +224,10 @@ void vTask_MeasurePlanner( void *pvParameters )
                         {
                             measureStatus = MEASURE_STOP;
                         
-                            // Send stop command to measure plugin
+                            /* Send stop command to MeasureX */
                             StopMeasurePlugin();
 
-                            // Set system to default state
+                            /* Set system to default state */
                             SetSystemDefault();
 
                             HwAPI_StatusLED_On();
