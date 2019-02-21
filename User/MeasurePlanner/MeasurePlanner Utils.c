@@ -17,13 +17,9 @@
 #include "task.h"
 #include "queue.h"
 
-#include "TS_queue.h"
-#include "TS_task.h"
-
 #include "HwAPI.h"
 
 #include "defines.h"
-#include "PluginsDef.h"
 #include "MeasurePlanner Utils.h"
 
 #define	ERROR_ACTION( CODE,POS )		do{}while( 0 )
