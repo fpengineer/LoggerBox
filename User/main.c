@@ -27,19 +27,15 @@
 
 // Include application
 #include "HwAPI.h"
-#include "TS_Task.h"
-#include "TS_queue.h"
+#include "MeasurePlannerDef.h"
 #include "ClockOutMCO.h"
 
 #define	ERROR_ACTION( CODE,POS )		do{}while( 0 )
 
    
-// Plugin task
-TaskHandle_t xTask_HwBoot;
+// task handles
+extern TaskHandle_t xTask_HwBoot;
 extern TaskHandle_t xTask_MeasurePlanner;
-//TaskHandle_t xTask_MeasureX;
-
-// Plugin queue
 
 int main(void) {
     SystemInit();
@@ -69,6 +65,7 @@ int main(void) {
                                 &xTask_MeasurePlanner ) ) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
 #endif
     
+   
     vTaskStartScheduler();
                                 
     while ( 1 ){;}

@@ -23,6 +23,8 @@
 
 #define	ERROR_ACTION( CODE,POS )		do{}while( 0 )
 
+TaskHandle_t xTask_HwBoot;
+
 HwBootData_t hwBootData = { HW_BOOT_IDLE, "" }; 
 
 
