@@ -20,20 +20,14 @@
 #include "HwAPI.h"
 
 #include "defines.h"
+#include "PluginsList.h"
+#include "MeasurePlannerDef.h"
 #include "MeasurePlanner Utils.h"
 
-#define	ERROR_ACTION( CODE,POS )		do{}while( 0 )
-
-extern TaskHandle_t xTask_MeasurePlanner;
-extern TaskHandle_t xTask_MeasurePlugin;
-
-extern QueueHandle_t xQueue_MeasurePlanner_Rx;
-extern QueueHandle_t xQueue_MeasurePlugin_Rx;
-extern QueueHandle_t xQueue_MeasurePlugin_Tx;
-
 extern const char *pluginsList[];
-extern void (*pluginsPointerList[])( void *pvParameters );
+extern void (*pluginsPointerList[])( PluginResult_t *pluginResult, PluginCommand_t pluginCommand, int32_t *tactLength_ms );
 
+static void (*pluginRef)( PluginResult_t *pluginResult, PluginCommand_t pluginCommand, int32_t *tactLength_ms ) = NULL; 
 
 
 // Read data from main config file
