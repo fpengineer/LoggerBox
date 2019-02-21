@@ -42,5 +42,7 @@ void SetSystemDefault( void );
 void RunMeasurePlugin( void );
 void StopMeasurePlugin( void );
 
+void MeasurePluginError( void );
+
 #endif /* _MEASURE_PLANNER_H_*/
 /* End of file */

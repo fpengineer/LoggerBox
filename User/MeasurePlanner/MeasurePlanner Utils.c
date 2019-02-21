@@ -234,5 +234,14 @@ void StopMeasurePlugin( void )
     
     measurePluginQueueData.stateMeasurePlugin = MEASURE_PLUGIN_STOP;
     xQueueSendToFront( xQueue_MeasurePlugin_Rx, &measurePluginQueueData, NULL ); 
+
+
+// Error handler from the measure plugin
+void MeasurePluginError( void )
+{
+    MeasurePlannerQueueData_t measurePlannerQueueData;
+
+    measurePlannerQueueData.stateMeasurePlanner = MEASURE_PLANNER_PLUGIN_ERROR;            
+    xQueueSend( xQueue_MeasurePlanner_Rx, &measurePlannerQueueData, NULL ); 
 }
 /* End of file */
