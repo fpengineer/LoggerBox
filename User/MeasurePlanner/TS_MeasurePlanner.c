@@ -90,7 +90,7 @@ void vTask_MeasurePlanner( void *pvParameters )
 
                     /* Get current system time */
                     HwAPI_SystemTime_Get( configData.systemTimeString );
-                    sprintf( tempString, "Current system time: %s\n\n", configData.systemTimeString );
+                    snprintf( tempString, sizeof( tempString ), "Current system time: %s\n\n", configData.systemTimeString );
                     HwAPI_Terminal_SendMessage( tempString );
                     
                     /* Send to terminal list of plugins created by a programmer in the *pluginsList[] */
