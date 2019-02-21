@@ -15,7 +15,7 @@
 
 //void vTask_MeasureX( void *pvParameters );
 
-void (*pluginsPointerList[])( void *pvParameters ) = {    
+void (*pluginsPointerList[])( PluginResult_t *pluginResult, PluginCommand_t pluginCommand, int32_t *tactLength_ms ) = {    
 #ifdef PLUGIN_0
     PLUGIN_0_POINTER,
 #endif
