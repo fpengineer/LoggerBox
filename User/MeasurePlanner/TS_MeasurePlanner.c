@@ -22,15 +22,16 @@
 
 #include "defines.h"
 #include "PluginsList.h"
+#include "MeasurePlannerDef.h"
 #include "MeasurePlanner Utils.h"
 
+#define	ERROR_ACTION( CODE,POS )		do{}while( 0 )
 
 TaskHandle_t xTask_MeasurePlanner;
-TaskHandle_t xTask_MeasurePlugin;
+TaskHandle_t xTask_MeasureX;
 
 QueueHandle_t xQueue_MeasurePlanner_Rx;
-QueueHandle_t xQueue_MeasurePlugin_Rx;
-QueueHandle_t xQueue_MeasurePlugin_Tx;
+extern QueueHandle_t xQueue_MeasureX_Rx;
 
 // Declare private variables
 static char tempString[450] = {""}; 
