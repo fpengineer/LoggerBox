@@ -149,20 +149,12 @@ void LoadMeasurePlugin( int32_t pluginIndex )
 {
     char tempString[ 100 ] = { "" };
 
-    HwAPI_Terminal_SendMessage( "Load selected plugin.\n" );
+    //HwAPI_Terminal_SendMessage( "Load selected plugin.\n" );
 
     // Load selected plugin
     if ( pluginIndex >= 0 )
     {
-        if( pdTRUE != xTaskCreate(  pluginsPointerList[ pluginIndex ],
-                                "Task - Measure Plugin",
-                                configMINIMAL_STACK_SIZE + 5000,
-                                NULL,
-                                tskIDLE_PRIORITY + 1,
-                                &xTask_MeasurePlugin ) ) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
-
-        xQueue_MeasurePlugin_Rx = xQueueCreate( 5, sizeof( MeasurePluginQueueData_t ) );
-        xQueue_MeasurePlugin_Tx = xQueueCreate( 5, sizeof( MeasurePluginQueueData_t ) );
+        pluginRef = pluginsPointerList[ pluginIndex ];
     }
     else
     {
@@ -176,9 +168,7 @@ void LoadMeasurePlugin( int32_t pluginIndex )
 // Unload measure plugin
 void UnloadMeasurePlugin( void )
 {
-    vTaskDelete( xTask_MeasurePlugin );
-    vQueueDelete( xQueue_MeasurePlugin_Rx );
-    vQueueDelete( xQueue_MeasurePlugin_Tx );
+        pluginRef = NULL;
 }
 
 
@@ -220,20 +210,23 @@ void SetSystemDefault( void )
 // Run measure plugin
 void RunMeasurePlugin( void )
 {
-    MeasurePluginQueueData_t measurePluginQueueData;
+    MeasureXQueueData_t measureXQueueData;
     
-    measurePluginQueueData.stateMeasurePlugin = MEASURE_PLUGIN_RUN;
-    xQueueSend( xQueue_MeasurePlugin_Rx, &measurePluginQueueData, NULL ); 
+    measureXQueueData.stateMeasureX = MEASURE_X_RUN;
+    measureXQueueData.pluginRef = pluginRef;
+    xQueueSend( xQueue_MeasureX_Rx, &measureXQueueData, NULL ); 
 }
 
 
 // Stop measure plugin
 void StopMeasurePlugin( void )
 {
-    MeasurePluginQueueData_t measurePluginQueueData;
+    MeasureXQueueData_t measureXQueueData;
     
-    measurePluginQueueData.stateMeasurePlugin = MEASURE_PLUGIN_STOP;
-    xQueueSendToFront( xQueue_MeasurePlugin_Rx, &measurePluginQueueData, NULL ); 
+    measureXQueueData.stateMeasureX = MEASURE_X_STOP;
+    measureXQueueData.pluginRef = pluginRef;
+    xQueueSendToFront( xQueue_MeasureX_Rx, &measureXQueueData, NULL ); 
+}
 
 
 // Error handler from the measure plugin
