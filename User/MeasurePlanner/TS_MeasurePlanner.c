@@ -18,9 +18,6 @@
 #include "queue.h"
 #include "timers.h"
 
-#include "TS_queue.h"
-#include "TS_task.h"
-
 #include "HwAPI.h"
 
 #include "defines.h"
