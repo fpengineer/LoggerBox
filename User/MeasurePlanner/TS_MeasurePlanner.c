@@ -252,6 +252,19 @@ void vTask_MeasurePlanner( void *pvParameters )
                 break;
             }
 
+            case MEASURE_PLANNER_PLUGIN_ERROR:
+            {
+                measureStatus = MEASURE_STOP;
+
+                /* Set system to default state */
+                SetSystemDefault();
+
+                HwAPI_StatusLED_On();
+
+                HwAPI_Terminal_SendMessage( "MeasurePlanner. Stop measure.\n" );
+                break;
+            }
+
             case MEASURE_PLANNER_IDLE:
             {
                     
