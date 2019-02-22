@@ -10,6 +10,10 @@
 
 #include <stdint.h>
 
+// define PLUGINS_DEBUG_INFO to allow debug info messages into terminal
+//#define PLUGINS_DEBUG_INFO
+
+
 
 /* Exported types ------------------------------------------------------------*/
 typedef enum {
