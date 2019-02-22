@@ -15,8 +15,8 @@
 #include "PluginsDef.h"
 
 
-// define HWAPI_DEBUG_INFO to allow debug info messages into terminal
-//#define HWAPI_BOOT_DEBUG_INFO
+// define MEASURE_PLANNER_DEBUG_INFO to allow debug info messages into terminal
+//#define MEASURE_PLANNER_DEBUG_INFO
 
 
 /* Extern variables ----------------------------------------------------------*/
