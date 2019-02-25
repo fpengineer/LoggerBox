@@ -125,6 +125,8 @@ static PluginResult_t GetConfigData( CfgMeasurePlan_ConverterI7_IC5_V1_0_t *cfgM
                                      CfgDatafileSettings_ConverterI7_IC5_V1_0_t *cfgDatafileSettings )
 {
     PluginResult_t pluginResult = { 0, 0, "" };
+    
+    /* Create filenam for the config plan file */
     snprintf( measurePlanFilename, GetSizeof_measurePlanFilename(), "MeasurePlan_"PLUGIN_4_NAME".ini" );
     
     if ( FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "MeasurePlan", "BaseTactLength_s", measurePlanFilename, &cfgMeasurePlan->BaseTactLength_s ) ||
