@@ -923,6 +923,16 @@
               <FilePath>.\User\MeasurePlugins\PluginsPointerList.c</FilePath>
             </File>
             <File>
+              <FileName>PluginsString.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\User\MeasurePlugins\PluginsString.h</FilePath>
+            </File>
+            <File>
+              <FileName>PluginsString.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\MeasurePlugins\PluginsString.c</FilePath>
+            </File>
+            <File>
               <FileName>plgPlugin1_V1_0.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\MeasurePlugins\plgPlugin1_V1_0\plgPlugin1_V1_0.c</FilePath>
