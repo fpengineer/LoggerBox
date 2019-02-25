@@ -14,6 +14,8 @@
 //#define PLUGINS_DEBUG_INFO
 
 
+// Define error codes for the plugins
+#define PLG_ERR_READ_MEASURE_PLAN_FILE  1
 
 /* Exported types ------------------------------------------------------------*/
 typedef enum {
