@@ -34,7 +34,7 @@ QueueHandle_t xQueue_MeasurePlanner_Rx;
 extern QueueHandle_t xQueue_MeasureX_Rx;
 
 // Declare private variables
-static char tempString[450] = {""}; 
+static char tempString[ 450 ] = {""}; 
 
 
 void vTask_MeasurePlanner( void *pvParameters )
@@ -80,7 +80,10 @@ void vTask_MeasurePlanner( void *pvParameters )
                                                 NULL,
                                                 tskIDLE_PRIORITY + 1,
                                                 &xTask_MeasureX ) ) { ERROR_ACTION(TASK_NOT_CREATE,0); }	
-
+#if 1 //MEASURE_PLANNER_DEBUG_INFO
+                    snprintf( tempString, sizeof( tempString ), "TS_MeasureX task run - free mem: %d B\n", xPortGetFreeHeapSize() );
+                    HwAPI_Terminal_SendMessage( tempString );
+#endif
                     HwAPI_Terminal_SendMessage( "\nTS_HwBoot - OK.\n"
                                                 "TS_MeasurePlanner - OK.\n" 
                                                 "TS_MeasureX - OK.\n" );
@@ -106,6 +109,7 @@ void vTask_MeasurePlanner( void *pvParameters )
                             /* Read 'config.ini' */
                             if ( ReadConfigFile( &configData, "config.ini" ) )
                             {
+                                
                                 /* Process SystemTime settings */
                                 ProcessSystemTimeConfig( configData.systemTimeString, configData.updateSystemTime );
                             
