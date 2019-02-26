@@ -58,10 +58,10 @@ void vTask_MeasureX( void *pvParameters )
             
             case MEASURE_X_RUN:
             {
-                // Check for a NULL plugin pointer
+                /* Check for a NULL plugin pointer */
                 if ( measureXQueueData.pluginRef != NULL )
                 {
-                    // Perform plugin command
+                    /* Perform plugin command */
                     measureXQueueData.pluginRef( &pluginResult, CMD_PLUGIN_RUN, &tactLength_ms );
 
                     measureXQueueData.stateMeasureX = MEASURE_X_TACT;
@@ -72,7 +72,7 @@ void vTask_MeasureX( void *pvParameters )
                 }
                 else
                 {
-                    // Run error handler
+                    /* Run error handler */
                     pluginResult.error = 1;
                     pluginResult.errorCode = 10;
                     snprintf( pluginResult.message, sizeof( pluginResult.message ), "Error %d!\n Plugin pointer is NULL.", pluginResult.errorCode );
@@ -85,10 +85,10 @@ void vTask_MeasureX( void *pvParameters )
             
             case MEASURE_X_TACT:
             {
-                // Check for a NULL plugin pointer
+                /* Check for a NULL plugin pointer */
                 if ( measureXQueueData.pluginRef != NULL )
                 {
-                    // Perform plugin command
+                    /* Perform plugin command */
                     measureXQueueData.pluginRef( &pluginResult, CMD_PLUGIN_TACT, NULL );
                     
                     if ( !pluginResult.error )
@@ -107,7 +107,7 @@ void vTask_MeasureX( void *pvParameters )
                 }
                 else
                 {
-                    // Run error handler
+                    /* Run error handler */
                     pluginResult.error = 1;
                     pluginResult.errorCode = 10;
                     snprintf( pluginResult.message, sizeof( pluginResult.message ), "Error %d!\n Plugin pointer is NULL.", pluginResult.errorCode );
@@ -120,10 +120,10 @@ void vTask_MeasureX( void *pvParameters )
     
             case MEASURE_X_STOP:
             {
-                // Check for a NULL plugin pointer
+                /* Check for a NULL plugin pointer */
                 if ( measureXQueueData.pluginRef != NULL )
                 {
-                    // Perform plugin command
+                    /* Perform plugin command */
                     measureXQueueData.pluginRef( &pluginResult, CMD_PLUGIN_STOP, NULL );
 
                     if ( !pluginResult.error )
@@ -138,7 +138,7 @@ void vTask_MeasureX( void *pvParameters )
                 }
                 else
                 {
-                    // Run error handler
+                    /* Run error handler */
                     pluginResult.error = 1;
                     pluginResult.errorCode = 10;
                     snprintf( pluginResult.message, sizeof( pluginResult.message ), "Error %d!\n Plugin pointer is NULL.", pluginResult.errorCode );
