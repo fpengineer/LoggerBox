@@ -63,12 +63,20 @@ void vTask_MeasureX( void *pvParameters )
                 {
                     /* Perform plugin command */
                     measureXQueueData.pluginRef( &pluginResult, CMD_PLUGIN_RUN, &tactLength_ms );
-
-                    measureXQueueData.stateMeasureX = MEASURE_X_TACT;
-                    xQueueSend( xQueue_MeasureX_Rx, &measureXQueueData, NULL ); 
+                    if ( !pluginResult.error )
+                    {
+                        measureXQueueData.stateMeasureX = MEASURE_X_TACT;
+                        xQueueSend( xQueue_MeasureX_Rx, &measureXQueueData, NULL ); 
                 
-                    xLastWakeTime = xTaskGetTickCount();
-                    vTaskDelayUntil( &xLastWakeTime, ( TickType_t )tactLength_ms );
+                        xLastWakeTime = xTaskGetTickCount();
+                        vTaskDelayUntil( &xLastWakeTime, ( TickType_t )tactLength_ms );
+                    }
+                    else
+                    {
+                        /* Run error handler */
+                        measureXQueueData.stateMeasureX = MEASURE_X_ERROR;
+                        xQueueSend( xQueue_MeasureX_Rx, &measureXQueueData, NULL ); 
+                    }
                 }
                 else
                 {
