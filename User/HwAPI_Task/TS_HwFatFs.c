@@ -22,6 +22,7 @@
 #include "defines.h"
 #include "tm_stm32f4_rtc.h"
 #include "tm_stm32f4_fatfs.h"
+#include "tm_stm32f4_disco.h"
 
 #include "HwAPI.h"
 
@@ -35,9 +36,13 @@ volatile HwAPI_BootStatus_t bootStatus_HwFatFs = HW_TASK_BOOT_IDLE;
 
 // Declare private functions
 static FatFsStatus_t CheckFileExist( char *fileName );
-static FatFsStatus_t CheckSectionINI( char *sectionName, char *fileName );
-static FatFsStatus_t CheckKeyINI( char *keyName, char *sectionName, char *fileName );
+static FatFsStatus_t CheckSectionAndKeyINI( char *sectionName, char *keyName, INIConfigStrings_t *configStrings );
 
+
+
+// Declare private variables
+static INIConfigStrings_t configStrings[ MAX_INI_SECTION_LIST ];
+static INIConfigStrings_t measurePlanStrings[ MAX_INI_SECTION_LIST ];
 
 
 static char *stringResult [20] = {
@@ -64,17 +69,11 @@ static char *stringResult [20] = {
 };
 /* Fatfs object */
 static FATFS fatFs;
-/* File object */
 static FIL fileObjectSet[ MAX_FILES_TO_OPEN ];
-//static FIL fileConfig;
-//static FILINFO fno;
-//static DIR dir;
 static FRESULT result = FR_NOT_READY;
 
-static char tempString[450] = {""}; 
-//static char headerString[1800] = {""}; 
-//static char measureString[1800] = {""}; 
-static char filePath[80] = {""}; 
+static char tempString[ 250 ] = {""}; 
+static char filePath[ 80 ] = {""}; 
 
 
 
@@ -334,47 +333,65 @@ void vTask_HwFatFs( void *pvParameters )
             {
                 if ( fatFsEnable == FATFS_ENABLE )
                 {
-                    // check if file exist
+                    /* Check if file exist */
                     fatFsStatus = CheckFileExist( hwFatFsQueueData.fileName );
                     if ( fatFsStatus == FATFS_OK )
                     {
-                        // check if section exist
-                        fatFsStatus = CheckSectionINI( hwFatFsQueueData.iniInfoData.sectionName, hwFatFsQueueData.fileName );
+                        /* Check if section and key exist */
+                        switch ( hwFatFsQueueData.iniInfoData.configFileType )
+                        {
+                            case MAIN_CONFIG_FILE:
+                            {
+                                fatFsStatus = CheckSectionAndKeyINI( hwFatFsQueueData.iniInfoData.sectionName,  \
+                                                                     hwFatFsQueueData.iniInfoData.keyName,      \
+                                                                     configStrings );
+                                break;
+                            }
+
+                            case MEASURE_PLAN_FILE:
+                            {
+                                fatFsStatus = CheckSectionAndKeyINI( hwFatFsQueueData.iniInfoData.sectionName,  \
+                                                                     hwFatFsQueueData.iniInfoData.keyName,      \
+                                                                     measurePlanStrings );
+                                break;
+                            }                        
+                        }                        
                         if ( fatFsStatus == FATFS_OK )
                         {
-                            // check if key exist
-                            fatFsStatus = CheckKeyINI( hwFatFsQueueData.iniInfoData.keyName, hwFatFsQueueData.iniInfoData.sectionName, hwFatFsQueueData.fileName );
-                            if ( fatFsStatus == FATFS_OK )
+                            /* Get key value */
+                            switch ( hwFatFsQueueData.iniInfoData.keyType )
                             {
-                                // get key value
-                                switch ( hwFatFsQueueData.iniInfoData.keyType )
-                                {
-                                    case INI_KEY_INT:
-                                        hwFatFsQueueData.iniInfoData.intValue = ini_getl( hwFatFsQueueData.iniInfoData.sectionName, 
-                                                                                          hwFatFsQueueData.iniInfoData.keyName,     
-                                                                                          -1,                                       
-                                                                                          hwFatFsQueueData.fileName );    
-                                        break;
-                    
-                                    case INI_KEY_FLOAT:
-                                        hwFatFsQueueData.iniInfoData.floatValue = ini_getf( hwFatFsQueueData.iniInfoData.sectionName, 
-                                                                                          hwFatFsQueueData.iniInfoData.keyName,     
-                                                                                          0.0f,                                       
-                                                                                          hwFatFsQueueData.fileName );    
-                                        break;
-                    	
-                                    case INI_KEY_STRING:
-                                        ini_gets( hwFatFsQueueData.iniInfoData.sectionName, 
-                                                  hwFatFsQueueData.iniInfoData.keyName,
-                                                  "key not found", 
-                                                  hwFatFsQueueData.iniInfoData.stringValue, 
-                                                  MAX_INI_KEY_STRING_VALUE_LENGTH, 
-                                                  hwFatFsQueueData.fileName );
-                                        break;
-                    	
-                                    default:
-                                        break;
+                                case INI_KEY_INT:
+                                {                                
+                                    hwFatFsQueueData.iniInfoData.intValue = ini_getl( hwFatFsQueueData.iniInfoData.sectionName, \
+                                                                                      hwFatFsQueueData.iniInfoData.keyName,     \
+                                                                                      -1,                                       \
+                                                                                      hwFatFsQueueData.fileName );    
+                                    break;
                                 }
+                                
+                                case INI_KEY_FLOAT:
+                                {
+                                    hwFatFsQueueData.iniInfoData.floatValue = ini_getf( hwFatFsQueueData.iniInfoData.sectionName, \
+                                                                                        hwFatFsQueueData.iniInfoData.keyName,     \
+                                                                                        0.0f,                                     \
+                                                                                        hwFatFsQueueData.fileName );    
+                                    break;
+                                }
+                                
+                                case INI_KEY_STRING:
+                                {
+                                    ini_gets( hwFatFsQueueData.iniInfoData.sectionName, \
+                                              hwFatFsQueueData.iniInfoData.keyName,     \
+                                              "key not found",                          \
+                                              hwFatFsQueueData.iniInfoData.stringValue, \
+                                              MAX_INI_STRING_LENGTH,                    \
+                                              hwFatFsQueueData.fileName );
+                                    break;
+                                }
+                                
+                                default:
+                                    break;
                             }
                         }
                     }
@@ -389,45 +406,63 @@ void vTask_HwFatFs( void *pvParameters )
             {
                 if ( fatFsEnable == FATFS_ENABLE )
                 {
-                    // check if file exist
+                    /* Check if file exist */
                     fatFsStatus = CheckFileExist( hwFatFsQueueData.fileName );
                     if ( fatFsStatus == FATFS_OK )
                     {
-                        // check if section exist
-                        fatFsStatus = CheckSectionINI( hwFatFsQueueData.iniInfoData.sectionName, hwFatFsQueueData.fileName );
+                        /* Check if section and key exist */
+                        switch ( hwFatFsQueueData.iniInfoData.configFileType )
+                        {
+                            case MAIN_CONFIG_FILE:
+                            {
+                                fatFsStatus = CheckSectionAndKeyINI( hwFatFsQueueData.iniInfoData.sectionName,  \
+                                                                     hwFatFsQueueData.iniInfoData.keyName,      \
+                                                                     configStrings );
+                                break;
+                            }
+
+                            case MEASURE_PLAN_FILE:
+                            {
+                                fatFsStatus = CheckSectionAndKeyINI( hwFatFsQueueData.iniInfoData.sectionName,  \
+                                                                     hwFatFsQueueData.iniInfoData.keyName,      \
+                                                                     measurePlanStrings );
+                                break;
+                            }                        
+                        }                        
                         if ( fatFsStatus == FATFS_OK )
                         {
-                            // check if key exist
-                            fatFsStatus = CheckKeyINI( hwFatFsQueueData.iniInfoData.keyName, hwFatFsQueueData.iniInfoData.sectionName, hwFatFsQueueData.fileName );
-                            if ( fatFsStatus == FATFS_OK )
+                            /* Get key value */
+                            switch ( hwFatFsQueueData.iniInfoData.keyType )
                             {
-                                // get key value
-                                switch ( hwFatFsQueueData.iniInfoData.keyType )
+                                case INI_KEY_INT:
                                 {
-                                    case INI_KEY_INT:
-                                        ini_putl( hwFatFsQueueData.iniInfoData.sectionName, \
-                                                  hwFatFsQueueData.iniInfoData.keyName,     \
-                                                  hwFatFsQueueData.iniInfoData.intValue,    \
-                                                  hwFatFsQueueData.fileName );    
-                                        break;
-                    
-                                    case INI_KEY_FLOAT:
-                                        ini_putf( hwFatFsQueueData.iniInfoData.sectionName, \
-                                                  hwFatFsQueueData.iniInfoData.keyName,     \
-                                                  hwFatFsQueueData.iniInfoData.floatValue,  \
-                                                  hwFatFsQueueData.fileName );    
-                                        break;
-                    	
-                                    case INI_KEY_STRING:
-                                        ini_puts( hwFatFsQueueData.iniInfoData.sectionName, \
-                                                  hwFatFsQueueData.iniInfoData.keyName,     \
-                                                  hwFatFsQueueData.iniInfoData.stringValue, \
-                                                  hwFatFsQueueData.fileName );
-                                        break;
-                    	
-                                    default:
-                                        break;
+                                    ini_putl( hwFatFsQueueData.iniInfoData.sectionName, \
+                                              hwFatFsQueueData.iniInfoData.keyName,     \
+                                              hwFatFsQueueData.iniInfoData.intValue,    \
+                                              hwFatFsQueueData.fileName );    
+                                    break;
                                 }
+                                
+                                case INI_KEY_FLOAT:
+                                {
+                                    ini_putf( hwFatFsQueueData.iniInfoData.sectionName, \
+                                              hwFatFsQueueData.iniInfoData.keyName,     \
+                                              hwFatFsQueueData.iniInfoData.floatValue,  \
+                                              hwFatFsQueueData.fileName );    
+                                    break;
+                                }
+                                
+                                case INI_KEY_STRING:
+                                {
+                                    ini_puts( hwFatFsQueueData.iniInfoData.sectionName, \
+                                              hwFatFsQueueData.iniInfoData.keyName,     \
+                                              hwFatFsQueueData.iniInfoData.stringValue, \
+                                              hwFatFsQueueData.fileName );
+                                    break;
+                                }                    	
+ 
+                                default:
+                                    break;
                             }
                         }
                     }
@@ -437,7 +472,99 @@ void vTask_HwFatFs( void *pvParameters )
                 break;
             }             
 
-                case HW_FATFS_IDLE:
+            case HW_FATFS_GET_CONFIG_FILE_STRINGS:
+            {
+                char filePath[ 80 ] = {""};
+                int32_t i = 0;   
+                int32_t j = 0;   
+
+                /* Create file path */ 
+                snprintf( filePath, sizeof( filePath ), "%s:/%s", VOLUME_NAME, hwFatFsQueueData.fileName );
+#ifdef HWAPI_FATFS_DEBUG_INFO
+                sprintf( tempString, "Create section and key list of a '%s' file.\n", filePath );
+                HwAPI_Terminal_SendMessage( tempString );
+#endif 
+                switch ( hwFatFsQueueData.iniInfoData.configFileType )
+                {
+                    case MAIN_CONFIG_FILE:
+                    {
+                        /* Clear 'configStrings[]' */ 
+                        for ( i = 0; i < MAX_INI_SECTION_LIST; i++ )
+                        {
+                            sprintf( configStrings[ i ].sectionName, "" );
+                            for ( j = 0; j < MAX_INI_KEY_LIST; j++ )
+                            {
+                                sprintf( configStrings[ i ].keyList[ j ], "" );
+                            }
+                        }
+
+                        /* Get section list */ 
+                        for ( i = 0; ini_getsection( i, configStrings[ i ].sectionName, MAX_INI_STRING_LENGTH, filePath ) > 0; i++ )
+                        {
+#ifdef HWAPI_FATFS_DEBUG_INFO
+                            sprintf( tempString, "configStrings[ %d ].sectionName = %s\n", i, configStrings[ i ].sectionName );
+                            HwAPI_Terminal_SendMessage( tempString );
+                            vTaskDelay(10);
+#endif
+                            /* Get key list */ 
+                            for ( j = 0; ini_getkey( configStrings[ i ].sectionName, j, configStrings[ i ].keyList[ j ], MAX_INI_STRING_LENGTH, filePath ) > 0; j++ )
+                            {
+#ifdef HWAPI_FATFS_DEBUG_INFO
+                                sprintf( tempString, "configStrings[ %d ].keyName[ %d ] = %s\n", i, j, configStrings[ i ].keyList[ j ] );
+                                HwAPI_Terminal_SendMessage( tempString );
+                                vTaskDelay(10);
+#endif
+                            }
+                        }
+                        break;
+                    }
+
+                    case MEASURE_PLAN_FILE:
+                    {
+                        /* Clear 'configStrings[]' */ 
+                        for ( i = 0; i < MAX_INI_SECTION_LIST; i++ )
+                        {
+                            sprintf( measurePlanStrings[ i ].sectionName, "" );
+                            for ( j = 0; j < MAX_INI_KEY_LIST; j++ )
+                            {
+                                sprintf( measurePlanStrings[ i ].keyList[ j ], "" );
+                            }
+                        }
+
+               
+                        /* Get section list */ 
+                        for ( i = 0; ini_getsection( i, measurePlanStrings[ i ].sectionName, MAX_INI_STRING_LENGTH, filePath ) > 0; i++ )
+                        {
+#ifdef HWAPI_FATFS_DEBUG_INFO
+                            sprintf( tempString, "measurePlanStrings[ %d ].sectionName = %s\n", i, measurePlanStrings[ i ].sectionName );
+                            HwAPI_Terminal_SendMessage( tempString );
+                            vTaskDelay(10);
+#endif
+                            
+                            /* Get key list */ 
+                            for ( j = 0; ini_getkey( measurePlanStrings[ i ].sectionName, j, measurePlanStrings[ i ].keyList[ j ], MAX_INI_STRING_LENGTH, filePath ) > 0; j++ )
+                            {
+#ifdef HWAPI_FATFS_DEBUG_INFO
+                                sprintf( tempString, "measurePlanStrings[ %d ].keyName[ %d ] = %s\n", i, j, measurePlanStrings[ i ].keyList[ j ] );
+                                HwAPI_Terminal_SendMessage( tempString );
+                                vTaskDelay(10);
+#endif
+                            }
+                        }
+                        break;
+                    }
+                    
+                    default:
+                        break;
+                    
+                }
+                fatFsStatus = FATFS_OK;
+                hwFatFsQueueData.fatFsStatus = fatFsStatus;            
+                xQueueSend( xQueue_HwFatFs_Tx, &hwFatFsQueueData, NULL ); 
+                break;
+            }
+
+            case HW_FATFS_IDLE:
                 break;
 
             default:
@@ -487,58 +614,32 @@ static FatFsStatus_t CheckFileExist( char *fileName )
 }
 
 
-
 //*************************************************
 //
 // Private function
 //
-// check if section exist in INI file
+// check if section and key exist in INI file
 //
 //*************************************************
-static FatFsStatus_t CheckSectionINI( char *sectionName, char *fileName )
+static FatFsStatus_t CheckSectionAndKeyINI( char *sectionName, char *keyName, INIConfigStrings_t *configStrings  )
 {
-    char filePath[ 80 ] = {""};
-    int32_t sectionIndex = 0;   
-    char sectionNameBuffer[ MAX_INI_SECTION_NAME_LENGTH ] = {""};
+    int32_t i = 0;   
+    int32_t j = 0;   
 
-    snprintf( filePath, sizeof( filePath ), "%s:/%s", VOLUME_NAME, fileName );
-
-    for ( sectionIndex = 0; ini_getsection( sectionIndex, sectionNameBuffer, MAX_INI_SECTION_NAME_LENGTH, filePath ) > 0; sectionIndex++ ){;}
-    
-    if ( sectionIndex == 0 )
+    for ( i = 0; i < MAX_INI_SECTION_LIST; i++ )
     {
-        return FATFS_ERROR_INI_SECTION_NOT_FOUND;
+        if ( strcmp( sectionName, configStrings[ i ].sectionName ) == 0 )
+        {
+            for ( j = 0; j < MAX_INI_KEY_LIST; j++ )
+            {
+                if ( strcmp( keyName, configStrings[ i ].keyList[ j ] ) == 0 )
+                {
+                    return FATFS_OK;
+                }
+            }
+            return FATFS_ERROR_INI_KEY_NOT_FOUND;
+        }
     }
-
-    return FATFS_OK;
+    return FATFS_ERROR_INI_SECTION_NOT_FOUND;
 }
-
-
-
-//*************************************************
-//
-// Private function
-//
-// check if section exist in INI file
-//
-//*************************************************
-static FatFsStatus_t CheckKeyINI( char *keyName, char *sectionName, char *fileName )
-{
-    char filePath[ 80 ] = {""};
-    int32_t keyIndex = 0;   
-    char keyNameBuffer[ MAX_INI_SECTION_NAME_LENGTH ] = {""};
-
-    snprintf( filePath, sizeof( filePath ), "%s:/%s", VOLUME_NAME, fileName );
-
-    for ( keyIndex = 0; ini_getkey( sectionName, keyIndex, keyNameBuffer, MAX_INI_KEY_NAME_LENGTH, filePath ) > 0; keyIndex++ ){;}
-    if ( keyIndex == 0 )
-    {
-        return FATFS_ERROR_INI_KEY_NOT_FOUND;
-    }
-
-    return FATFS_OK;
-}
-
-
-
 /* End of file */

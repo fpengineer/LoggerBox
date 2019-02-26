@@ -24,9 +24,12 @@ static void SetSDCardLED( FatFsStatus_t fatFsStatus );
 static void INIActionErrorMessage( FatFsStatus_t fatFsStatus, char *nameSection, char *nameKey, char *fileName );
 
 
-
 //
-FatFsStatus_t HwAPI_FatFs_INI_GetKeyInt( char *nameSection, char *nameKey, char *fileName, int32_t *data )
+FatFsStatus_t HwAPI_FatFs_INI_GetKeyInt( char *nameSection,                 \
+                                         char *nameKey,                     \
+                                         char *fileName,                    \
+                                         int32_t *data,                     \
+                                         ConfigFileType_t configFileType )
 {
     extern QueueHandle_t xQueue_HwFatFs_Rx;
     extern QueueHandle_t xQueue_HwFatFs_Tx;
@@ -37,6 +40,7 @@ FatFsStatus_t HwAPI_FatFs_INI_GetKeyInt( char *nameSection, char *nameKey, char 
     hwFatFsQueueData.iniInfoData.keyName = nameKey;
     hwFatFsQueueData.iniInfoData.sectionName = nameSection;
     hwFatFsQueueData.iniInfoData.keyType = INI_KEY_INT;
+    hwFatFsQueueData.iniInfoData.configFileType = configFileType;
     
     xQueueSend( xQueue_HwFatFs_Rx, &hwFatFsQueueData, NULL );
     xQueueReceive( xQueue_HwFatFs_Tx, &hwFatFsQueueData, portMAX_DELAY );
@@ -53,7 +57,11 @@ FatFsStatus_t HwAPI_FatFs_INI_GetKeyInt( char *nameSection, char *nameKey, char 
 
 
 //
-FatFsStatus_t HwAPI_FatFs_INI_GetKeyFloat( char *nameSection, char *nameKey, char *fileName, float *data )
+FatFsStatus_t HwAPI_FatFs_INI_GetKeyFloat( char *nameSection,               \
+                                           char *nameKey,                   \
+                                           char *fileName,                  \
+                                           float *data,                     \
+                                           ConfigFileType_t configFileType )
 {
     extern QueueHandle_t xQueue_HwFatFs_Rx;
     extern QueueHandle_t xQueue_HwFatFs_Tx;
@@ -64,6 +72,7 @@ FatFsStatus_t HwAPI_FatFs_INI_GetKeyFloat( char *nameSection, char *nameKey, cha
     hwFatFsQueueData.iniInfoData.keyName = nameKey;
     hwFatFsQueueData.iniInfoData.sectionName = nameSection;
     hwFatFsQueueData.iniInfoData.keyType = INI_KEY_FLOAT;
+    hwFatFsQueueData.iniInfoData.configFileType = configFileType;
     
     xQueueSend( xQueue_HwFatFs_Rx, &hwFatFsQueueData, NULL );
     xQueueReceive( xQueue_HwFatFs_Tx, &hwFatFsQueueData, portMAX_DELAY );
@@ -80,7 +89,11 @@ FatFsStatus_t HwAPI_FatFs_INI_GetKeyFloat( char *nameSection, char *nameKey, cha
 
 
 //
-FatFsStatus_t HwAPI_FatFs_INI_GetKeyString( char *nameSection, char *nameKey, char *fileName, char *data )
+FatFsStatus_t HwAPI_FatFs_INI_GetKeyString( char *nameSection,              \
+                                            char *nameKey,                  \
+                                            char *fileName,                 \
+                                            char *data,                     \
+                                            ConfigFileType_t configFileType )
 {
     extern QueueHandle_t xQueue_HwFatFs_Rx;
     extern QueueHandle_t xQueue_HwFatFs_Tx;
@@ -92,6 +105,7 @@ FatFsStatus_t HwAPI_FatFs_INI_GetKeyString( char *nameSection, char *nameKey, ch
     hwFatFsQueueData.iniInfoData.sectionName = nameSection;
     hwFatFsQueueData.iniInfoData.keyType = INI_KEY_STRING;
     hwFatFsQueueData.iniInfoData.stringValue = data;
+    hwFatFsQueueData.iniInfoData.configFileType = configFileType;
     
     xQueueSend( xQueue_HwFatFs_Rx, &hwFatFsQueueData, NULL );
     xQueueReceive( xQueue_HwFatFs_Tx, &hwFatFsQueueData, portMAX_DELAY );
@@ -102,7 +116,11 @@ FatFsStatus_t HwAPI_FatFs_INI_GetKeyString( char *nameSection, char *nameKey, ch
 }
 
 //
-FatFsStatus_t HwAPI_FatFs_INI_PutKeyInt( char *nameSection, char *nameKey, char *fileName, int32_t data )
+FatFsStatus_t HwAPI_FatFs_INI_PutKeyInt( char *nameSection,             \
+                                         char *nameKey,                 \
+                                         char *fileName,                \
+                                         int32_t data,                  \
+                                         ConfigFileType_t configFileType )
 {
     extern QueueHandle_t xQueue_HwFatFs_Rx;
     extern QueueHandle_t xQueue_HwFatFs_Tx;
@@ -114,6 +132,7 @@ FatFsStatus_t HwAPI_FatFs_INI_PutKeyInt( char *nameSection, char *nameKey, char 
     hwFatFsQueueData.iniInfoData.sectionName = nameSection;
     hwFatFsQueueData.iniInfoData.keyType = INI_KEY_INT;
     hwFatFsQueueData.iniInfoData.intValue = data;
+    hwFatFsQueueData.iniInfoData.configFileType = configFileType;
     
     xQueueSend( xQueue_HwFatFs_Rx, &hwFatFsQueueData, NULL );
     xQueueReceive( xQueue_HwFatFs_Tx, &hwFatFsQueueData, portMAX_DELAY );
@@ -125,7 +144,11 @@ FatFsStatus_t HwAPI_FatFs_INI_PutKeyInt( char *nameSection, char *nameKey, char 
 
 
 //
-FatFsStatus_t HwAPI_FatFs_INI_PutKeyFloat( char *nameSection, char *nameKey, char *fileName, float data )
+FatFsStatus_t HwAPI_FatFs_INI_PutKeyFloat( char *nameSection,               \
+                                           char *nameKey,                   \
+                                           char *fileName,                  \
+                                           float data,                      \
+                                           ConfigFileType_t configFileType )
 {
     extern QueueHandle_t xQueue_HwFatFs_Rx;
     extern QueueHandle_t xQueue_HwFatFs_Tx;
@@ -137,6 +160,7 @@ FatFsStatus_t HwAPI_FatFs_INI_PutKeyFloat( char *nameSection, char *nameKey, cha
     hwFatFsQueueData.iniInfoData.sectionName = nameSection;
     hwFatFsQueueData.iniInfoData.keyType = INI_KEY_FLOAT;
     hwFatFsQueueData.iniInfoData.floatValue = data;
+    hwFatFsQueueData.iniInfoData.configFileType = configFileType;
     
     xQueueSend( xQueue_HwFatFs_Rx, &hwFatFsQueueData, NULL );
     xQueueReceive( xQueue_HwFatFs_Tx, &hwFatFsQueueData, portMAX_DELAY );
@@ -148,7 +172,11 @@ FatFsStatus_t HwAPI_FatFs_INI_PutKeyFloat( char *nameSection, char *nameKey, cha
 
 
 //
-FatFsStatus_t HwAPI_FatFs_INI_PutKeyString( char *nameSection, char *nameKey, char *fileName, char *data )
+FatFsStatus_t HwAPI_FatFs_INI_PutKeyString( char *nameSection,              \
+                                            char *nameKey,                  \
+                                            char *fileName,                 \
+                                            char *data,                     \
+                                            ConfigFileType_t configFileType )
 {
     extern QueueHandle_t xQueue_HwFatFs_Rx;
     extern QueueHandle_t xQueue_HwFatFs_Tx;
@@ -160,6 +188,7 @@ FatFsStatus_t HwAPI_FatFs_INI_PutKeyString( char *nameSection, char *nameKey, ch
     hwFatFsQueueData.iniInfoData.sectionName = nameSection;
     hwFatFsQueueData.iniInfoData.keyType = INI_KEY_STRING;
     hwFatFsQueueData.iniInfoData.stringValue = data;
+    hwFatFsQueueData.iniInfoData.configFileType = configFileType;
     
     xQueueSend( xQueue_HwFatFs_Rx, &hwFatFsQueueData, NULL );
     xQueueReceive( xQueue_HwFatFs_Tx, &hwFatFsQueueData, portMAX_DELAY );
@@ -338,6 +367,26 @@ HwAPI_BootStatus_t HwAPI_FatFs_Run( void )
 }
 
 
+//
+FatFsStatus_t HwAPI_FatFs_INI_GetConfigFileStrings( char *fileName, ConfigFileType_t configFileType )
+{
+    extern QueueHandle_t xQueue_HwFatFs_Rx;
+    extern QueueHandle_t xQueue_HwFatFs_Tx;
+    HwFatFsQueueData_t hwFatFsQueueData;
+    
+    hwFatFsQueueData.stateHwFatFs = HW_FATFS_GET_CONFIG_FILE_STRINGS;
+    hwFatFsQueueData.fileName = fileName;
+    hwFatFsQueueData.iniInfoData.configFileType = configFileType;
+    
+    xQueueSend( xQueue_HwFatFs_Rx, &hwFatFsQueueData, NULL );
+    xQueueReceive( xQueue_HwFatFs_Tx, &hwFatFsQueueData, portMAX_DELAY );
+
+    INIActionErrorMessage( hwFatFsQueueData.fatFsStatus, NULL, NULL, fileName );
+    SetSDCardLED( hwFatFsQueueData.fatFsStatus );
+    return hwFatFsQueueData.fatFsStatus;
+}
+
+
 //*************************************************
 //
 // Private function
@@ -388,7 +437,7 @@ static void SetSDCardLED( FatFsStatus_t fatFsStatus )
 //*************************************************
 static void INIActionErrorMessage( FatFsStatus_t fatFsStatus, char *nameSection, char *nameKey, char *fileName )
 {
-    char tempString[ 100 ] = { "" };
+    char tempString[ 150 ] = { "" };
     
     switch ( fatFsStatus )
     {
@@ -396,7 +445,7 @@ static void INIActionErrorMessage( FatFsStatus_t fatFsStatus, char *nameSection,
         {    
             snprintf( tempString,
                       sizeof( tempString ),
-                      "Error! File '%s' not found!\n",
+                      "Error! File '%s' did not found!\n",
                       fileName );
             HwAPI_Terminal_SendMessage( tempString );
             break;
@@ -406,7 +455,7 @@ static void INIActionErrorMessage( FatFsStatus_t fatFsStatus, char *nameSection,
         {    
             snprintf( tempString, 
                       sizeof( tempString ),
-                      "Error! Section [%s] not found in the '%s' file!\n",
+                      "Error! Section [%s] did not found in the '%s' file!\n",
                       nameSection,
                       fileName );
             HwAPI_Terminal_SendMessage( tempString );
@@ -417,7 +466,7 @@ static void INIActionErrorMessage( FatFsStatus_t fatFsStatus, char *nameSection,
         {
             snprintf( tempString, 
                       sizeof( tempString ),
-                      "Error! Key '%s' not found in the section [%s] in the '%s' file!\n",
+                      "Error! Key '%s' did not found in the section [%s] in the '%s' file!\n",
                       nameKey,
                       nameSection,
                       fileName );
@@ -428,8 +477,6 @@ static void INIActionErrorMessage( FatFsStatus_t fatFsStatus, char *nameSection,
         default:
             break;
     }
-   
-    
 }
 
 /* End of file */

@@ -16,13 +16,14 @@
 
 #include "HwAPI.h"
 
+// define HWAPI_FATFS_DEBUG_INFO to allow debug info messages into terminal
+//#define HWAPI_FATFS_DEBUG_INFO
 
 #define MAX_FILES_TO_OPEN   10
 
-#define MAX_INI_SECTION_NAME_LENGTH       50
-#define MAX_INI_KEY_NAME_LENGTH          50
-#define MAX_INI_KEY_STRING_VALUE_LENGTH   50
-
+#define MAX_INI_SECTION_LIST              5
+#define MAX_INI_KEY_LIST                  32
+#define MAX_INI_STRING_LENGTH             25
 
 
 
@@ -41,6 +42,7 @@ enum stateHwFatFs {
     HW_FATFS_WRITE_FILE,
     HW_FATFS_GET_KEY_INI,
     HW_FATFS_PUT_KEY_INI,
+    HW_FATFS_GET_CONFIG_FILE_STRINGS,
     HW_FATFS_IDLE 
 };
 
@@ -58,11 +60,16 @@ typedef enum {
     FATFS_DISABLE
 } FatFsEnable_t;
 
-enum KeyType {
+typedef enum {
   INI_KEY_INT,
   INI_KEY_FLOAT,
   INI_KEY_STRING
-};
+} KeyType_t;
+
+typedef enum ConfigFileType {
+  MAIN_CONFIG_FILE,
+  MEASURE_PLAN_FILE
+} ConfigFileType_t;
 
 typedef struct {
     char *sectionName;
@@ -70,8 +77,14 @@ typedef struct {
     int32_t intValue;
     float floatValue;
     char *stringValue;
-    enum KeyType keyType;
+    KeyType_t keyType;
+    ConfigFileType_t configFileType;
 } INIInfoData_t;
+
+typedef struct {
+    char sectionName[ MAX_INI_STRING_LENGTH ];
+    char keyList [ MAX_INI_KEY_LIST ][ MAX_INI_STRING_LENGTH ];
+} INIConfigStrings_t;
 
 typedef struct {
     enum stateHwFatFs stateHwFatFs;
@@ -89,12 +102,12 @@ typedef struct {
 
 
 /* Exported functions --------------------------------------------------------*/
-FatFsStatus_t HwAPI_FatFs_INI_GetKeyInt( char *nameSection, char *nameKey, char *fileName, int32_t *data );
-FatFsStatus_t HwAPI_FatFs_INI_GetKeyFloat( char *nameSection, char *nameKey, char *fileName, float *data );
-FatFsStatus_t HwAPI_FatFs_INI_GetKeyString( char *nameSection, char *nameKey, char *fileName, char *data );
-FatFsStatus_t HwAPI_FatFs_INI_PutKeyInt( char *nameSection, char *nameKey, char *fileName, int32_t data );
-FatFsStatus_t HwAPI_FatFs_INI_PutKeyFloat( char *nameSection, char *nameKey, char *fileName, float data );
-FatFsStatus_t HwAPI_FatFs_INI_PutKeyString( char *nameSection, char *nameKey, char *fileName, char *data );
+FatFsStatus_t HwAPI_FatFs_INI_GetKeyInt( char *nameSection, char *nameKey, char *fileName, int32_t *data, ConfigFileType_t configFileType );
+FatFsStatus_t HwAPI_FatFs_INI_GetKeyFloat( char *nameSection, char *nameKey, char *fileName, float *data, ConfigFileType_t configFileType );
+FatFsStatus_t HwAPI_FatFs_INI_GetKeyString( char *nameSection, char *nameKey, char *fileName, char *data, ConfigFileType_t configFileType );
+FatFsStatus_t HwAPI_FatFs_INI_PutKeyInt( char *nameSection, char *nameKey, char *fileName, int32_t data, ConfigFileType_t configFileType );
+FatFsStatus_t HwAPI_FatFs_INI_PutKeyFloat( char *nameSection, char *nameKey, char *fileName, float data, ConfigFileType_t configFileType );
+FatFsStatus_t HwAPI_FatFs_INI_PutKeyString( char *nameSection, char *nameKey, char *fileName, char *data, ConfigFileType_t configFileType );
 
 FatFsStatus_t HwAPI_FatFs_CreateFile( char *fileName );
 FatFsStatus_t HwAPI_FatFs_CheckFileExist( char *fileName );
@@ -109,6 +122,8 @@ FatFsStatus_t HwAPI_FatFs_GetStatus( void );
 
 void vTask_HwFatFs( void *pvParameters );
 HwAPI_BootStatus_t HwAPI_FatFs_Run( void );
+
+FatFsStatus_t HwAPI_FatFs_INI_GetConfigFileStrings( char *fileName, ConfigFileType_t configFileType );
 
 #endif /* _HWAPI_FATFS_H_*/
 /* End of file */
