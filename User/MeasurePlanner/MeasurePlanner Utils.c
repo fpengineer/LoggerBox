@@ -35,26 +35,36 @@ int32_t ReadConfigFile( ConfigData_t *configData, char *fileName )
 {
     char tempString[ 150 ] = { "" };
 
-    HwAPI_Terminal_SendMessage( "Read 'config.ini'.\n" );
-    
-    if ( FATFS_OK == HwAPI_FatFs_INI_GetKeyInt( "SystemTime", "UpdateSystemTime", "config.ini", &configData->updateSystemTime ) &&
-         FATFS_OK == HwAPI_FatFs_INI_GetKeyString( "SystemTime", "SystemTimeString", "config.ini", configData->systemTimeString ) &&
-         FATFS_OK == HwAPI_FatFs_INI_GetKeyString( "SelectIC", "NameIC", "config.ini", configData->nameIC ) )
-    {
-        HwAPI_Terminal_SendMessage( "[SystemTime]\n" );
-        snprintf( tempString, sizeof(tempString), "UpdateSystemTime = %d\n"
-                                                  "SystemTimeString = %s\n", 
-                                                  configData->updateSystemTime,
-                                                  configData->systemTimeString );
-        HwAPI_Terminal_SendMessage( tempString );
-        
-        HwAPI_Terminal_SendMessage( "\n[SelectIC]\n" );
-        snprintf( tempString, sizeof( tempString ), "NameIC = %s\n\n", configData->nameIC );
-        HwAPI_Terminal_SendMessage( tempString );
-        
-        return 1;
-    }
+    snprintf( tempString, sizeof( tempString ), "Read '%s' file.\n", fileName );
+    HwAPI_Terminal_SendMessage( tempString );
 
+    if ( FATFS_OK == HwAPI_FatFs_CheckFileExist( fileName ) )
+    {
+        HwAPI_FatFs_INI_GetConfigFileStrings( fileName, MAIN_CONFIG_FILE );
+
+        if ( FATFS_OK == HwAPI_FatFs_INI_GetKeyInt( "SystemTime", "UpdateSystemTime", fileName, &configData->updateSystemTime, MAIN_CONFIG_FILE ) &&
+             FATFS_OK == HwAPI_FatFs_INI_GetKeyString( "SystemTime", "SystemTimeString", fileName, configData->systemTimeString, MAIN_CONFIG_FILE ) &&
+             FATFS_OK == HwAPI_FatFs_INI_GetKeyString( "SelectIC", "NameIC", fileName, configData->nameIC, MAIN_CONFIG_FILE ) )
+        {
+            HwAPI_Terminal_SendMessage( "[SystemTime]\n" );
+            snprintf( tempString, sizeof(tempString), "UpdateSystemTime = %d\n"
+                                                      "SystemTimeString = %s\n", 
+                                                      configData->updateSystemTime,
+                                                      configData->systemTimeString );
+            HwAPI_Terminal_SendMessage( tempString );
+        
+            HwAPI_Terminal_SendMessage( "\n[SelectIC]\n" );
+            snprintf( tempString, sizeof( tempString ), "NameIC = %s\n\n", configData->nameIC );
+            HwAPI_Terminal_SendMessage( tempString );
+        
+            return 1;
+        }
+    }
+    else
+    {
+        snprintf( tempString, sizeof( tempString ), "Error! File '%s' not found.\n", fileName );
+        HwAPI_Terminal_SendMessage( tempString );
+    }
     return 0;
 }
 
@@ -71,7 +81,7 @@ void ProcessSystemTimeConfig( char *systemTimeString, int32_t updateSystemTime )
         HwAPI_SystemTime_Set( systemTimeString );
                 
         // disable system time enable flag in "config.ini" file
-        HwAPI_FatFs_INI_PutKeyInt( "SystemTime", "UpdateSystemTime", "config.ini", UPDATE_SYSTEM_TIME_DISABLE );
+        HwAPI_FatFs_INI_PutKeyInt( "SystemTime", "UpdateSystemTime", "config.ini", UPDATE_SYSTEM_TIME_DISABLE, MAIN_CONFIG_FILE );
 
         HwAPI_Terminal_SendMessage( "System time updated.\n" );
 
@@ -111,21 +121,23 @@ int32_t FindMeasurePlugin( char *nameIC )
 // Check if measure plun file exist for selected plugin
 int32_t CheckMeasurePlanFile( char *nameIC )
 {
+    char filename[ 100 ] = { "" };
     char tempString[ 100 ] = { "" };
     int32_t i = 0;
     
     HwAPI_Terminal_SendMessage( "Check if measure plan file exist.\n" );
 
     // Create filename of the measure plan file
-    snprintf( tempString, sizeof( tempString ), "MeasurePlan_%s.ini", nameIC );
+    snprintf( filename, sizeof( filename ), "MeasurePlan_%s.ini", nameIC );
       
     // Check if measure plan file exist
-    switch ( HwAPI_FatFs_CheckFileExist( tempString ) )
+    switch ( HwAPI_FatFs_CheckFileExist( filename ) )
     {
         case FATFS_OK:
         {
-            snprintf( tempString, sizeof( tempString ), "File 'MeasurePlan_%s.ini' found.\n\n", nameIC );
+            snprintf( tempString, sizeof( tempString ), "File '%s' found.\n\n", filename );
             HwAPI_Terminal_SendMessage( tempString );
+            HwAPI_FatFs_INI_GetConfigFileStrings( filename, MEASURE_PLAN_FILE );
             i = 1;
             break;
         }
