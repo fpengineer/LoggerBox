@@ -130,44 +130,45 @@ static PluginResult_t GetConfigData( CfgMeasurePlan_ConverterI7_IC5_V1_0_t *cfgM
     
     /* Create filenam for the config plan file */
     snprintf( measurePlanFilename, GetSizeof_measurePlanFilename(), "MeasurePlan_"PLUGIN_4_NAME".ini" );
+
+        
+    if ( FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "MeasurePlan", "BaseTactLength_s", measurePlanFilename, &cfgMeasurePlan->BaseTactLength_s, MEASURE_PLAN_FILE ) ||
+         FATFS_OK != HwAPI_FatFs_INI_GetKeyFloat( "MeasurePlan", "SourceG1_V", measurePlanFilename, &cfgMeasurePlan->SourceG1_V, MEASURE_PLAN_FILE ) || 
+         FATFS_OK != HwAPI_FatFs_INI_GetKeyFloat( "MeasurePlan", "SourceG2_V", measurePlanFilename, &cfgMeasurePlan->SourceG2_V, MEASURE_PLAN_FILE ) || 
+         FATFS_OK != HwAPI_FatFs_INI_GetKeyFloat( "MeasurePlan", "SourceG3_V", measurePlanFilename, &cfgMeasurePlan->SourceG3_V, MEASURE_PLAN_FILE ) || 
+         FATFS_OK != HwAPI_FatFs_INI_GetKeyFloat( "MeasurePlan", "SourceG4_V", measurePlanFilename, &cfgMeasurePlan->SourceG4_V, MEASURE_PLAN_FILE ) || 
     
-    if ( FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "MeasurePlan", "BaseTactLength_s", measurePlanFilename, &cfgMeasurePlan->BaseTactLength_s ) ||
-         FATFS_OK != HwAPI_FatFs_INI_GetKeyFloat( "MeasurePlan", "SourceG1_V", measurePlanFilename, &cfgMeasurePlan->SourceG1_V ) || 
-         FATFS_OK != HwAPI_FatFs_INI_GetKeyFloat( "MeasurePlan", "SourceG2_V", measurePlanFilename, &cfgMeasurePlan->SourceG2_V ) || 
-         FATFS_OK != HwAPI_FatFs_INI_GetKeyFloat( "MeasurePlan", "SourceG3_V", measurePlanFilename, &cfgMeasurePlan->SourceG3_V ) || 
-         FATFS_OK != HwAPI_FatFs_INI_GetKeyFloat( "MeasurePlan", "SourceG4_V", measurePlanFilename, &cfgMeasurePlan->SourceG4_V ) || 
-    
-         FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "MeasureEnable", "EnableG1_V", measurePlanFilename, &cfgMeasureEnable->enableG1_V ) ||
-         FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "MeasureEnable", "EnableG2_V", measurePlanFilename, &cfgMeasureEnable->enableG2_V ) ||
-         FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "MeasureEnable", "EnableG3_V", measurePlanFilename, &cfgMeasureEnable->enableG3_V ) ||
-         FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "MeasureEnable", "EnableG4_V", measurePlanFilename, &cfgMeasureEnable->enableG4_V ) ||
-         FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "MeasureEnable", "EnableG1_I", measurePlanFilename, &cfgMeasureEnable->enableG1_I ) ||
-         FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "MeasureEnable", "EnableG2_I", measurePlanFilename, &cfgMeasureEnable->enableG2_I ) ||
-         FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "MeasureEnable", "EnableG3_I", measurePlanFilename, &cfgMeasureEnable->enableG3_I ) ||
-         FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "MeasureEnable", "EnableG4_I", measurePlanFilename, &cfgMeasureEnable->enableG4_I ) ||
-         FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "MeasureEnable", "EnableIC1_Vout", measurePlanFilename, &cfgMeasureEnable->enableIC1_Vout ) ||
-         FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "MeasureEnable", "EnableIC2_Vout", measurePlanFilename, &cfgMeasureEnable->enableIC2_Vout ) ||
-         FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "MeasureEnable", "EnableIC3_Vout", measurePlanFilename, &cfgMeasureEnable->enableIC3_Vout ) ||
-         FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "MeasureEnable", "EnableIC4_Vout", measurePlanFilename, &cfgMeasureEnable->enableIC4_Vout ) ||
-         FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "MeasureEnable", "EnableIC1_Freq_PWM", measurePlanFilename, &cfgMeasureEnable->enableIC1_Freq_PWM ) ||
-         FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "MeasureEnable", "EnableIC2_Freq_PWM", measurePlanFilename, &cfgMeasureEnable->enableIC2_Freq_PWM ) ||
-         FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "MeasureEnable", "EnableIC3_Freq_PWM", measurePlanFilename, &cfgMeasureEnable->enableIC3_Freq_PWM ) ||
-         FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "MeasureEnable", "EnableIC4_Freq_PWM", measurePlanFilename, &cfgMeasureEnable->enableIC4_Freq_PWM ) ||
-         FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "MeasureEnable", "EnableIC1_Temperature", measurePlanFilename, &cfgMeasureEnable->enableIC1_Temperature ) ||
-         FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "MeasureEnable", "EnableIC2_Temperature", measurePlanFilename, &cfgMeasureEnable->enableIC2_Temperature ) ||
-         FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "MeasureEnable", "EnableIC3_Temperature", measurePlanFilename, &cfgMeasureEnable->enableIC3_Temperature ) ||
-         FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "MeasureEnable", "EnableIC4_Temperature", measurePlanFilename, &cfgMeasureEnable->enableIC4_Temperature ) ||
+         FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "MeasureEnable", "EnableG1_V", measurePlanFilename, &cfgMeasureEnable->enableG1_V, MEASURE_PLAN_FILE ) ||
+         FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "MeasureEnable", "EnableG2_V", measurePlanFilename, &cfgMeasureEnable->enableG2_V, MEASURE_PLAN_FILE ) ||
+         FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "MeasureEnable", "EnableG3_V", measurePlanFilename, &cfgMeasureEnable->enableG3_V, MEASURE_PLAN_FILE ) ||
+         FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "MeasureEnable", "EnableG4_V", measurePlanFilename, &cfgMeasureEnable->enableG4_V, MEASURE_PLAN_FILE ) ||
+         FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "MeasureEnable", "EnableG1_I", measurePlanFilename, &cfgMeasureEnable->enableG1_I, MEASURE_PLAN_FILE ) ||
+         FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "MeasureEnable", "EnableG2_I", measurePlanFilename, &cfgMeasureEnable->enableG2_I, MEASURE_PLAN_FILE ) ||
+         FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "MeasureEnable", "EnableG3_I", measurePlanFilename, &cfgMeasureEnable->enableG3_I, MEASURE_PLAN_FILE ) ||
+         FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "MeasureEnable", "EnableG4_I", measurePlanFilename, &cfgMeasureEnable->enableG4_I, MEASURE_PLAN_FILE ) ||
+         FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "MeasureEnable", "EnableIC1_Vout", measurePlanFilename, &cfgMeasureEnable->enableIC1_Vout, MEASURE_PLAN_FILE ) ||
+         FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "MeasureEnable", "EnableIC2_Vout", measurePlanFilename, &cfgMeasureEnable->enableIC2_Vout, MEASURE_PLAN_FILE ) ||
+         FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "MeasureEnable", "EnableIC3_Vout", measurePlanFilename, &cfgMeasureEnable->enableIC3_Vout, MEASURE_PLAN_FILE ) ||
+         FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "MeasureEnable", "EnableIC4_Vout", measurePlanFilename, &cfgMeasureEnable->enableIC4_Vout, MEASURE_PLAN_FILE ) ||
+         FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "MeasureEnable", "EnableIC1_Freq_PWM", measurePlanFilename, &cfgMeasureEnable->enableIC1_Freq_PWM, MEASURE_PLAN_FILE ) ||
+         FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "MeasureEnable", "EnableIC2_Freq_PWM", measurePlanFilename, &cfgMeasureEnable->enableIC2_Freq_PWM, MEASURE_PLAN_FILE ) ||
+         FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "MeasureEnable", "EnableIC3_Freq_PWM", measurePlanFilename, &cfgMeasureEnable->enableIC3_Freq_PWM, MEASURE_PLAN_FILE ) ||
+         FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "MeasureEnable", "EnableIC4_Freq_PWM", measurePlanFilename, &cfgMeasureEnable->enableIC4_Freq_PWM, MEASURE_PLAN_FILE ) ||
+         FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "MeasureEnable", "EnableIC1_Temperature", measurePlanFilename, &cfgMeasureEnable->enableIC1_Temperature, MEASURE_PLAN_FILE ) ||
+         FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "MeasureEnable", "EnableIC2_Temperature", measurePlanFilename, &cfgMeasureEnable->enableIC2_Temperature, MEASURE_PLAN_FILE ) ||
+         FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "MeasureEnable", "EnableIC3_Temperature", measurePlanFilename, &cfgMeasureEnable->enableIC3_Temperature, MEASURE_PLAN_FILE ) ||
+         FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "MeasureEnable", "EnableIC4_Temperature", measurePlanFilename, &cfgMeasureEnable->enableIC4_Temperature, MEASURE_PLAN_FILE ) ||
          
-         FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "DatafileSettings", "EnableDatafile", measurePlanFilename, &cfgDatafileSettings->enableDatafile ) || 
-         FATFS_OK != HwAPI_FatFs_INI_GetKeyString( "DatafileSettings", "PrefixDatafileName", measurePlanFilename, cfgDatafileSettings->prefixDatafileName ) || 
-         FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "DatafileSettings", "StringsToWrite", measurePlanFilename, ( int32_t *)&cfgDatafileSettings->stringsToWrite ) ||
-         FATFS_OK != HwAPI_FatFs_INI_GetKeyString( "DatafileSettings", "Delimiter", measurePlanFilename, cfgDatafileSettings->delimiter ) )
+         FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "DatafileSettings", "EnableDatafile", measurePlanFilename, &cfgDatafileSettings->enableDatafile, MEASURE_PLAN_FILE ) || 
+         FATFS_OK != HwAPI_FatFs_INI_GetKeyString( "DatafileSettings", "PrefixDatafileName", measurePlanFilename, cfgDatafileSettings->prefixDatafileName, MEASURE_PLAN_FILE ) || 
+         FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "DatafileSettings", "StringsToWrite", measurePlanFilename, ( int32_t *)&cfgDatafileSettings->stringsToWrite, MEASURE_PLAN_FILE ) ||
+         FATFS_OK != HwAPI_FatFs_INI_GetKeyString( "DatafileSettings", "Delimiter", measurePlanFilename, cfgDatafileSettings->delimiter, MEASURE_PLAN_FILE ) )
     {
         /* Create error message and return */
         HwAPI_Terminal_SendMessage( "Measure plan file of the plugin "PLUGIN_4_NAME" read - Error.\n" );
         pluginResult.error = 1;
         pluginResult.errorCode = PLG_ERR_READ_MEASURE_PLAN_FILE;
-        snprintf( pluginResult.message, sizeof( pluginResult.message ), "Plugin "PLUGIN_4_NAME". Error comes during reading of measure paln file.\n" );
+        snprintf( pluginResult.message, sizeof( pluginResult.message ), "Plugin "PLUGIN_4_NAME". Error comes during reading of measure plan file.\n" );
         return pluginResult;
     }
          
