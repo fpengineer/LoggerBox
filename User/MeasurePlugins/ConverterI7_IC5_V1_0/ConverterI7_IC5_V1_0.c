@@ -39,12 +39,15 @@ void ConverterI7_IC5_V1_0( PluginResult_t *pluginResult, PluginCommand_t pluginC
             HwAPI_Terminal_SendMessage( "ConverterI7_IC5_V1_0 - Run\n" );
 #endif
             /* Read plugin config file */
-            if ( !GetConfigData( &cfgMeasurePlan, &cfgMeasureEnable, &cfgDatafileSettings ).error )
+            HwAPI_Terminal_SendMessage( "ConverterI7_IC5_V1_0 - Start reading of measure plan file\n" );
+            *pluginResult = GetConfigData( &cfgMeasurePlan, &cfgMeasureEnable, &cfgDatafileSettings );
+            if ( !pluginResult->error )
             {
                 /* Create a new measurement file */
                 /* Open the measurement file */
                 /* Initialize (prepare) the system for measure*/
                 /* Set up tact state (if needed) */
+//                *tactLength_ms = cfgMeasurePlan.BaseTactLength_s * 1000;
                 /* Return tac length in ms */
             }
             else
@@ -52,8 +55,7 @@ void ConverterI7_IC5_V1_0( PluginResult_t *pluginResult, PluginCommand_t pluginC
                 // Stop measure
                 // Create error messsage
             }
-
-            pluginResult->error = 0;
+            *tactLength_ms = cfgMeasurePlan.BaseTactLength_s * 1000;
             break;
         }
 
