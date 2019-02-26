@@ -161,7 +161,7 @@ static PluginResult_t GetConfigData( CfgMeasurePlan_ConverterI7_IC5_V1_0_t *cfgM
          FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "DatafileSettings", "StringsToWrite", measurePlanFilename, ( int32_t *)&cfgDatafileSettings->stringsToWrite ) ||
          FATFS_OK != HwAPI_FatFs_INI_GetKeyString( "DatafileSettings", "Delimiter", measurePlanFilename, cfgDatafileSettings->delimiter ) )
     {
-        // Create error message and return
+        /* Create error message and return */
         HwAPI_Terminal_SendMessage( "Measure plan file of the plugin "PLUGIN_4_NAME" read - Error.\n" );
         pluginResult.error = 1;
         pluginResult.errorCode = PLG_ERR_READ_MEASURE_PLAN_FILE;
@@ -169,7 +169,7 @@ static PluginResult_t GetConfigData( CfgMeasurePlan_ConverterI7_IC5_V1_0_t *cfgM
         return pluginResult;
     }
          
-    // Send to terminal readed values from measure paln file     
+    /* Send readed values to terminal */     
     HwAPI_Terminal_SendMessage( "Measure plan file of the plugin "PLUGIN_4_NAME" read - Success.\n" );
     snprintf( pluginsString, GetSizeof_pluginsString(),         
               "\n[MeasurePlan]\n"                               
