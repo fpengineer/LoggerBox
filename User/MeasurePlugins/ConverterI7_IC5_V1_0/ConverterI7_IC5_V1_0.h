@@ -13,6 +13,7 @@
 
 #include "HwAPI.h"
 #include "PluginsDef.h"
+#include "PluginsString.h"
 
 
 #ifndef PLUGIN_4

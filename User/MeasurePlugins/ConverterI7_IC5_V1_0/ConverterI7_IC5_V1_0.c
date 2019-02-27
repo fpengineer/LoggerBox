@@ -11,8 +11,6 @@
 #include <stdio.h>
 #include <stdint.h>
 
-#include "HwAPI.h"
-#include "PluginsString.h"
 #include "ConverterI7_IC5_V1_0\ConverterI7_IC5_V1_0.h"
 
 
