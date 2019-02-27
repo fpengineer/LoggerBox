@@ -179,6 +179,7 @@ void vTask_HwFatFs( void *pvParameters )
                     
                     if ( f_stat( dir, NULL ) == FR_OK )
                     {
+                        /* Create new file */
                         result = f_open( &fileObjectSet[ hwFatFsQueueData.fileIndex ], filePath, FA_CREATE_ALWAYS | FA_WRITE | FA_READ );
                     
                         switch ( result )
