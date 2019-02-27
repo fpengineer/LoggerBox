@@ -23,6 +23,7 @@ static PluginResult_t GetConfigData( CfgMeasurePlan_ConverterI7_IC5_V1_0_t *cfgM
 
 void ConverterI7_IC5_V1_0( PluginResult_t *pluginResult, PluginCommand_t pluginCommand, int32_t *tactLength_ms )
 {
+    char measureDataFilename[ MEASURE_DATA_FILENAME_SIZE ];
     CfgMeasurePlan_ConverterI7_IC5_V1_0_t cfgMeasurePlan = INIT_CFG_MEASURE_PLAN_STRUCT;
     CfgMeasureEnable_ConverterI7_IC5_V1_0_t cfgMeasureEnable = INIT_CFG_MEASURE_ENABLE_STRUCT;
     CfgDatafileSettings_ConverterI7_IC5_V1_0_t cfgDatafileSettings = INIT_CFG_DATAFILE_SETTINGS_STRUCT;
@@ -40,18 +41,43 @@ void ConverterI7_IC5_V1_0( PluginResult_t *pluginResult, PluginCommand_t pluginC
             if ( !pluginResult->error )
             {
                 /* Create a new measurement file */
-                /* Open the measurement file */
+                if ( cfgDatafileSettings.enableDatafile )
+                {
+                    HwAPI_SystemTime_Get( pluginsTempString, GetSizeof_pluginsTempString() );
+                    PrepareTimeString( pluginsTempString );
+                    snprintf( measureDataFilename, sizeof( measureDataFilename ), "measure/"PLUGIN_4_NAME"/%s_%s.csv", cfgDatafileSettings.prefixDatafileName, pluginsTempString );
+                    
+                    snprintf( pluginsTempString, GetSizeof_pluginsTempString(), "Create '%s' file.\n", measureDataFilename );
+                    HwAPI_Terminal_SendMessage( pluginsTempString );
+                    
+                    HwAPI_FatFs_CreateFile( measureDataFilename, 0 );
+
+                    /* Open the measurement file */
+                    HwAPI_FatFs_OpenFile( measureDataFilename, 0 );
+                    snprintf( pluginsTempString, GetSizeof_pluginsTempString(),         
+                              "\n[MeasurePlan]\n"                               
+                              "BaseTactLength_s = %d\n"                           
+                              "SourceG1_V = %.3f\n"                           
+                              "SourceG2_V = %.3f\n"                           
+                              "SourceG3_V = %.3f\n"                           
+                              "SourceG4_V = %.3f\n",                           
+                              cfgMeasurePlan.BaseTactLength_s,
+                              cfgMeasurePlan.SourceG1_V,
+                              cfgMeasurePlan.SourceG2_V,
+                              cfgMeasurePlan.SourceG3_V,
+                              cfgMeasurePlan.SourceG4_V );
+                    HwAPI_FatFs_WriteTextFile( pluginsTempString, measureDataFilename, 0 );
+                    HwAPI_Terminal_SendMessage( "ConverterI7_IC5_V1_0 - measure data file created\n" );
+                }
+                
                 /* Initialize (prepare) the system for measure*/
+                //HwAPI_Relay_ClearAll();
+                //HwAPI_VoltageSource_ClearAll();
+                
                 /* Set up tact state (if needed) */
-//                *tactLength_ms = cfgMeasurePlan.BaseTactLength_s * 1000;
                 /* Return tac length in ms */
+                *tactLength_ms = cfgMeasurePlan.BaseTactLength_s * 1000;
             }
-            else
-            {
-                // Stop measure
-                // Create error messsage
-            }
-            *tactLength_ms = cfgMeasurePlan.BaseTactLength_s * 1000;
             break;
         }
 
@@ -63,6 +89,7 @@ void ConverterI7_IC5_V1_0( PluginResult_t *pluginResult, PluginCommand_t pluginC
             /* Clear all sources */
             /* Clear all relays */
             /* Close the measurement file */
+            HwAPI_FatFs_CloseFile( measureDataFilename, 0 );
 
             pluginResult->error = 0;
             break;
@@ -124,7 +151,7 @@ static PluginResult_t GetConfigData( CfgMeasurePlan_ConverterI7_IC5_V1_0_t *cfgM
 {
     PluginResult_t pluginResult = { 0, 0, "" };
     
-    /* Create filenam for the config plan file */
+    /* Create filename for the config plan file */
     snprintf( measurePlanFilename, GetSizeof_measurePlanFilename(), "MeasurePlan_"PLUGIN_4_NAME".ini" );
 
         
