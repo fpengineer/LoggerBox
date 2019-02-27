@@ -159,27 +159,44 @@ void vTask_HwFatFs( void *pvParameters )
             {    
                 if ( fatFsEnable == FATFS_ENABLE )
                 {
-                    f_close( &fileObjectSet[ hwFatFsQueueData.fileIndex ] );
-                    snprintf( filePath, sizeof( filePath ), "0:/%s", hwFatFsQueueData.fileName );
-                    result = f_open( &fileObjectSet[ hwFatFsQueueData.fileIndex ], filePath, FA_CREATE_ALWAYS | FA_WRITE | FA_READ );
-
+                    char dir[ MAX_PATH_LENGTH ] = { "" };
+                    char *lastSlash = NULL;
                     
-                    switch ( result )
+                    /* Close file with same index */
+                    f_close( &fileObjectSet[ hwFatFsQueueData.fileIndex ] );
+                    
+                    /* Create full path of the file */
+                    snprintf( filePath, sizeof( filePath ), VOLUME_NAME":/%s", hwFatFsQueueData.fileName );
+
+                    /* Check if directory exist. Create it if not found */
+                    lastSlash = strchr( filePath, '/' );
+                    while ( lastSlash != NULL )
                     {
-                        case FR_OK:
-                            f_close( &fileObjectSet[ hwFatFsQueueData.fileIndex ] );
-                            fatFsStatus = FATFS_OK;
-                            break;
-
-                        default:
-                            snprintf( tempString, sizeof( tempString ), "TS_HwFatFs: HW_FATFS_CREATE_FILE Error!\n"
-                                                                        "f_open = %s\n", stringResult[ result ] );
-                            HwAPI_Terminal_SendMessage( tempString );
-                            fatFsStatus = FATFS_ERROR;
-                            break;
+                        strncpy( dir, filePath, strlen( filePath ) - strlen( lastSlash ) );
+                        f_mkdir( dir );
+                        lastSlash = strchr( lastSlash + 1, '/' );
                     }
-                }                    
+                    
+                    if ( f_stat( dir, NULL ) == FR_OK )
+                    {
+                        result = f_open( &fileObjectSet[ hwFatFsQueueData.fileIndex ], filePath, FA_CREATE_ALWAYS | FA_WRITE | FA_READ );
+                    
+                        switch ( result )
+                        {
+                            case FR_OK:
+                                f_close( &fileObjectSet[ hwFatFsQueueData.fileIndex ] );
+                                fatFsStatus = FATFS_OK;
+                                break;
 
+                            default:
+                                snprintf( tempString, sizeof( tempString ), "TS_HwFatFs: HW_FATFS_CREATE_FILE Error!\n"
+                                                                            "f_open = %s\n", stringResult[ result ] );
+                                HwAPI_Terminal_SendMessage( tempString );
+                                fatFsStatus = FATFS_ERROR;
+                                break;
+                        }
+                    }                    
+                }
                 hwFatFsQueueData.fatFsStatus = fatFsStatus;            
                 xQueueSend( xQueue_HwFatFs_Tx, &hwFatFsQueueData, NULL ); 
                 break;
