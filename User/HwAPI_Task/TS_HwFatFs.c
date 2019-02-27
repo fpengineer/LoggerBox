@@ -73,7 +73,7 @@ static FIL fileObjectSet[ MAX_FILES_TO_OPEN ];
 static FRESULT result = FR_NOT_READY;
 
 static char tempString[ 250 ] = {""}; 
-static char filePath[ 80 ] = {""}; 
+static char filePath[ MAX_PATH_LENGTH ] = {""}; 
 
 
 

@@ -27,6 +27,10 @@
 
 
 
+#define MAX_PATH_LENGTH                   100
+
+
+
 #define VOLUME_NAME   "0"
 
 /* Exported types ------------------------------------------------------------*/
