@@ -92,7 +92,7 @@ void vTask_MeasurePlanner( void *pvParameters )
                     HwAPI_Terminal_SendMessage( "***********   LoggerBox   UF113.887   " SYSTEM_VERSION "   ***********\n\n" );
 
                     /* Get current system time */
-                    HwAPI_SystemTime_Get( configData.systemTimeString );
+                    HwAPI_SystemTime_Get( configData.systemTimeString, sizeof( configData.systemTimeString ) );
                     snprintf( tempString, sizeof( tempString ), "Current system time: %s\n\n", configData.systemTimeString );
                     HwAPI_Terminal_SendMessage( tempString );
                     

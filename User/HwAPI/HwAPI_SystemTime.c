@@ -40,7 +40,7 @@ void HwAPI_SystemTime_Set( char *timeString )
 
 
 //
-void HwAPI_SystemTime_Get( char *timeString )
+void HwAPI_SystemTime_Get( char *timeString, int32_t stringLength )
 {
     extern QueueHandle_t xQueue_HwSystemTime_Rx;
     extern QueueHandle_t xQueue_HwSystemTime_Tx;
@@ -52,13 +52,13 @@ void HwAPI_SystemTime_Get( char *timeString )
     xQueueReceive( xQueue_HwSystemTime_Tx, &hwSystemTimeQueueData, portMAX_DELAY );
 
     // convert received system time to string
-    snprintf( timeString, sizeof( timeString ), "%02d.%02d.%04d %02d:%02d:%02d",
-                                                hwSystemTimeQueueData.datatime.date,
-                                                hwSystemTimeQueueData.datatime.month,
-                                                hwSystemTimeQueueData.datatime.year + 2000,
-                                                hwSystemTimeQueueData.datatime.hours,
-                                                hwSystemTimeQueueData.datatime.minutes,
-                                                hwSystemTimeQueueData.datatime.seconds );
+    snprintf( timeString, stringLength, "%02d.%02d.%04d %02d:%02d:%02d",
+                                        hwSystemTimeQueueData.datatime.date,
+                                        hwSystemTimeQueueData.datatime.month,
+                                        hwSystemTimeQueueData.datatime.year + 2000,
+                                        hwSystemTimeQueueData.datatime.hours,
+                                        hwSystemTimeQueueData.datatime.minutes,
+                                        hwSystemTimeQueueData.datatime.seconds );
 }
 
 

@@ -86,7 +86,7 @@ void ProcessSystemTimeConfig( char *systemTimeString, int32_t updateSystemTime )
         HwAPI_Terminal_SendMessage( "System time updated.\n" );
 
         // Get new system time
-        HwAPI_SystemTime_Get( systemTimeString );
+        HwAPI_SystemTime_Get( systemTimeString, sizeof( systemTimeString ) );
         snprintf( tempString, sizeof( tempString ), "New system time: %s\n\n", systemTimeString );
         HwAPI_Terminal_SendMessage( tempString );
     }
