@@ -308,27 +308,15 @@ void vTask_HwFatFs( void *pvParameters )
                             fatFsStatus = FATFS_OK;
                             if ( f_puts( hwFatFsQueueData.textBuffer, &fileObjectSet[ hwFatFsQueueData.fileIndex ] ) > 0 )
                             {
-                                // success
+                                fatFsStatus = FATFS_OK;
                             }
                             else
                             {
-                                // error
+                                snprintf( tempString, sizeof( tempString ), "TS_HwFatFs: HW_FATFS_WRITE_FILE Error!\n"
+                                                                            "f_puts <= 0\n" );
+                                HwAPI_Terminal_SendMessage( tempString );
+                                fatFsStatus = FATFS_ERROR;
                             }
-/*
-                            switch ( result )
-                            {
-                                case FR_OK:
-                                    fatFsStatus = FATFS_OK;
-                                    break;
-
-                                default:
-                                    snprintf( tempString, sizeof( tempString ), "TS_HwFatFs: HW_FATFS_WRITE_FILE Error!\n"
-                                                         "f_puts = %s\n", stringResult[ result ] );
-                                    HwAPI_Terminal_SendMessage( tempString );
-                                    fatFsStatus = FATFS_ERROR;
-                                    break;
-                            }
-*/
                             break;
 
                         default:
