@@ -25,6 +25,7 @@ int32_t GetSizeof_pluginsTempString( void );
 int32_t GetSizeof_pluginsTempStringElement( void );
 int32_t GetSizeof_measurePlanFilename( void );
 int32_t GetSizeof_measurePlanFilenameElement( void );
+void PrepareTimeString( char *timeString );
 
 #endif /* _PLUGINS_STRING_H_ */
 /* End of file */

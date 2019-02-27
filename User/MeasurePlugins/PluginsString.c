@@ -10,6 +10,7 @@
 *******************************************************************************************************/
 #include <stdlib.h>
 #include <stdint.h>
+#include <string.h>
 
 #include "PluginsString.h"
 
@@ -43,4 +44,26 @@ int32_t GetSizeof_measurePlanFilenameElement( void )
 {
     return sizeof( measurePlanFilename[ 0 ] );
 }
+
+
+void PrepareTimeString( char *timeString )
+{
+    char *token = NULL;
+    
+    token = strchr( timeString, ' ' );
+	while ( token != NULL )
+	{
+		*token = '_';
+	    token = strchr( token + 1, ' ' );
+	}
+
+    token = strchr( timeString, ':' );
+	while ( token != NULL )
+	{
+		*token = '.';
+	    token = strchr( token + 1, ':' );
+	}
+}
+
+
 /* End of file */
