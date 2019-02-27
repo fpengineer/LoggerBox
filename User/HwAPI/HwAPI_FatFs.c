@@ -281,7 +281,7 @@ FatFsStatus_t HwAPI_FatFs_WriteTextFile( char *textData, char *fileName, uint8_t
     extern QueueHandle_t xQueue_HwFatFs_Tx;
     HwFatFsQueueData_t hwFatFsQueueData;
    
-    hwFatFsQueueData.stateHwFatFs = HW_FATFS_CLOSE_FILE;
+    hwFatFsQueueData.stateHwFatFs = HW_FATFS_WRITE_FILE;
     hwFatFsQueueData.fileName = fileName;
     hwFatFsQueueData.textBuffer = textData;
     hwFatFsQueueData.fileIndex = fileIndex;
