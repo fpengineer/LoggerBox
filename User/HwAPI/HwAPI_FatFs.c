@@ -200,7 +200,7 @@ FatFsStatus_t HwAPI_FatFs_INI_PutKeyString( char *nameSection,              \
 
 
 //
-FatFsStatus_t HwAPI_FatFs_CreateFile( char *fileName )
+FatFsStatus_t HwAPI_FatFs_CreateFile( char *fileName, uint8_t fileIndex )
 {
     extern QueueHandle_t xQueue_HwFatFs_Rx;
     extern QueueHandle_t xQueue_HwFatFs_Tx;
@@ -208,6 +208,7 @@ FatFsStatus_t HwAPI_FatFs_CreateFile( char *fileName )
    
     hwFatFsQueueData.stateHwFatFs = HW_FATFS_CREATE_FILE;
     hwFatFsQueueData.fileName = fileName;
+    hwFatFsQueueData.fileIndex = fileIndex;
     
     xQueueSend( xQueue_HwFatFs_Rx, &hwFatFsQueueData, NULL );
     xQueueReceive( xQueue_HwFatFs_Tx, &hwFatFsQueueData, portMAX_DELAY );
@@ -226,7 +227,7 @@ FatFsStatus_t HwAPI_FatFs_CheckFileExist( char *fileName )
    
     hwFatFsQueueData.stateHwFatFs = HW_FATFS_CHECK_FILE_EXIST;
     hwFatFsQueueData.fileName = fileName;
-    
+
     xQueueSend( xQueue_HwFatFs_Rx, &hwFatFsQueueData, NULL );
     xQueueReceive( xQueue_HwFatFs_Tx, &hwFatFsQueueData, portMAX_DELAY );
 
@@ -236,7 +237,7 @@ FatFsStatus_t HwAPI_FatFs_CheckFileExist( char *fileName )
 
 
 //
-FatFsStatus_t HwAPI_FatFs_OpenFile( char *fileName )
+FatFsStatus_t HwAPI_FatFs_OpenFile( char *fileName, uint8_t fileIndex )
 {
     extern QueueHandle_t xQueue_HwFatFs_Rx;
     extern QueueHandle_t xQueue_HwFatFs_Tx;
@@ -244,6 +245,7 @@ FatFsStatus_t HwAPI_FatFs_OpenFile( char *fileName )
    
     hwFatFsQueueData.stateHwFatFs = HW_FATFS_OPEN_FILE;
     hwFatFsQueueData.fileName = fileName;
+    hwFatFsQueueData.fileIndex = fileIndex;
         
     xQueueSend( xQueue_HwFatFs_Rx, &hwFatFsQueueData, NULL );
     xQueueReceive( xQueue_HwFatFs_Tx, &hwFatFsQueueData, portMAX_DELAY );
@@ -254,7 +256,7 @@ FatFsStatus_t HwAPI_FatFs_OpenFile( char *fileName )
 
 
 //
-FatFsStatus_t HwAPI_FatFs_CloseFile( char *fileName )
+FatFsStatus_t HwAPI_FatFs_CloseFile( char *fileName, uint8_t fileIndex )
 {
     extern QueueHandle_t xQueue_HwFatFs_Rx;
     extern QueueHandle_t xQueue_HwFatFs_Tx;
@@ -262,6 +264,7 @@ FatFsStatus_t HwAPI_FatFs_CloseFile( char *fileName )
    
     hwFatFsQueueData.stateHwFatFs = HW_FATFS_CLOSE_FILE;
     hwFatFsQueueData.fileName = fileName;
+    hwFatFsQueueData.fileIndex = fileIndex;
         
     xQueueSend( xQueue_HwFatFs_Rx, &hwFatFsQueueData, NULL );
     xQueueReceive( xQueue_HwFatFs_Tx, &hwFatFsQueueData, portMAX_DELAY );
@@ -272,7 +275,7 @@ FatFsStatus_t HwAPI_FatFs_CloseFile( char *fileName )
 
 
 //
-FatFsStatus_t HwAPI_FatFs_WriteTextFile( char *fileName, char *textData )
+FatFsStatus_t HwAPI_FatFs_WriteTextFile( char *textData, char *fileName, uint8_t fileIndex )
 {
     extern QueueHandle_t xQueue_HwFatFs_Rx;
     extern QueueHandle_t xQueue_HwFatFs_Tx;
@@ -281,6 +284,7 @@ FatFsStatus_t HwAPI_FatFs_WriteTextFile( char *fileName, char *textData )
     hwFatFsQueueData.stateHwFatFs = HW_FATFS_CLOSE_FILE;
     hwFatFsQueueData.fileName = fileName;
     hwFatFsQueueData.textBuffer = textData;
+    hwFatFsQueueData.fileIndex = fileIndex;
         
     xQueueSend( xQueue_HwFatFs_Rx, &hwFatFsQueueData, NULL );
     xQueueReceive( xQueue_HwFatFs_Tx, &hwFatFsQueueData, portMAX_DELAY );

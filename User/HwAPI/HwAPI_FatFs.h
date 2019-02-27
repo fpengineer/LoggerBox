@@ -90,8 +90,6 @@ typedef struct {
     enum stateHwFatFs stateHwFatFs;
     FatFsStatus_t fatFsStatus;
     FatFsEnable_t fatFsEnable;
-//    SDCardStatus_t sdCardStatus;
-
     char *textBuffer;
     char *fileName;
     uint8_t fileIndex;
@@ -109,11 +107,11 @@ FatFsStatus_t HwAPI_FatFs_INI_PutKeyInt( char *nameSection, char *nameKey, char 
 FatFsStatus_t HwAPI_FatFs_INI_PutKeyFloat( char *nameSection, char *nameKey, char *fileName, float data, ConfigFileType_t configFileType );
 FatFsStatus_t HwAPI_FatFs_INI_PutKeyString( char *nameSection, char *nameKey, char *fileName, char *data, ConfigFileType_t configFileType );
 
-FatFsStatus_t HwAPI_FatFs_CreateFile( char *fileName );
+FatFsStatus_t HwAPI_FatFs_CreateFile( char *fileName, uint8_t fileIndex );
 FatFsStatus_t HwAPI_FatFs_CheckFileExist( char *fileName );
-FatFsStatus_t HwAPI_FatFs_OpenFile( char *fileName );
-FatFsStatus_t HwAPI_FatFs_CloseFile( char *fileName );
-FatFsStatus_t HwAPI_FatFs_WriteTextFile( char *fileName, char *textData );
+FatFsStatus_t HwAPI_FatFs_OpenFile( char *fileName, uint8_t fileIndex );
+FatFsStatus_t HwAPI_FatFs_CloseFile( char *fileName, uint8_t fileIndex );
+FatFsStatus_t HwAPI_FatFs_WriteTextFile( char *textData, char *fileName, uint8_t fileIndex );
 
 void HwAPI_FatFs_InitSDCard( void );
 void HwAPI_FatFs_DeinitSDCard( void );
