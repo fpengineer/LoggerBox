@@ -207,7 +207,7 @@ void vTask_HwFatFs( void *pvParameters )
             {    
                 if ( fatFsEnable == FATFS_ENABLE )
                 {
-                    snprintf( filePath, sizeof( filePath ), "0:/%s", hwFatFsQueueData.fileName );
+                    snprintf( filePath, sizeof( filePath ), VOLUME_NAME":/%s", hwFatFsQueueData.fileName );
                     result = f_stat( filePath, NULL );
                     switch ( result )
                     {
@@ -239,13 +239,13 @@ void vTask_HwFatFs( void *pvParameters )
                 if ( fatFsEnable == FATFS_ENABLE )
                 {
                     f_close( &fileObjectSet[ hwFatFsQueueData.fileIndex ] );
-                    snprintf( filePath, sizeof( filePath ), "0:/%s", hwFatFsQueueData.fileName );
+                    snprintf( filePath, sizeof( filePath ), VOLUME_NAME":/%s", hwFatFsQueueData.fileName );
                     result = f_open( &fileObjectSet[ hwFatFsQueueData.fileIndex ], filePath, FA_OPEN_EXISTING | FA_WRITE | FA_READ );
                     
                     switch ( result )
                     {
                         case FR_OK:
-                            f_close( &fileObjectSet[ hwFatFsQueueData.fileIndex ] );
+                            //f_close( &fileObjectSet[ hwFatFsQueueData.fileIndex ] );
                             fatFsStatus = FATFS_OK;
                             break;
 
@@ -496,7 +496,7 @@ void vTask_HwFatFs( void *pvParameters )
                 int32_t j = 0;   
 
                 /* Create file path */ 
-                snprintf( filePath, sizeof( filePath ), "%s:/%s", VOLUME_NAME, hwFatFsQueueData.fileName );
+                snprintf( filePath, sizeof( filePath ), VOLUME_NAME":/%s", hwFatFsQueueData.fileName );
 #ifdef HWAPI_FATFS_DEBUG_INFO
                 sprintf( tempString, "Create section and key list of a '%s' file.\n", filePath );
                 HwAPI_Terminal_SendMessage( tempString );
