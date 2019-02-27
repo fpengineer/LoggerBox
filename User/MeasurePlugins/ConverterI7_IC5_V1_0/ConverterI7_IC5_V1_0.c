@@ -15,8 +15,6 @@
 #include "PluginsString.h"
 #include "ConverterI7_IC5_V1_0\ConverterI7_IC5_V1_0.h"
 
-extern char pluginsString[];
-extern char measurePlanFilename[];
 
 // Declare private functions
 static PluginResult_t GetConfigData( CfgMeasurePlan_ConverterI7_IC5_V1_0_t *cfgMeasurePlan,
@@ -174,7 +172,7 @@ static PluginResult_t GetConfigData( CfgMeasurePlan_ConverterI7_IC5_V1_0_t *cfgM
          
     /* Send readed values to terminal */     
     HwAPI_Terminal_SendMessage( "Measure plan file of the plugin "PLUGIN_4_NAME" read - Success.\n" );
-    snprintf( pluginsString, GetSizeof_pluginsString(),         
+    snprintf( pluginsTempString, GetSizeof_pluginsTempString(),         
               "\n[MeasurePlan]\n"                               
               "BaseTactLength_s = %d\n"                           
               "SourceG1_V = %.3f\n"                           
@@ -236,7 +234,7 @@ static PluginResult_t GetConfigData( CfgMeasurePlan_ConverterI7_IC5_V1_0_t *cfgM
               cfgDatafileSettings->prefixDatafileName,
               cfgDatafileSettings->stringsToWrite,
               cfgDatafileSettings->delimiter );
-    HwAPI_Terminal_SendMessage( pluginsString );
+    HwAPI_Terminal_SendMessage( pluginsTempString );
     
     return pluginResult;
 }

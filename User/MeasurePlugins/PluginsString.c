@@ -14,22 +14,22 @@
 #include "PluginsString.h"
 
 
-char pluginsString[ PLUGINS_STRING_SIZE ];
+char pluginsTempString[ PLUGINS_STRING_SIZE ];
 char measurePlanFilename[ MEASURE_PLAN_FILENAME_SIZE ];
 
 
 
 
-// Get size of the 'pluginsString' 
-int32_t GetSizeof_pluginsString( void )
+// Get size of the 'pluginsTempString' 
+int32_t GetSizeof_pluginsTempString( void )
 {
-    return sizeof( pluginsString );
+    return sizeof( pluginsTempString );
 }
 
-// Get size of the 'pluginsString' element
-int32_t GetSizeof_pluginsStringElement( void )
+// Get size of the 'pluginsTempString' element
+int32_t GetSizeof_pluginsTempStringElement( void )
 {
-    return sizeof( pluginsString[ 0 ] );
+    return sizeof( pluginsTempString[ 0 ] );
 }
 
 // Get size of the 'measurePlanFilename' 
