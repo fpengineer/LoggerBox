@@ -27,7 +27,6 @@
 
 /* Exported types --------------------------------------------------------*/
 
-
 /* Exported functions --------------------------------------------------------*/
 void plgPlugin1( PluginResult_t *pluginResult, PluginCommand_t pluginCommand, int32_t *tactLength_ms );
 

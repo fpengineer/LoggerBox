@@ -14,6 +14,7 @@
 
 #include "HwAPI.h"
 #include "plgPlugin1_V1_0\plgPlugin1_V1_0.h"
+#include "plgPlugin1_V1_0\types.h"
 #include "PluginsString.h"
 
 void plgPlugin1( PluginResult_t *pluginResult, PluginCommand_t pluginCommand, int32_t *tactLength_ms )
