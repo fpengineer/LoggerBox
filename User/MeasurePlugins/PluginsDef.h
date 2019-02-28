@@ -16,6 +16,10 @@
 
 // Define error codes for the plugins
 #define PLG_ERR_READ_MEASURE_PLAN_FILE  1
+#define PLG_ERR_NO_MEASURE_DATA_FILE    2
+
+
+#define PLG_ERR_COMMON                  250
 
 /* Exported types ------------------------------------------------------------*/
 typedef enum {
