@@ -12,6 +12,8 @@
 #include <stdint.h>
 
 #include "ConverterI7_IC5_V1_0\ConverterI7_IC5_V1_0.h"
+#include "ConverterI7_IC5_V1_0\types.h"
+#include "ConverterI7_IC5_V1_0\defs.h"
 
 
 // Declare private functions
