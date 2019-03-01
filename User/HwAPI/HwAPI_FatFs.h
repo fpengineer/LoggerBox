@@ -44,6 +44,7 @@ enum stateHwFatFs {
     HW_FATFS_OPEN_FILE,
     HW_FATFS_CLOSE_FILE,
     HW_FATFS_WRITE_FILE,
+    HW_FATFS_GET_FILE_SIZE,
     HW_FATFS_GET_KEY_INI,
     HW_FATFS_PUT_KEY_INI,
     HW_FATFS_GET_CONFIG_FILE_STRINGS,
@@ -97,6 +98,7 @@ typedef struct {
     char *textBuffer;
     char *fileName;
     uint8_t fileIndex;
+    int32_t fileSize;
     INIInfoData_t iniInfoData;
 } HwFatFsQueueData_t;
 
@@ -116,6 +118,7 @@ FatFsStatus_t HwAPI_FatFs_CheckFileExist( char *fileName );
 FatFsStatus_t HwAPI_FatFs_OpenFile( char *fileName, uint8_t fileIndex );
 FatFsStatus_t HwAPI_FatFs_CloseFile( char *fileName, uint8_t fileIndex );
 FatFsStatus_t HwAPI_FatFs_WriteTextFile( char *textData, char *fileName, uint8_t fileIndex );
+FatFsStatus_t HwAPI_FatFs_GetFileSize( int32_t *fileSize, char *fileName, uint8_t fileIndex );
 
 void HwAPI_FatFs_InitSDCard( void );
 void HwAPI_FatFs_DeinitSDCard( void );

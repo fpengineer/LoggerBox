@@ -295,6 +295,27 @@ FatFsStatus_t HwAPI_FatFs_WriteTextFile( char *textData, char *fileName, uint8_t
 
 
 //
+FatFsStatus_t HwAPI_FatFs_GetFileSize( int32_t *fileSize, char *fileName, uint8_t fileIndex )
+{
+    extern QueueHandle_t xQueue_HwFatFs_Rx;
+    extern QueueHandle_t xQueue_HwFatFs_Tx;
+    HwFatFsQueueData_t hwFatFsQueueData;
+   
+    hwFatFsQueueData.stateHwFatFs = HW_FATFS_GET_FILE_SIZE;
+    hwFatFsQueueData.fileName = fileName;
+    hwFatFsQueueData.fileIndex = fileIndex;
+        
+    xQueueSend( xQueue_HwFatFs_Rx, &hwFatFsQueueData, NULL );
+    xQueueReceive( xQueue_HwFatFs_Tx, &hwFatFsQueueData, portMAX_DELAY );
+
+    *fileSize = hwFatFsQueueData.fileSize;
+
+    SetSDCardLED( hwFatFsQueueData.fatFsStatus );
+    return hwFatFsQueueData.fatFsStatus;
+}
+
+
+//
 void HwAPI_FatFs_InitSDCard( void )
 {
     extern QueueHandle_t xQueue_HwFatFs_Rx;
