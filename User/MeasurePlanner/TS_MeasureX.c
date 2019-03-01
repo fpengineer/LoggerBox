@@ -32,7 +32,6 @@ static char tempString[ 200 ] = { "" };
 
 void vTask_MeasureX( void *pvParameters )
 {
-#if 1
     MeasureXQueueData_t measureXQueueData;
     PluginResult_t pluginResult = { 0, 0, "" };
     int32_t tactLength_ms = 0;
@@ -133,7 +132,7 @@ void vTask_MeasureX( void *pvParameters )
                 {
                     /* Perform plugin command */
                     measureXQueueData.pluginRef( &pluginResult, CMD_PLUGIN_STOP, NULL );
-
+                    
                     if ( !pluginResult.error )
                     {
                         xQueueReset( xQueue_MeasureX_Rx );
@@ -176,7 +175,6 @@ void vTask_MeasureX( void *pvParameters )
 
             case MEASURE_X_IDLE:
             {
-
                 break;
             }
 
@@ -184,6 +182,5 @@ void vTask_MeasureX( void *pvParameters )
                 break;
         }
     }
-#endif
 }
 /* End of file */
