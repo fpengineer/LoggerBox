@@ -254,8 +254,11 @@ void ConverterI7_IC5_V1_0( PluginResult_t *pluginResult, PluginCommand_t pluginC
 
             /* Send string to terminal */
             HwAPI_Terminal_SendMessage( pluginsTempString );
-            HwAPI_Terminal_SendMessage( "\n" );
-
+            int32_t fileSize = 0;
+            HwAPI_FatFs_GetFileSize( &fileSize,  measureDataFilename, 0 );
+            snprintf( pluginsTempString, GetSizeof_pluginsTempString(), "\tf_size = %.1f kB\n", (float)fileSize / 1024.0f ); 
+            HwAPI_Terminal_SendMessage( pluginsTempString );
+           
             /* Enable/disable relays if needed */
             break;
         }
