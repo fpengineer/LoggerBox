@@ -508,6 +508,8 @@ static void CreateHeaderString( char *string, int32_t stringSize, CfgMeasureEnab
         snprintf( string, stringSize, "%sIC4_PulseHigh, ns%s", string, delimiter );        
         snprintf( string, stringSize, "%sIC4_PulseLow, ns%s", string, delimiter );        
     }
+
+    snprintf( string, stringSize, "%s\n", string );       
 }
 
 
