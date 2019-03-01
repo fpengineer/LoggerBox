@@ -520,6 +520,8 @@ static void CreateHeaderString( char *string, int32_t stringSize, CfgMeasureEnab
 //*************************************************
 static void CreateMeasureString( char *string, int32_t stringSize, MeasureValues_t *measureValues, CfgMeasureEnable_t *cfgMeasureEnable, char *delimiter )
 {
+    char timeString[ 30 ] = { "" };
+
     sprintf( string, "" );        
 
     if ( cfgMeasureEnable->enableG1_V )
@@ -609,5 +611,8 @@ static void CreateMeasureString( char *string, int32_t stringSize, MeasureValues
         snprintf( string, stringSize, "%s%.1f%s", string, measureValues->valueIC4_PWM.pulseHigh_ns, delimiter );        
         snprintf( string, stringSize, "%s%.1f%s", string, measureValues->valueIC4_PWM.pulseLow_ns, delimiter );        
     }
+
+    HwAPI_SystemTime_Get( timeString, sizeof( timeString ) );
+    snprintf( string, stringSize, "%s%s", string, timeString );        
 }
 /* End of file */
