@@ -78,6 +78,7 @@ void ConverterI7_IC5_V1_0( PluginResult_t *pluginResult, PluginCommand_t pluginC
                     /* Create header string to write to the file */
                     CreateHeaderString( pluginsTempString, GetSizeof_pluginsTempString(), &cfgMeasureEnable, cfgDatafileSettings.delimiter );
                     HwAPI_FatFs_WriteTextFile( pluginsTempString, measureDataFilename, 0 );
+                    HwAPI_FatFs_CloseFile( measureDataFilename, 0 );
                     PluginDelay_ms( 100 ); // delay to avoid a race condition while writing current 'pluginsTempString'
                     
                     HwAPI_Terminal_SendMessage( "ConverterI7_IC5_V1_0 - measure data file created\n" );
@@ -115,8 +116,6 @@ void ConverterI7_IC5_V1_0( PluginResult_t *pluginResult, PluginCommand_t pluginC
             /* Clear all relays */
             HwAPI_Relay_ClearAll();
             
-            /* Close the measurement file */
-            HwAPI_FatFs_CloseFile( measureDataFilename, 0 );
 
             pluginResult->error = 0;
             break;
@@ -227,12 +226,15 @@ void ConverterI7_IC5_V1_0( PluginResult_t *pluginResult, PluginCommand_t pluginC
             {
                 /* Create string with measured parameters to write to file */
                 CreateMeasureString( pluginsTempString, GetSizeof_pluginsTempString(), &measureValues, &cfgMeasureEnable, cfgDatafileSettings.delimiter );
+                snprintf( pluginsTempString, GetSizeof_pluginsTempString(), "%s\n", pluginsTempString );
 
                 /* Write data to measurement file */
+                HwAPI_FatFs_OpenFile( measureDataFilename, 0 );
                 switch ( HwAPI_FatFs_WriteTextFile( pluginsTempString, measureDataFilename, 0 ) )
                 {
                     case FATFS_OK:
-                        PluginDelay_ms( 50 ); // delay to avoid a race condition while writing current 'pluginsTempString'
+                        HwAPI_FatFs_CloseFile( measureDataFilename, 0 );
+                        PluginDelay_ms( 10 ); // delay to avoid a race condition while writing current 'pluginsTempString'
                         pluginResult->error = 0;
                         break;
 
