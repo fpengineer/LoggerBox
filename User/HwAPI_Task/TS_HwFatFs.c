@@ -335,6 +335,20 @@ void vTask_HwFatFs( void *pvParameters )
             }
 
 
+            case HW_FATFS_GET_FILE_SIZE:
+            {    
+                if ( fatFsEnable == FATFS_ENABLE )
+                {
+                    hwFatFsQueueData.fileSize = f_size( &fileObjectSet[ hwFatFsQueueData.fileIndex ] );
+                    fatFsStatus = FATFS_OK;
+                }                    
+
+                hwFatFsQueueData.fatFsStatus = fatFsStatus;            
+                xQueueSend( xQueue_HwFatFs_Tx, &hwFatFsQueueData, NULL ); 
+                break;
+            }
+
+
             case HW_FATFS_GET_KEY_INI:
             {
                 if ( fatFsEnable == FATFS_ENABLE )
