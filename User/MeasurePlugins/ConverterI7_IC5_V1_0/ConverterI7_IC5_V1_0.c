@@ -288,6 +288,7 @@ void ConverterI7_IC5_V1_0( PluginResult_t *pluginResult, PluginCommand_t pluginC
     }
 }
 
+
 //*************************************************
 //
 // Plugin private function
@@ -371,10 +372,10 @@ static PluginResult_t GetConfigData( CfgMeasurePlan_t *cfgMeasurePlan,
               "EnableIC2_Freq_PWM = %d\n"          
               "EnableIC3_Freq_PWM = %d\n"          
               "EnableIC4_Freq_PWM = %d\n"          
-              "EnableIC1_Temperatureout = %d\n"          
-              "EnableIC2_Temperatureout = %d\n"          
-              "EnableIC3_Temperatureout = %d\n"          
-              "EnableIC4_Temperatureout = %d\n"          
+              "EnableIC1_Temperature = %d\n"          
+              "EnableIC2_Temperature = %d\n"          
+              "EnableIC3_Temperature = %d\n"          
+              "EnableIC4_Temperature = %d\n"          
               "\n[DatafileSettings]\n"                               
               "EnableDatafile = %d\n" 
               "PrefixDatafileName = %s\n" 
