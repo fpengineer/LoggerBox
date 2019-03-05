@@ -17,14 +17,14 @@
 #include "PluginsDelay.h"
 
 
-#ifndef PLUGIN_4
+#ifndef PLUGIN_7
 
-#define PLUGIN_4
-#define PLUGIN_4_NAME       "ConverterI7_IC5_V1_0"
-#define PLUGIN_4_POINTER    ConverterI7_IC5_V1_0
+#define PLUGIN_7
+#define PLUGIN_7_NAME       "ConverterI7_IC5_V1_0"
+#define PLUGIN_7_POINTER    ConverterI7_IC5_V1_0
 
 #else 
-#error "PLUGIN_4 already defined! Please select another plugin number and nam definitions."
+#error "PLUGIN_7 already defined! Please select another plugin number and nam definitions."
 #endif
 
 /* Exported types --------------------------------------------------------*/

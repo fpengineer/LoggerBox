@@ -49,7 +49,7 @@ void ConverterI7_IC5_V1_0( PluginResult_t *pluginResult, PluginCommand_t pluginC
                 {
                     HwAPI_SystemTime_Get( pluginsTempString, GetSizeof_pluginsTempString() );
                     PrepareTimeString( pluginsTempString );
-                    snprintf( measureDataFilename, sizeof( measureDataFilename ), "measure/"PLUGIN_4_NAME"/%s_%s.csv", cfgDatafileSettings.prefixDatafileName, pluginsTempString );
+                    snprintf( measureDataFilename, sizeof( measureDataFilename ), "measure/"PLUGIN_7_NAME"/%s_%s.csv", cfgDatafileSettings.prefixDatafileName, pluginsTempString );
                     
                     snprintf( pluginsTempString, GetSizeof_pluginsTempString(), "Create '%s' file.\n", measureDataFilename );
                     HwAPI_Terminal_SendMessage( pluginsTempString );
@@ -303,7 +303,7 @@ static PluginResult_t GetConfigData( CfgMeasurePlan_t *cfgMeasurePlan,
     PluginResult_t pluginResult = { 0, 0, "" };
     
     /* Create filename for the config plan file */
-    snprintf( measurePlanFilename, GetSizeof_measurePlanFilename(), "MeasurePlan_"PLUGIN_4_NAME".ini" );
+    snprintf( measurePlanFilename, GetSizeof_measurePlanFilename(), "MeasurePlan_"PLUGIN_7_NAME".ini" );
 
         
     if ( FATFS_OK != HwAPI_FatFs_INI_GetKeyInt( "MeasurePlan", "BaseTactLength_s", measurePlanFilename, &cfgMeasurePlan->BaseTactLength_s, MEASURE_PLAN_FILE ) ||
@@ -339,15 +339,15 @@ static PluginResult_t GetConfigData( CfgMeasurePlan_t *cfgMeasurePlan,
          FATFS_OK != HwAPI_FatFs_INI_GetKeyString( "DatafileSettings", "Delimiter", measurePlanFilename, cfgDatafileSettings->delimiter, MEASURE_PLAN_FILE ) )
     {
         /* Create error message and return */
-        HwAPI_Terminal_SendMessage( "Measure plan file of the plugin "PLUGIN_4_NAME" read - Error.\n" );
+        HwAPI_Terminal_SendMessage( "Measure plan file of the plugin "PLUGIN_7_NAME" read - Error.\n" );
         pluginResult.error = 1;
         pluginResult.errorCode = PLG_ERR_READ_MEASURE_PLAN_FILE;
-        snprintf( pluginResult.message, sizeof( pluginResult.message ), "Plugin "PLUGIN_4_NAME". Error comes during reading of measure plan file.\n" );
+        snprintf( pluginResult.message, sizeof( pluginResult.message ), "Plugin "PLUGIN_7_NAME". Error comes during reading of measure plan file.\n" );
         return pluginResult;
     }
          
     /* Send readed values to terminal */     
-    HwAPI_Terminal_SendMessage( "Measure plan file of the plugin "PLUGIN_4_NAME" read - Success.\n" );
+    HwAPI_Terminal_SendMessage( "Measure plan file of the plugin "PLUGIN_7_NAME" read - Success.\n" );
     snprintf( pluginsTempString, GetSizeof_pluginsTempString(),         
               "\n[MeasurePlan]\n"                               
               "BaseTactLength_s = %d\n"                           
