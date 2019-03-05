@@ -14,6 +14,7 @@
 #include "plgPlugin2_V1_0\plgPlugin2_V1_0.h"
 #include "plgPlugin3_V1_0\plgPlugin3_V1_0.h"
 #include "ConverterI7_IC2_V1_0\ConverterI7_IC2_V1_0.h"
+#include "ConverterI7_IC3_V1_0\ConverterI7_IC3_V1_0.h"
 #include "ConverterI7_IC5_V1_0\ConverterI7_IC5_V1_0.h"
 
 

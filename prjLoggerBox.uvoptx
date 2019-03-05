@@ -1032,7 +1032,7 @@
 
   <Group>
     <GroupName>HwAPI</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -1416,7 +1416,7 @@
 
   <Group>
     <GroupName>MeasurePlanner</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -1484,7 +1484,7 @@
 
   <Group>
     <GroupName>MeasurePluginsCommon</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -1668,7 +1668,7 @@
 
   <Group>
     <GroupName>Utilites</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -1743,7 +1743,7 @@
   </Group>
 
   <Group>
-    <GroupName>plg_ConverterI7_IC5_V1_0</GroupName>
+    <GroupName>plg_ConverterI7_IC3_V1_0</GroupName>
     <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
@@ -1751,6 +1751,26 @@
     <File>
       <GroupNumber>16</GroupNumber>
       <FileNumber>114</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>.\User\MeasurePlugins\ConverterI7_IC3_V1_0\ConverterI7_IC3_V1_0.c</PathWithFileName>
+      <FilenameWithoutPath>ConverterI7_IC3_V1_0.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+  </Group>
+
+  <Group>
+    <GroupName>plg_ConverterI7_IC5_V1_0</GroupName>
+    <tvExp>1</tvExp>
+    <tvExpOptDlg>0</tvExpOptDlg>
+    <cbSel>0</cbSel>
+    <RteFlg>0</RteFlg>
+    <File>
+      <GroupNumber>17</GroupNumber>
+      <FileNumber>115</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
