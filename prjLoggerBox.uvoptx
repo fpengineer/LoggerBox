@@ -1804,7 +1804,7 @@
 
   <Group>
     <GroupName>plg_ConverterI7_IC6_V1_0</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -1817,6 +1817,26 @@
       <bDave2>0</bDave2>
       <PathWithFileName>.\User\MeasurePlugins\ConverterI7_IC6_V1_0\ConverterI7_IC6_V1_0.c</PathWithFileName>
       <FilenameWithoutPath>ConverterI7_IC6_V1_0.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+  </Group>
+
+  <Group>
+    <GroupName>plg_ConverterI7_IC7_V1_0</GroupName>
+    <tvExp>1</tvExp>
+    <tvExpOptDlg>0</tvExpOptDlg>
+    <cbSel>0</cbSel>
+    <RteFlg>0</RteFlg>
+    <File>
+      <GroupNumber>20</GroupNumber>
+      <FileNumber>118</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>.\User\MeasurePlugins\ConverterI7_IC7_V1_0\ConverterI7_IC7_V1_0.c</PathWithFileName>
+      <FilenameWithoutPath>ConverterI7_IC7_V1_0.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
