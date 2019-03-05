@@ -19,6 +19,7 @@
 #include "ConverterI7_IC5_V1_0\ConverterI7_IC5_V1_0.h"
 #include "ConverterI7_IC6_V1_0\ConverterI7_IC6_V1_0.h"
 #include "ConverterI7_IC7_V1_0\ConverterI7_IC7_V1_0.h"
+#include "ConverterI7_IC8_V1_0\ConverterI7_IC8_V1_0.h"
 
 
 /* Exported types ------------------------------------------------------------*/
