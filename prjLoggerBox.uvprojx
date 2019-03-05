@@ -1052,6 +1052,11 @@
               <FileType>1</FileType>
               <FilePath>.\User\MeasurePlugins\Egorov_1290EF1_V1_0\Egorov_1290EF1_V1_0.c</FilePath>
             </File>
+            <File>
+              <FileName>Baranov_SilaI1_V1_0.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\MeasurePlugins\Baranov_SilaI1_V1_0\Baranov_SilaI1_V1_0.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

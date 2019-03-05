@@ -1220,7 +1220,7 @@
 
   <Group>
     <GroupName>HwAPI_Task</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -1833,6 +1833,18 @@
       <bDave2>0</bDave2>
       <PathWithFileName>.\User\MeasurePlugins\Egorov_1290EF1_V1_0\Egorov_1290EF1_V1_0.c</PathWithFileName>
       <FilenameWithoutPath>Egorov_1290EF1_V1_0.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>15</GroupNumber>
+      <FileNumber>122</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>.\User\MeasurePlugins\Baranov_SilaI1_V1_0\Baranov_SilaI1_V1_0.c</PathWithFileName>
+      <FilenameWithoutPath>Baranov_SilaI1_V1_0.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
