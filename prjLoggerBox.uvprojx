@@ -1047,6 +1047,11 @@
               <FileType>1</FileType>
               <FilePath>.\User\MeasurePlugins\ConverterI7_IC9_V1_0\ConverterI7_IC9_V1_0.c</FilePath>
             </File>
+            <File>
+              <FileName>Egorov_1290EF1_V1_0.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\MeasurePlugins\Egorov_1290EF1_V1_0\Egorov_1290EF1_V1_0.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

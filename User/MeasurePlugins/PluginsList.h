@@ -21,6 +21,7 @@
 #include "ConverterI7_IC7_V1_0\ConverterI7_IC7_V1_0.h"
 #include "ConverterI7_IC8_V1_0\ConverterI7_IC8_V1_0.h"
 #include "ConverterI7_IC9_V1_0\ConverterI7_IC9_V1_0.h"
+#include "Egorov_1290EF1_V1_0\Egorov_1290EF1_V1_0.h"
 
 
 /* Exported types ------------------------------------------------------------*/
