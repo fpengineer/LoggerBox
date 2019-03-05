@@ -1005,6 +1005,16 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>plg_ConverterI7_IC2_V1_0</GroupName>
+          <Files>
+            <File>
+              <FileName>ConverterI7_IC2_V1_0.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\MeasurePlugins\ConverterI7_IC2_V1_0\ConverterI7_IC2_V1_0.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>plg_ConverterI7_IC5_V1_0</GroupName>
           <Files>
             <File>
