@@ -11,9 +11,9 @@
 #include <stdio.h>
 #include <stdint.h>
 
-#include "Baranov_SilaI1_V1_0\Baranov_SilaI1_V1_0.h"
-#include "Baranov_SilaI1_V1_0\types.h"
-#include "Baranov_SilaI1_V1_0\defs.h"
+#include "SilaI1_V1_0\SilaI1_V1_0.h"
+#include "SilaI1_V1_0\types.h"
+#include "SilaI1_V1_0\defs.h"
 
 
 // Declare private functions
@@ -26,7 +26,7 @@ static void RunMeasure( MeasureValues_t *measureValues, CfgMeasureEnable_t *cfgM
 
 // Declare private variables
 
-void Baranov_SilaI1_V1_0( PluginResult_t *pluginResult, PluginCommand_t pluginCommand, int32_t *tactLength_ms )
+void SilaI1_V1_0( PluginResult_t *pluginResult, PluginCommand_t pluginCommand, int32_t *tactLength_ms )
 {
     static char measureDataFilename1[ MEASURE_DATA_FILENAME_SIZE ];
     static char measureDataFilename2[ MEASURE_DATA_FILENAME_SIZE ];
@@ -42,10 +42,10 @@ void Baranov_SilaI1_V1_0( PluginResult_t *pluginResult, PluginCommand_t pluginCo
         case CMD_PLUGIN_RUN:
         {
 #ifdef PLUGINS_DEBUG_INFO
-            HwAPI_Terminal_SendMessage( "Baranov_SilaI1_V1_0 - Run\n" );
+            HwAPI_Terminal_SendMessage( "SilaI1_V1_0 - Run\n" );
 #endif
             /* Read plugin config file */
-            HwAPI_Terminal_SendMessage( "Baranov_SilaI1_V1_0 - Start reading of measure plan file\n" );
+            HwAPI_Terminal_SendMessage( "SilaI1_V1_0 - Start reading of measure plan file\n" );
             *pluginResult = GetConfigData( &cfgMeasurePlan, &cfgMeasureEnable, &cfgDatafileSettings );
             if ( !pluginResult->error )
             {
@@ -94,7 +94,7 @@ void Baranov_SilaI1_V1_0( PluginResult_t *pluginResult, PluginCommand_t pluginCo
                     HwAPI_FatFs_CloseFile( measureDataFilename2, 1 );
                     PluginDelay_ms( 100 ); // delay to avoid a race condition while writing current 'pluginsTempString'
                     
-                    HwAPI_Terminal_SendMessage( "Baranov_SilaI1_V1_0 - measure data files created\n" );
+                    HwAPI_Terminal_SendMessage( "SilaI1_V1_0 - measure data files created\n" );
 
                 }
                 
@@ -122,7 +122,7 @@ void Baranov_SilaI1_V1_0( PluginResult_t *pluginResult, PluginCommand_t pluginCo
         case CMD_PLUGIN_STOP:
         {
 #ifdef PLUGINS_DEBUG_INFO
-            HwAPI_Terminal_SendMessage( "Baranov_SilaI1_V1_0 - Stop\n" );
+            HwAPI_Terminal_SendMessage( "SilaI1_V1_0 - Stop\n" );
 #endif
             /* Clear all sources */
             HwAPI_VoltageSource_ClearAll();
@@ -138,7 +138,7 @@ void Baranov_SilaI1_V1_0( PluginResult_t *pluginResult, PluginCommand_t pluginCo
         case CMD_PLUGIN_TACT:
         {
 #ifdef PLUGINS_DEBUG_INFO
-            HwAPI_Terminal_SendMessage( "Baranov_SilaI1_V1_0 - Tact\n" );
+            HwAPI_Terminal_SendMessage( "SilaI1_V1_0 - Tact\n" );
 #endif
             /* Set/clear relay */
             if ( subtactCounter == 0 )
@@ -256,7 +256,7 @@ void Baranov_SilaI1_V1_0( PluginResult_t *pluginResult, PluginCommand_t pluginCo
         case CMD_PLUGIN_ERROR:
         {
 #ifdef PLUGINS_DEBUG_INFO
-            HwAPI_Terminal_SendMessage( "Baranov_SilaI1_V1_0 - Error\n" );
+            HwAPI_Terminal_SendMessage( "SilaI1_V1_0 - Error\n" );
 #endif
 
             break;
@@ -265,7 +265,7 @@ void Baranov_SilaI1_V1_0( PluginResult_t *pluginResult, PluginCommand_t pluginCo
         case CMD_PLUGIN_IDLE:
         {
 #ifdef PLUGINS_DEBUG_INFO
-            HwAPI_Terminal_SendMessage( "Baranov_SilaI1_V1_0 - Idle\n" );
+            HwAPI_Terminal_SendMessage( "SilaI1_V1_0 - Idle\n" );
 #endif
             
             break;

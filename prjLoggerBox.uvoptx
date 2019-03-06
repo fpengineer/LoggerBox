@@ -1484,7 +1484,7 @@
 
   <Group>
     <GroupName>MeasurePluginsCommon</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -1843,8 +1843,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\User\MeasurePlugins\Baranov_SilaI1_V1_0\Baranov_SilaI1_V1_0.c</PathWithFileName>
-      <FilenameWithoutPath>Baranov_SilaI1_V1_0.c</FilenameWithoutPath>
+      <PathWithFileName>.\User\MeasurePlugins\SilaI1_V1_0\SilaI1_V1_0.c</PathWithFileName>
+      <FilenameWithoutPath>SilaI1_V1_0.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

@@ -22,7 +22,7 @@
 #include "ConverterI7_IC8_V1_0\ConverterI7_IC8_V1_0.h"
 #include "ConverterI7_IC9_V1_0\ConverterI7_IC9_V1_0.h"
 #include "1290EF1_V1_0\1290EF1_V1_0.h"
-#include "Baranov_SilaI1_V1_0\Baranov_SilaI1_V1_0.h"
+#include "SilaI1_V1_0\SilaI1_V1_0.h"
 #include "Minoga_V1_0\Minoga_V1_0.h"
 
 

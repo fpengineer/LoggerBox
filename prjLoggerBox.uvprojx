@@ -1053,9 +1053,9 @@
               <FilePath>.\User\MeasurePlugins\1290EF1_V1_0\1290EF1_V1_0.c</FilePath>
             </File>
             <File>
-              <FileName>Baranov_SilaI1_V1_0.c</FileName>
+              <FileName>SilaI1_V1_0.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\User\MeasurePlugins\Baranov_SilaI1_V1_0\Baranov_SilaI1_V1_0.c</FilePath>
+              <FilePath>.\User\MeasurePlugins\SilaI1_V1_0\SilaI1_V1_0.c</FilePath>
             </File>
             <File>
               <FileName>Minoga_V1_0.c</FileName>
