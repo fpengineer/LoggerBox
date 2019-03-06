@@ -11,9 +11,9 @@
 #include <stdio.h>
 #include <stdint.h>
 
-#include "Egorov_1290EF1_V1_0\Egorov_1290EF1_V1_0.h"
-#include "Egorov_1290EF1_V1_0\types.h"
-#include "Egorov_1290EF1_V1_0\defs.h"
+#include "1290EF1_V1_0\1290EF1_V1_0.h"
+#include "1290EF1_V1_0\types.h"
+#include "1290EF1_V1_0\defs.h"
 
 
 // Declare private functions
@@ -25,7 +25,7 @@ static void CreateMeasureString( char *string, int32_t stringSize, MeasureValues
 
 // Declare private variables
 
-void Egorov_1290EF1_V1_0( PluginResult_t *pluginResult, PluginCommand_t pluginCommand, int32_t *tactLength_ms )
+void plg1290EF1_V1_0( PluginResult_t *pluginResult, PluginCommand_t pluginCommand, int32_t *tactLength_ms )
 {
     static char measureDataFilename[ MEASURE_DATA_FILENAME_SIZE ];
     static CfgMeasurePlan_t cfgMeasurePlan = INIT_CFG_MEASURE_PLAN_STRUCT;
