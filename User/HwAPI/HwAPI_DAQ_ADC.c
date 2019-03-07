@@ -57,6 +57,10 @@ HwAPI_Status_t HwAPI_DAQ_ADC_SelectInput( NChannelADC_t nChannel, NSourceADC_t n
         nChannelPrevious = nChannel;
         vTaskDelay( 5 );
     }
+    else
+    {
+        vTaskDelay( 1 );
+    }
     
 	return HW_API_OK;
 }
