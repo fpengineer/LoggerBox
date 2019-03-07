@@ -13,6 +13,7 @@
 
 #include "HwAPI.h"
 #include "PluginsDef.h"
+#include "PluginsDelay.h"
 
 
 #ifndef PLUGIN_2
