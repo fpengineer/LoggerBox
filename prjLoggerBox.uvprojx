@@ -960,26 +960,6 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>MeasureFile</GroupName>
-          <Files>
-            <File>
-              <FileName>Measure.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\User\Measure\Measure.h</FilePath>
-            </File>
-            <File>
-              <FileName>Frequency_PWM.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\Measure\Frequency_PWM.c</FilePath>
-            </File>
-            <File>
-              <FileName>Frequency_PWM.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\User\Measure\Frequency_PWM.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
           <GroupName>Utilites</GroupName>
           <Files>
             <File>
