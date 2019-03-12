@@ -870,6 +870,31 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>Utilites</GroupName>
+          <Files>
+            <File>
+              <FileName>ClockOutMCO.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\Utilites\ClockOutMCO.c</FilePath>
+            </File>
+            <File>
+              <FileName>delay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\Utilites\delay.c</FilePath>
+            </File>
+            <File>
+              <FileName>AD56x0.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\Utilites\AD56x0.c</FilePath>
+            </File>
+            <File>
+              <FileName>AD747x.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\Utilites\AD747x.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>MeasurePlanner</GroupName>
           <Files>
             <File>
@@ -956,31 +981,6 @@
               <FileName>plgPlugin3_V1_0.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\MeasurePlugins\plgPlugin3_V1_0\plgPlugin3_V1_0.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>Utilites</GroupName>
-          <Files>
-            <File>
-              <FileName>ClockOutMCO.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\Utilites\ClockOutMCO.c</FilePath>
-            </File>
-            <File>
-              <FileName>delay.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\Utilites\delay.c</FilePath>
-            </File>
-            <File>
-              <FileName>AD56x0.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\Utilites\AD56x0.c</FilePath>
-            </File>
-            <File>
-              <FileName>AD747x.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\Utilites\AD747x.c</FilePath>
             </File>
           </Files>
         </Group>
