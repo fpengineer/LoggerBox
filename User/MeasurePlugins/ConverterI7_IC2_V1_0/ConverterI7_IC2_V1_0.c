@@ -646,13 +646,13 @@ static PluginResult_t CreateMeasurementFile( char *measureDataFilename,
                       cfgMeasurePlan->SourceG3_V,
                       cfgMeasurePlan->SourceG4_V );
             HwAPI_FatFs_WriteTextFile( pluginsTempString, measureDataFilename, 0 );
-            PluginDelay_ms( 100 ); // delay to avoid a race condition while writing current 'pluginsTempString'
+            PluginDelay_ms( 10 ); // delay to avoid a race condition while writing current 'pluginsTempString'
 
             /* Create header string to write to the file */
             CreateHeaderString( pluginsTempString, GetSizeof_pluginsTempString(), cfgMeasureEnable, cfgDatafileSettings->delimiter );
             HwAPI_FatFs_WriteTextFile( pluginsTempString, measureDataFilename, 0 );
             HwAPI_FatFs_CloseFile( measureDataFilename, 0 );
-            PluginDelay_ms( 100 ); // delay to avoid a race condition while writing current 'pluginsTempString'
+            PluginDelay_ms( 10 ); // delay to avoid a race condition while writing current 'pluginsTempString'
             break;
         }
 
