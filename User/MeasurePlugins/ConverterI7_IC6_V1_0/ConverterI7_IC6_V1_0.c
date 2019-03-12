@@ -22,8 +22,16 @@ static PluginResult_t GetConfigData( CfgMeasurePlan_t *cfgMeasurePlan,
                                      CfgDatafileSettings_t *cfgDatafileSettings );
 static void CreateHeaderString( char *string, int32_t stringSize, CfgMeasureEnable_t *cfgMeasureEnable, char *delimiter );
 static void CreateMeasureString( char *string, int32_t stringSize, MeasureValues_t *measureValues, CfgMeasureEnable_t *cfgMeasureEnable, char *delimiter );
+static PluginResult_t CreateMeasurementFile( char *measureDataFilename,
+                                             uint8_t sizeFilename,
+                                             CfgMeasurePlan_t *cfgMeasurePlan,
+                                             CfgMeasureEnable_t *cfgMeasureEnable,
+                                             CfgDatafileSettings_t *cfgDatafileSettings );
+static PluginResult_t WriteMeasurementFile( char *measureDataFilename,
+                                            char *dataToWrite );                                            
 
 // Declare private variables
+
 
 void ConverterI7_IC6_V1_0( PluginResult_t *pluginResult, PluginCommand_t pluginCommand, int32_t *tactLength_ms )
 {
@@ -31,6 +39,7 @@ void ConverterI7_IC6_V1_0( PluginResult_t *pluginResult, PluginCommand_t pluginC
     static CfgMeasurePlan_t cfgMeasurePlan = INIT_CFG_MEASURE_PLAN_STRUCT;
     static CfgMeasureEnable_t cfgMeasureEnable = INIT_CFG_MEASURE_ENABLE_STRUCT;
     static CfgDatafileSettings_t cfgDatafileSettings = INIT_CFG_DATAFILE_SETTINGS_STRUCT;
+    static uint32_t stringsCounter = 0;
     
     switch ( pluginCommand )
     {
@@ -47,42 +56,14 @@ void ConverterI7_IC6_V1_0( PluginResult_t *pluginResult, PluginCommand_t pluginC
                 /* Create a new measurement file */
                 if ( cfgDatafileSettings.enableDatafile )
                 {
-                    HwAPI_SystemTime_Get( pluginsTempString, GetSizeof_pluginsTempString() );
-                    PrepareTimeString( pluginsTempString );
-                    snprintf( measureDataFilename, sizeof( measureDataFilename ), "measure/"PLUGIN_8_NAME"/%s_%s.csv", cfgDatafileSettings.prefixDatafileName, pluginsTempString );
+                    CreateMeasurementFile( measureDataFilename,
+                                           sizeof( measureDataFilename ),
+                                           &cfgMeasurePlan,
+                                           &cfgMeasureEnable,
+                                           &cfgDatafileSettings );
                     
-                    snprintf( pluginsTempString, GetSizeof_pluginsTempString(), "Create '%s' file.\n", measureDataFilename );
-                    HwAPI_Terminal_SendMessage( pluginsTempString );
-                    
-                    HwAPI_FatFs_CreateFile( measureDataFilename, 0 );
-
-                    /* Open the measurement file */
-                    HwAPI_FatFs_OpenFile( measureDataFilename, 0 );
-                    
-                    /* Create measure conditions */
-                    snprintf( pluginsTempString, GetSizeof_pluginsTempString(),         
-                              "\n[MeasurePlan]\n"                               
-                              "BaseTactLength_s = %d\n"                           
-                              "SourceG1_V = %.3f\n"                           
-                              "SourceG2_V = %.3f\n"                           
-                              "SourceG3_V = %.3f\n"                           
-                              "SourceG4_V = %.3f\n",                           
-                              cfgMeasurePlan.BaseTactLength_s,
-                              cfgMeasurePlan.SourceG1_V,
-                              cfgMeasurePlan.SourceG2_V,
-                              cfgMeasurePlan.SourceG3_V,
-                              cfgMeasurePlan.SourceG4_V );
-                    HwAPI_FatFs_WriteTextFile( pluginsTempString, measureDataFilename, 0 );
-                    PluginDelay_ms( 100 ); // delay to avoid a race condition while writing current 'pluginsTempString'
-
-                    /* Create header string to write to the file */
-                    CreateHeaderString( pluginsTempString, GetSizeof_pluginsTempString(), &cfgMeasureEnable, cfgDatafileSettings.delimiter );
-                    HwAPI_FatFs_WriteTextFile( pluginsTempString, measureDataFilename, 0 );
-                    HwAPI_FatFs_CloseFile( measureDataFilename, 0 );
-                    PluginDelay_ms( 100 ); // delay to avoid a race condition while writing current 'pluginsTempString'
-                    
+                    stringsCounter = 8;
                     HwAPI_Terminal_SendMessage( "ConverterI7_IC6_V1_0 - measure data file created\n" );
-
                 }
                 
                 /* Create header string to send to terminal */
@@ -229,28 +210,22 @@ void ConverterI7_IC6_V1_0( PluginResult_t *pluginResult, PluginCommand_t pluginC
                 snprintf( pluginsTempString, GetSizeof_pluginsTempString(), "%s\n", pluginsTempString );
 
                 /* Write data to measurement file */
-                HwAPI_FatFs_OpenFile( measureDataFilename, 0 );
-                switch ( HwAPI_FatFs_WriteTextFile( pluginsTempString, measureDataFilename, 0 ) )
+                WriteMeasurementFile( measureDataFilename, pluginsTempString );
+                stringsCounter++;
+                if ( stringsCounter >= cfgDatafileSettings.stringsToWrite )
                 {
-                    case FATFS_OK:
-                        HwAPI_FatFs_CloseFile( measureDataFilename, 0 );
-                        PluginDelay_ms( 10 ); // delay to avoid a race condition while writing current 'pluginsTempString'
-                        pluginResult->error = 0;
-                        break;
+                    /* Create a new file for measured data */
+                    CreateMeasurementFile( measureDataFilename,
+                                           sizeof( measureDataFilename ),
+                                           &cfgMeasurePlan,
+                                           &cfgMeasureEnable,
+                                           &cfgDatafileSettings );
+                    
+                    stringsCounter = 8;
+                    HwAPI_Terminal_SendMessage( "ConverterI7_IC6_V1_0 - measure data file created\n" );
+               }
+            }            
 
-                    case FATFS_ERROR_FILE_NOT_FOUND:
-                        pluginResult->error = 1;
-                        pluginResult->errorCode = PLG_ERR_NO_MEASURE_DATA_FILE;
-                        sprintf( pluginResult->message, "Measure data file not found." );
-                        break;
-
-                    default:
-                        pluginResult->error = 1;
-                        pluginResult->errorCode = PLG_ERR_COMMON;
-                        break;
-                }
-            }
-            
             /* Create string with measured parameters to send to terminal */
             CreateMeasureString( pluginsTempString, GetSizeof_pluginsTempString(), &measureValues, &cfgMeasureEnable, "\t" );
 
@@ -622,5 +597,107 @@ static void CreateMeasureString( char *string, int32_t stringSize, MeasureValues
 
     HwAPI_SystemTime_Get( timeString, sizeof( timeString ) );
     snprintf( string, stringSize, "%s%s", string, timeString );        
+}
+
+
+//*************************************************
+//
+// Plugin private function
+//
+// Create a file for measured data
+//
+//*************************************************
+static PluginResult_t CreateMeasurementFile( char *measureDataFilename,
+                                             uint8_t sizeFilename,
+                                             CfgMeasurePlan_t *cfgMeasurePlan,
+                                             CfgMeasureEnable_t *cfgMeasureEnable,
+                                             CfgDatafileSettings_t *cfgDatafileSettings )
+{
+    PluginResult_t pluginResult = { 0, 0, "" };
+ 
+    HwAPI_SystemTime_Get( pluginsTempString, GetSizeof_pluginsTempString() );
+    PrepareTimeString( pluginsTempString );
+    snprintf( measureDataFilename, sizeFilename, "measure/"PLUGIN_8_NAME"/%s_%s.csv", cfgDatafileSettings->prefixDatafileName, pluginsTempString );
+                    
+    snprintf( pluginsTempString, GetSizeof_pluginsTempString(), "Create '%s' file.\n", measureDataFilename );
+    HwAPI_Terminal_SendMessage( pluginsTempString );
+                    
+    switch ( HwAPI_FatFs_CreateFile( measureDataFilename, 0 ) )
+    {
+        case FATFS_OK:
+        {        
+            /* Open the measurement file */
+            HwAPI_FatFs_OpenFile( measureDataFilename, 0 );
+                    
+            /* Create measure conditions */
+            snprintf( pluginsTempString, GetSizeof_pluginsTempString(),         
+                      "\n[MeasurePlan]\n"                               
+                      "BaseTactLength_s = %d\n"                           
+                      "SourceG1_V = %.3f\n"                           
+                      "SourceG2_V = %.3f\n"                           
+                      "SourceG3_V = %.3f\n"                           
+                      "SourceG4_V = %.3f\n",                           
+                      cfgMeasurePlan->BaseTactLength_s,
+                      cfgMeasurePlan->SourceG1_V,
+                      cfgMeasurePlan->SourceG2_V,
+                      cfgMeasurePlan->SourceG3_V,
+                      cfgMeasurePlan->SourceG4_V );
+            HwAPI_FatFs_WriteTextFile( pluginsTempString, measureDataFilename, 0 );
+            PluginDelay_ms( 10 ); // delay to avoid a race condition while writing current 'pluginsTempString'
+
+            /* Create header string to write to the file */
+            CreateHeaderString( pluginsTempString, GetSizeof_pluginsTempString(), cfgMeasureEnable, cfgDatafileSettings->delimiter );
+            HwAPI_FatFs_WriteTextFile( pluginsTempString, measureDataFilename, 0 );
+            HwAPI_FatFs_CloseFile( measureDataFilename, 0 );
+            PluginDelay_ms( 10 ); // delay to avoid a race condition while writing current 'pluginsTempString'
+            break;
+        }
+
+        default:
+        {   
+            pluginResult.error = 1;
+            pluginResult.errorCode = PLG_ERR_COMMON;
+            break;
+        }
+    }    
+                    
+    return pluginResult;
+}
+
+
+//*************************************************
+//
+// Plugin private function
+//
+// Create a file for measured data
+//
+//*************************************************
+static PluginResult_t WriteMeasurementFile( char *measureDataFilename,
+                                            char *dataToWrite )
+{
+    PluginResult_t pluginResult = { 0, 0, "" };
+
+    HwAPI_FatFs_OpenFile( measureDataFilename, 0 );
+    switch ( HwAPI_FatFs_WriteTextFile( pluginsTempString, measureDataFilename, 0 ) )
+    {
+        case FATFS_OK:
+            HwAPI_FatFs_CloseFile( measureDataFilename, 0 );
+            PluginDelay_ms( 10 ); // delay to avoid a race condition while writing current 'pluginsTempString'
+            pluginResult.error = 0;
+            break;
+
+        case FATFS_ERROR_FILE_NOT_FOUND:
+            pluginResult.error = 1;
+            pluginResult.errorCode = PLG_ERR_NO_MEASURE_DATA_FILE;
+            sprintf( pluginResult.message, "Measure data file not found." );
+            break;
+
+        default:
+            pluginResult.error = 1;
+            pluginResult.errorCode = PLG_ERR_COMMON;
+            break;
+    }
+
+    return pluginResult;
 }
 /* End of file */
