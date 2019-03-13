@@ -210,10 +210,23 @@ void ConverterI7_IC8_V1_0( PluginResult_t *pluginResult, PluginCommand_t pluginC
 
                 /* Write data to measurement file */
                 WriteMeasurementFile( measureDataFilename, pluginsTempString );
+
+                /* Create string with measured parameters to send to terminal */
+                CreateMeasureString( pluginsTempString, GetSizeof_pluginsTempString(), &measureValues, &cfgMeasureEnable, "\t" );
+
+                /* Send string to terminal */
+                HwAPI_Terminal_SendMessage( pluginsTempString );
+
+                /* Send file size value to terminal */ 
+                int32_t fileSize = 0;
+                HwAPI_FatFs_GetFileSize( &fileSize,  measureDataFilename, 0 );
+                snprintf( pluginsTempString, GetSizeof_pluginsTempString(), "\tf_size = %.1f kB\n", (float)fileSize / 1024.0f ); 
+                HwAPI_Terminal_SendMessage( pluginsTempString );
+
+                /* Create a new file for measured data if needed */
                 stringsCounter++;
                 if ( stringsCounter >= cfgDatafileSettings.stringsToWrite )
                 {
-                    /* Create a new file for measured data */
                     CreateMeasurementFile( measureDataFilename,
                                            sizeof( measureDataFilename ),
                                            &cfgMeasurePlan,
@@ -222,18 +235,17 @@ void ConverterI7_IC8_V1_0( PluginResult_t *pluginResult, PluginCommand_t pluginC
                     
                     stringsCounter = 8;
                     HwAPI_Terminal_SendMessage( "ConverterI7_IC8_V1_0 - measure data file created\n" );
-               }
+                }
             }
-            
-            /* Create string with measured parameters to send to terminal */
-            CreateMeasureString( pluginsTempString, GetSizeof_pluginsTempString(), &measureValues, &cfgMeasureEnable, "\t" );
+            else
+            {
+                /* Create string with measured parameters to send to terminal */
+                CreateMeasureString( pluginsTempString, GetSizeof_pluginsTempString(), &measureValues, &cfgMeasureEnable, "\t" );
 
-            /* Send string to terminal */
-            HwAPI_Terminal_SendMessage( pluginsTempString );
-            int32_t fileSize = 0;
-            HwAPI_FatFs_GetFileSize( &fileSize,  measureDataFilename, 0 );
-            snprintf( pluginsTempString, GetSizeof_pluginsTempString(), "\tf_size = %.1f kB\n", (float)fileSize / 1024.0f ); 
-            HwAPI_Terminal_SendMessage( pluginsTempString );
+                /* Send string to terminal */
+                HwAPI_Terminal_SendMessage( pluginsTempString );
+                HwAPI_Terminal_SendMessage( "\n" );
+            }
            
             /* Enable/disable relays if needed */
             break;

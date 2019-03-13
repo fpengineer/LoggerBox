@@ -140,18 +140,29 @@ void SilaI1_V1_0( PluginResult_t *pluginResult, PluginCommand_t pluginCommand, i
 
                     /* Write data to measurement file */
                     WriteMeasurementFile( measureDataFilename1, 0, pluginsTempString );
+
+                    /* Create string with measured parameters to send to terminal */
+                    CreateMeasureString( pluginsTempString, GetSizeof_pluginsTempString(), &measureValues, &cfgMeasureEnable, "\t" );
+                    snprintf( pluginsTempString, GetSizeof_pluginsTempString(), "%s\tEN Pin - On", pluginsTempString );
+
+                    /* Send string to terminal */
+                    HwAPI_Terminal_SendMessage( pluginsTempString );
+
+                    /* Send file size value to terminal */ 
+                    int32_t fileSize = 0;
+                    HwAPI_FatFs_GetFileSize( &fileSize,  measureDataFilename1, 0 );
+                    snprintf( pluginsTempString, GetSizeof_pluginsTempString(), "\tf_size = %.1f kB\n", (float)fileSize / 1024.0f ); 
+                    HwAPI_Terminal_SendMessage( pluginsTempString );
                 }
+                else
+                {
+                    /* Create string with measured parameters to send to terminal */
+                    CreateMeasureString( pluginsTempString, GetSizeof_pluginsTempString(), &measureValues, &cfgMeasureEnable, "\t" );
+                    snprintf( pluginsTempString, GetSizeof_pluginsTempString(), "%s\tEN Pin - On\n", pluginsTempString );
 
-                /* Create string with measured parameters to send to terminal */
-                CreateMeasureString( pluginsTempString, GetSizeof_pluginsTempString(), &measureValues, &cfgMeasureEnable, "\t" );
-                snprintf( pluginsTempString, GetSizeof_pluginsTempString(), "%s\tEN Pin - On\n", pluginsTempString );
-
-                /* Send string to terminal */
-                HwAPI_Terminal_SendMessage( pluginsTempString );
-                int32_t fileSize = 0;
-                HwAPI_FatFs_GetFileSize( &fileSize, measureDataFilename1, 0 );
-                snprintf( pluginsTempString, GetSizeof_pluginsTempString(), "\tf_size = %.1f kB\n", (float)fileSize / 1024.0f ); 
-                HwAPI_Terminal_SendMessage( pluginsTempString );
+                    /* Send string to terminal */
+                    HwAPI_Terminal_SendMessage( pluginsTempString );
+                }
             }
             else if ( subtactCounter * SUBTACT_LENGTH_MS == ( cfgMeasurePlan.BaseTactLength_s * 1000 ) / SUBTACT_LENGTH_MS * cfgMeasurePlan.TactQ )
             {
@@ -171,10 +182,24 @@ void SilaI1_V1_0( PluginResult_t *pluginResult, PluginCommand_t pluginCommand, i
 
                     /* Write data to measurement file */
                     WriteMeasurementFile( measureDataFilename2, 1, pluginsTempString );
+
+                    /* Create string with measured parameters to send to terminal */
+                    CreateMeasureString( pluginsTempString, GetSizeof_pluginsTempString(), &measureValues, &cfgMeasureEnable, "\t" );
+                    snprintf( pluginsTempString, GetSizeof_pluginsTempString(), "%s\tEN Pin - Off", pluginsTempString );
+
+                    /* Send string to terminal */
+                    HwAPI_Terminal_SendMessage( pluginsTempString );
+
+                    /* Send file size value to terminal */ 
+                    int32_t fileSize = 0;
+                    HwAPI_FatFs_GetFileSize( &fileSize,  measureDataFilename2, 1 );
+                    snprintf( pluginsTempString, GetSizeof_pluginsTempString(), "\tf_size = %.1f kB\n", (float)fileSize / 1024.0f ); 
+                    HwAPI_Terminal_SendMessage( pluginsTempString );
+
+                    /* Create a new file for measured data if needed */
                     stringsCounter++;
                     if ( stringsCounter >= cfgDatafileSettings.stringsToWrite )
                     {
-                        /* Create a new file for measured data */
                         CreateMeasurementFile( measureDataFilename1,
                                                sizeof( measureDataFilename1 ),
                                                0,
@@ -190,20 +215,18 @@ void SilaI1_V1_0( PluginResult_t *pluginResult, PluginCommand_t pluginCommand, i
                                                &cfgDatafileSettings );
                     
                         stringsCounter = 9;
-                        HwAPI_Terminal_SendMessage( "SilaI1_IC9_V1_0 - measure data file created\n" );
+                        HwAPI_Terminal_SendMessage( "SilaI1_V1_0 - measure data file created\n" );
                     }
                 }
+                else
+                {
+                    /* Create string with measured parameters to send to terminal */
+                    CreateMeasureString( pluginsTempString, GetSizeof_pluginsTempString(), &measureValues, &cfgMeasureEnable, "\t" );
+                    snprintf( pluginsTempString, GetSizeof_pluginsTempString(), "%s%sEN Pin - Off\n", pluginsTempString, cfgDatafileSettings.delimiter );
 
-                /* Create string with measured parameters to send to terminal */
-                CreateMeasureString( pluginsTempString, GetSizeof_pluginsTempString(), &measureValues, &cfgMeasureEnable, "\t" );
-                snprintf( pluginsTempString, GetSizeof_pluginsTempString(), "%s\tEN Pin - Off\n", pluginsTempString );
-
-                /* Send string to terminal */
-                HwAPI_Terminal_SendMessage( pluginsTempString );
-                int32_t fileSize = 0;
-                HwAPI_FatFs_GetFileSize( &fileSize, measureDataFilename2, 1 );
-                snprintf( pluginsTempString, GetSizeof_pluginsTempString(), "\tf_size = %.1f kB\n", (float)fileSize / 1024.0f ); 
-                HwAPI_Terminal_SendMessage( pluginsTempString );
+                    /* Send string to terminal */
+                    HwAPI_Terminal_SendMessage( pluginsTempString );
+                }
             }
            
             if ( ( subtactCounter + 1 ) * SUBTACT_LENGTH_MS == ( cfgMeasurePlan.BaseTactLength_s * 1000 ) )
