@@ -95,7 +95,7 @@ void vTask_MeasureX( void *pvParameters )
                 /* Check for a NULL plugin pointer */
                 if ( measureXQueueData.pluginRef != NULL )
                 {
-                    /* Perform plugin command */
+                    /* Execute plugin command */
                     measureXQueueData.pluginRef( &pluginResult, CMD_PLUGIN_TACT, NULL );
                     
                     if ( !pluginResult.error )
