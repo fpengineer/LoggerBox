@@ -41,26 +41,16 @@ HwAPI_Status_t HwAPI_DAQ_ADC_SelectInput( NChannelADC_t nChannel, NSourceADC_t n
 {
     extern QueueHandle_t xQueue_HwDAQ_ADC_Rx;
     HwDAQ_ADCQueueData_t hwDAQ_ADCQueueData;
-    static NChannelADC_t nChannelPrevious = ADC_CHANNEL_1;
-    
+
     hwDAQ_ADCQueueData.stateHwDAQ_ADC = HW_DAQ_ADC_SELECT_INPUT;
     hwDAQ_ADCQueueData.nChannelADC = nChannel;
     hwDAQ_ADCQueueData.nSourceADC = nSource;
-//    nChannelBuffer = nChannel;
     nSourceBuffer = nSource;
 
     xQueueSend( xQueue_HwDAQ_ADC_Rx, &hwDAQ_ADCQueueData, NULL );
     
-    /* Add a contact bounce delay if ADC channel changed */
-    if ( nChannel != nChannelPrevious )
-    {
-        nChannelPrevious = nChannel;
-        vTaskDelay( 5 );
-    }
-    else
-    {
-        vTaskDelay( 1 );
-    }
+    /* Add a contact bounce delay */
+    vTaskDelay( 5 );
     
 	return HW_API_OK;
 }
