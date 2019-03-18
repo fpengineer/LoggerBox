@@ -243,51 +243,51 @@ static void SelectInputADC( NChannelADC_t nChannel, NSourceADC_t nSource )
     switch ( nSource )
     {
         case ADC_SOURCE_1:
-            MUX_SOURCE_A_1();
-            MUX_SOURCE_B_1();
-            MUX_SOURCE_C_1();
+            MUX_SOURCE_A_0();
+            MUX_SOURCE_B_0();
+            MUX_SOURCE_C_0();
             break;
 
         case ADC_SOURCE_2:
-            MUX_SOURCE_A_0();
-            MUX_SOURCE_B_1();
-            MUX_SOURCE_C_1();
+            MUX_SOURCE_A_1();
+            MUX_SOURCE_B_0();
+            MUX_SOURCE_C_0();
             break;
 
         case ADC_SOURCE_3:
-            MUX_SOURCE_A_1();
-            MUX_SOURCE_B_0();
-            MUX_SOURCE_C_1();
+            MUX_SOURCE_A_0();
+            MUX_SOURCE_B_1();
+            MUX_SOURCE_C_0();
             break;
 
         case ADC_SOURCE_4:
+            MUX_SOURCE_A_1();
+            MUX_SOURCE_B_1();
+            MUX_SOURCE_C_0();
+            break;
+
+        case ADC_SOURCE_5:
             MUX_SOURCE_A_0();
             MUX_SOURCE_B_0();
             MUX_SOURCE_C_1();
             break;
 
-        case ADC_SOURCE_5:
-            MUX_SOURCE_A_1();
-            MUX_SOURCE_B_1();
-            MUX_SOURCE_C_0();
-            break;
-
         case ADC_SOURCE_6:
-            MUX_SOURCE_A_0();
-            MUX_SOURCE_B_1();
-            MUX_SOURCE_C_0();
+            MUX_SOURCE_A_1();
+            MUX_SOURCE_B_0();
+            MUX_SOURCE_C_1();
             break;
 
         case ADC_SOURCE_7:
-            MUX_SOURCE_A_1();
-            MUX_SOURCE_B_0();
-            MUX_SOURCE_C_0();
+            MUX_SOURCE_A_0();
+            MUX_SOURCE_B_1();
+            MUX_SOURCE_C_1();
             break;
 
         case ADC_SOURCE_8:
-            MUX_SOURCE_A_0();
-            MUX_SOURCE_B_0();
-            MUX_SOURCE_C_0();
+            MUX_SOURCE_A_1();
+            MUX_SOURCE_B_1();
+            MUX_SOURCE_C_1();
             break;
 
         default:
