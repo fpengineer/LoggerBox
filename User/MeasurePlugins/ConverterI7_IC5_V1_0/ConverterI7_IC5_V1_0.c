@@ -523,7 +523,7 @@ static void CreateMeasureString( char *string, int32_t stringSize, MeasureValues
     {
         snprintf( string, stringSize, "%s%.3f%s", string, measureValues->valueG1_V, delimiter );        
     }
-            
+
     if ( cfgMeasureEnable->enableG2_V )
     {
         snprintf( string, stringSize, "%s%.3f%s", string, measureValues->valueG2_V, delimiter );        
