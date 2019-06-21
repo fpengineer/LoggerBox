@@ -483,17 +483,17 @@ static void CreateMeasureString( char *string, int32_t stringSize, MeasureValues
             
     if ( cfgMeasureEnable->enableG1_I )
     {
-        snprintf( string, stringSize, "%s%.1f%s", string, measureValues->valueG4_I, delimiter );        
+        snprintf( string, stringSize, "%s%.1f%s", string, measureValues->valueG1_I, delimiter );        
     }
             
     if ( cfgMeasureEnable->enableG2_I )
     {
-        snprintf( string, stringSize, "%s%.1f%s", string, measureValues->valueG4_I, delimiter );        
+        snprintf( string, stringSize, "%s%.1f%s", string, measureValues->valueG2_I, delimiter );        
     }
             
     if ( cfgMeasureEnable->enableG3_I )
     {
-        snprintf( string, stringSize, "%s%.1f%s", string, measureValues->valueG4_I, delimiter );        
+        snprintf( string, stringSize, "%s%.1f%s", string, measureValues->valueG3_I, delimiter );        
     }
        
     if ( cfgMeasureEnable->enableG4_I )
